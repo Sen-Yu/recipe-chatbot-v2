@@ -8,6 +8,7 @@ venv/
 # 환경 변수와 비밀 키
 .env
 .env.*
+!.env.example
 
 # 모델 가중치, 어댑터, 데이터
 models/
