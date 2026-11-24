@@ -1,0 +1,151 @@
+{
+  "layout": "grid",
+  "title": "v1 · 분류기 하나가 경로를 고정",
+  "subtitle": "질의 분석이 고른 한 경로만 지나가고 턴이 끝납니다.",
+  "kinds": {
+    "big": {
+      "label": "LLM 호출"
+    },
+    "code": {
+      "label": "코드"
+    }
+  },
+  "nodes": [
+    {
+      "key": "S",
+      "label": "시작",
+      "pos": [
+        1,
+        0
+      ],
+      "shape": "pill"
+    },
+    {
+      "key": "Q",
+      "label": "질의 분석",
+      "pos": [
+        1,
+        1
+      ],
+      "kind": "big",
+      "sub": "5가지 유형 분류"
+    },
+    {
+      "key": "A1",
+      "label": "재료 추출·분석",
+      "pos": [
+        0,
+        2
+      ],
+      "kind": "big"
+    },
+    {
+      "key": "A2",
+      "label": "RAG 검색",
+      "pos": [
+        0,
+        3
+      ],
+      "kind": "code",
+      "sub": "적합성 평가"
+    },
+    {
+      "key": "A3",
+      "label": "후보 생성·제시",
+      "pos": [
+        0,
+        4
+      ],
+      "kind": "big"
+    },
+    {
+      "key": "B1",
+      "label": "레시피 선택",
+      "pos": [
+        1,
+        2
+      ],
+      "kind": "big"
+    },
+    {
+      "key": "B2",
+      "label": "레시피 확정",
+      "pos": [
+        1,
+        3
+      ],
+      "kind": "big"
+    },
+    {
+      "key": "C1",
+      "label": "이름 검색",
+      "pos": [
+        2,
+        2
+      ],
+      "kind": "big",
+      "sub": "RAG 매칭·웹 검색"
+    },
+    {
+      "key": "N1",
+      "label": "안내 응답",
+      "pos": [
+        3,
+        2
+      ],
+      "kind": "code",
+      "sub": "무관·미개발 요청"
+    }
+  ],
+  "edges": [
+    {
+      "from": "S",
+      "to": "Q"
+    },
+    {
+      "from": "Q",
+      "to": "A1",
+      "route": "vh",
+      "label": "추천",
+      "label_at": 1
+    },
+    {
+      "from": "Q",
+      "to": "B1",
+      "label": "선택"
+    },
+    {
+      "from": "Q",
+      "to": "C1",
+      "route": "vh",
+      "label": "이름 검색",
+      "label_at": 1
+    },
+    {
+      "from": "Q",
+      "to": "N1",
+      "route": "vh",
+      "label": "그 외",
+      "label_at": 1
+    },
+    {
+      "from": "A1",
+      "to": "A2"
+    },
+    {
+      "from": "A2",
+      "to": "A3"
+    },
+    {
+      "from": "B1",
+      "to": "B2"
+    },
+    {
+      "from": "C1",
+      "to": "A3",
+      "route": "hv",
+      "label": "후보",
+      "label_at": 0
+    }
+  ]
+}

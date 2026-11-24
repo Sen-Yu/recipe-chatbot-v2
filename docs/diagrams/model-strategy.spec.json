@@ -1,0 +1,90 @@
+{
+  "layout": "grid",
+  "title": "모델 전략 · 베이스 모델 2개, 역할은 어댑터로",
+  "subtitle": "모든 에이전트는 로컬 모델로 돕니다. 같은 베이스를 쓰는 에이전트는 GPU 메모리를 함께 씁니다.",
+  "kinds": {
+    "big": {
+      "label": "큰 모델"
+    },
+    "small": {
+      "label": "작은 모델"
+    },
+    "code": {
+      "label": "코드"
+    },
+    "external": {
+      "label": "외부 API"
+    }
+  },
+  "note": "서빙: vLLM 우선, 로컬에서 안 되면 Ollama",
+  "nodes": [
+    {
+      "key": "SA",
+      "label": "수퍼바이저 어댑터",
+      "pos": [
+        0,
+        0
+      ],
+      "kind": "big",
+      "sub": "파인튜닝"
+    },
+    {
+      "key": "RA",
+      "label": "레시피 어댑터",
+      "pos": [
+        0,
+        1
+      ],
+      "kind": "big",
+      "sub": "파인튜닝"
+    },
+    {
+      "key": "IA",
+      "label": "재료 에이전트",
+      "pos": [
+        0,
+        3
+      ],
+      "kind": "small",
+      "sub": "필요하면 어댑터"
+    },
+    {
+      "key": "NA",
+      "label": "영양 에이전트",
+      "pos": [
+        0,
+        4
+      ],
+      "kind": "small",
+      "sub": "필요하면 어댑터"
+    },
+    {
+      "key": "DA",
+      "label": "결정 모델",
+      "pos": [
+        0,
+        5
+      ],
+      "kind": "small",
+      "sub": "규칙 다음 단계"
+    }
+  ],
+  "groups": [
+    {
+      "label": "큰 베이스 모델 1개 · 깊은 추론",
+      "nodes": [
+        "SA",
+        "RA"
+      ]
+    },
+    {
+      "label": "작은 베이스 모델 1개 · 벤치마크로 선택",
+      "nodes": [
+        "IA",
+        "NA",
+        "DA"
+      ]
+    }
+  ],
+  "edges": []
+}

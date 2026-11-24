@@ -26,22 +26,9 @@
 - 첫 노드 `query_analysis`가 질문을 5가지 유형(`레시피 추천`, `레시피 선택`, `레시피 이름 검색`, `NONETYPE`, `NONE`)으로 분류하고 경로를 정한다.
 - 한 턴에 한 경로만 지나가고 끝나며, 되돌아가는 루프가 없다. `states.py`의 `total_loop` 필드는 선언만 되어 있고 쓰이지 않는다.
 
-```mermaid
-flowchart TD
-    Q["사용자 질문"] --> QA["query_analysis<br/>5가지 유형 분류"]
-    QA -->|레시피 추천| ING["재료 추출·갱신<br/>extract_ingredient(_update)"]
-    ING --> IA["ingredient_analysis<br/>요리 가능 여부 + 궁합 검사"]
-    IA -->|가능| RET["retreiver_recipes<br/>RAG 검색"]
-    IA -->|불가| INF["respond_infeasible"]
-    RET --> ADQ["rag_adequacy_check<br/>적합성 평가 (코드)"]
-    ADQ --> PRE["preview_recipe_options<br/>부족분 LLM 생성"]
-    PRE --> PRS["present_recipe_options"]
-    QA -->|레시피 선택| SEL["select_recipe_option"]
-    SEL --> FIN["finalize_recipe / fetch_rag_recipe"]
-    QA -->|레시피 이름 검색| NS["search_by_name → judge_name_match<br/>→ RAG 매칭 또는 웹검색 생성"]
-    NS --> PRS
-    QA -->|무관·미개발| END1["안내 응답"]
-```
+![v1 그래프 구조](../images/v1-graph-editorial.png)
+
+<sub>원본: [v1-graph.spec.json](../diagrams/v1-graph.spec.json)</sub>
 
 ### 2.2 v1에서 그대로 살릴 자산
 
@@ -83,17 +70,9 @@ LLM 없이 순수 코드로 동작하는 부분이라 v2에서도 도구나 검�
 
 ### 초안 A. 하이브리드 라우터
 
-```mermaid
-flowchart TD
-    Q["사용자 질문"] --> QA["질의 분석 (기존)<br/>의도와 복잡도 판별"]
-    QA -->|단순 요청| FIX["기존 고정 경로<br/>추천·선택·이름검색"]
-    QA -->|복합·모호·아렌지| AG["에이전트 루프"]
-    QA -->|무관·미개발| END1["즉시 응답"]
-    FIX --> V["검증 노드 (코드)<br/>영양·궁합·제약 검사"]
-    AG --> V
-    V -->|미달| AG
-    V --> A["응답"]
-```
+![초안 A 하이브리드 라우터](../images/draft-a-hybrid-router-editorial.png)
+
+<sub>원본: [draft-a-hybrid-router.spec.json](../diagrams/draft-a-hybrid-router.spec.json)</sub>
 
 - **구조**: v1 분류기를 유지하고 `QueryType`에 "복합 요청" 유형을 추가한다. 그 경로에만 에이전트 루프를 붙인다.
 - **장점**: 작업량이 가장 작고, 기존 테스트로 퇴행을 바로 확인할 수 있다.
@@ -101,15 +80,9 @@ flowchart TD
 
 ### 초안 B. 단일 에이전트 + 검증 노드
 
-```mermaid
-flowchart TD
-    Q["사용자 질문"] --> G["입력 가드<br/>무관 요청 차단"]
-    G --> AG["에이전트 (LLM)<br/>다음 행동 결정"]
-    AG <--> T["도구 실행<br/>검색·생성·영양계산"]
-    AG --> V["검증 노드 (코드)"]
-    V -->|미달, 최대 N회| AG
-    V --> A["응답"]
-```
+![초안 B 단일 에이전트](../images/draft-b-single-agent-editorial.png)
+
+<sub>원본: [draft-b-single-agent.spec.json](../diagrams/draft-b-single-agent.spec.json)</sub>
 
 - **구조**: 분류기를 없애고 에이전트 하나가 도구 8개 정도를 골라 쓴다.
 - **장점**: 복합 요청을 자연스럽게 처리하고, 모호하면 에이전트가 직접 되묻는다.
@@ -117,15 +90,9 @@ flowchart TD
 
 ### 초안 C. 계획 후 실행 (Plan-and-Execute)
 
-```mermaid
-flowchart TD
-    Q["사용자 질문"] --> P["플래너<br/>단계 목록 작성"]
-    P --> E["실행기<br/>단계별 실행"]
-    E <--> T["도구 실행"]
-    E --> V["검증 노드<br/>계획 달성 여부"]
-    V -->|미달| P
-    V --> A["응답"]
-```
+![초안 C 계획 후 실행](../images/draft-c-plan-execute-editorial.png)
+
+<sub>원본: [draft-c-plan-execute.spec.json](../diagrams/draft-c-plan-execute.spec.json)</sub>
 
 - **구조**: 플래너가 단계 계획을 세우고, 실행기가 단계별로 도구를 호출한다.
 - **장점**: 실행 과정이 투명하고 진행 단계를 사용자에게 보여주기 좋다. 실패 지점을 디버깅하기 쉽다.
@@ -133,19 +100,9 @@ flowchart TD
 
 ### 초안 D. 수퍼바이저 멀티 에이전트 (채택)
 
-```mermaid
-flowchart TD
-    Q["사용자 질문"] --> S["수퍼바이저<br/>큰 모델 + 수퍼바이저 어댑터"]
-    S <--> I["재료 에이전트<br/>작은 모델 (+ 어댑터)"]
-    S <--> R["레시피 에이전트<br/>큰 모델 + 레시피 어댑터"]
-    S <--> N["영양 에이전트<br/>작은 모델 (+ 어댑터) + 계산 코드"]
-    I -.-> MR["모델 라우터<br/>베이스 모델 + 어댑터 선택"]
-    R -.-> MR
-    N -.-> MR
-    S --> V["검증 노드 (코드, LLM 없음)"]
-    V -->|미달| S
-    V --> A["응답"]
-```
+![초안 D 수퍼바이저 멀티 에이전트](../images/draft-d-supervisor-editorial.png)
+
+<sub>원본: [draft-d-supervisor.spec.json](../diagrams/draft-d-supervisor.spec.json)</sub>
 
 - **구조**: 수퍼바이저가 의도를 파악해 담당 에이전트에 일을 맡기고 결과를 종합한다. 각 에이전트는 자기 도구만 가진다.
 - **장점**: 에이전트마다 다른 모델을 붙일 수 있어 로컬/클라우드 분담이 구조에 자연스럽게 녹는다. 에이전트별 프롬프트와 도구가 작아서 작은 로컬 모델도 감당할 수 있다. 담당 영역별로 따로 테스트하고 교체할 수 있다.
@@ -190,17 +147,9 @@ v2의 핵심 목표가 **로컬 모델과 클라우드 모델의 하이브리드
 
 **모든 에이전트를 기본적으로 로컬 모델로 운영한다.** 베이스 모델은 큰 모델 1개, 작은 모델 1개만 두고, 역할별 차이는 LoRA 같은 어댑터로 만든다.
 
-```mermaid
-flowchart LR
-    subgraph BIG["큰 베이스 모델 (깊은 추론)"]
-        AS["수퍼바이저 어댑터"]
-        AR["레시피 어댑터"]
-    end
-    subgraph SMALL["작은 베이스 모델 (좁은 반복 작업)"]
-        AI["재료 어댑터 (필요 시)"]
-        AN["영양 어댑터 (필요 시)"]
-    end
-```
+![모델 전략](../images/model-strategy-editorial.png)
+
+<sub>원본: [model-strategy.spec.json](../diagrams/model-strategy.spec.json)</sub>
 
 | 베이스 | 맡는 에이전트 | 이유 | 진행 방식 |
 |---|---|---|---|
@@ -250,17 +199,9 @@ flowchart LR
 
 이미지 생성은 판단이 필요한 일이 아니라 "확정된 레시피 → 이미지" 변환이다. 그래서 수퍼바이저가 호출하는 에이전트로 두지 않고, 검증을 통과한 뒤 실행되는 고정 단계로 둔다.
 
-```mermaid
-flowchart LR
-    R["레시피 에이전트<br/>finalize"] --> V["검증 노드"]
-    V --> T["텍스트 응답 먼저 전송<br/>(SSE)"]
-    V -.->|사용자가 요청한 경우| P["이미지 프롬프트 생성<br/>(코드 템플릿)"]
-    P --> C{"캐시 있음?"}
-    C -->|예| OUT["이미지 이어서 전송"]
-    C -->|아니오| G["외부 이미지 모델 호출"]
-    G -->|성공| OUT
-    G -->|실패| SKIP["이미지 없이 종료"]
-```
+![완성 사진 생성 흐름](../images/image-generation-flow-editorial.png)
+
+<sub>원본: [image-generation-flow.spec.json](../diagrams/image-generation-flow.spec.json)</sub>
 
 - 프롬프트는 `StructuredRecipe`의 요리 이름, 주재료, 조리 방식으로 만든다. 한국 음식은 이름보다 생김새를 묘사하는 것이 정확하다. (예: "볶은 밥, 붉은 양념, 위에 반숙 계란, 검은 그릇")
 - 이미지는 수 초에서 수십 초가 걸리므로 레시피 텍스트를 먼저 보내고 이미지는 나중에 붙인다. v1의 SSE 스트리밍을 활용한다.
@@ -313,17 +254,9 @@ flowchart LR
 
 #### 흐름
 
-```mermaid
-flowchart LR
-    Q["사용자 발화"] --> G{"0 입력 게이트<br/>(코드)"}
-    G -->|선택 발화| D["D 결정 모델<br/>규칙 → 작은 모델 → 되묻기"]
-    G -->|그 외| S["1 수퍼바이저"]
-    S <-->|"select / 선택 아님"| D
-    D -->|확정| V["2 검증"]
-    D -->|되묻기| R["3 응답"]
-    S --> V
-    V --> R
-```
+![후보 선택 흐름 E1](../images/selection-flow-e1-editorial.png)
+
+<sub>원본: [selection-flow-e1.spec.json](../diagrams/selection-flow-e1.spec.json)</sub>
 
 #### 입력 게이트 규칙 (`selection.py`)
 

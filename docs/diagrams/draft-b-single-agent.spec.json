@@ -1,0 +1,117 @@
+{
+  "layout": "grid",
+  "title": "초안 B · 단일 에이전트 + 검증 노드",
+  "subtitle": "에이전트 하나가 도구를 골라 쓰고, 코드가 마지막에 확인합니다.",
+  "kinds": {
+    "big": {
+      "label": "LLM 호출"
+    },
+    "code": {
+      "label": "코드"
+    }
+  },
+  "nodes": [
+    {
+      "key": "S",
+      "label": "시작",
+      "pos": [
+        0,
+        0
+      ],
+      "shape": "pill"
+    },
+    {
+      "key": "G",
+      "label": "입력 가드",
+      "pos": [
+        0,
+        1
+      ],
+      "kind": "code",
+      "sub": "무관 요청 차단"
+    },
+    {
+      "key": "AG",
+      "label": "에이전트",
+      "pos": [
+        0,
+        2
+      ],
+      "kind": "big",
+      "sub": "다음 행동 결정"
+    },
+    {
+      "key": "T",
+      "label": "도구 실행",
+      "pos": [
+        1,
+        2
+      ],
+      "kind": "code",
+      "sub": "검색·생성·영양 계산"
+    },
+    {
+      "key": "V",
+      "label": "검증 노드",
+      "pos": [
+        0,
+        3
+      ],
+      "kind": "code"
+    },
+    {
+      "key": "R",
+      "label": "응답",
+      "pos": [
+        0,
+        4
+      ],
+      "kind": "code"
+    },
+    {
+      "key": "E",
+      "label": "끝",
+      "pos": [
+        0,
+        5
+      ],
+      "shape": "pill"
+    }
+  ],
+  "edges": [
+    {
+      "from": "S",
+      "to": "G"
+    },
+    {
+      "from": "G",
+      "to": "AG"
+    },
+    {
+      "from": "AG",
+      "to": "T",
+      "both": true,
+      "label": "호출·결과"
+    },
+    {
+      "from": "AG",
+      "to": "V"
+    },
+    {
+      "from": "V",
+      "to": "R"
+    },
+    {
+      "from": "R",
+      "to": "E"
+    },
+    {
+      "from": "V",
+      "to": "AG",
+      "route": {
+        "channel": -0.6
+      },
+      "label": "미달"
+    }
+  ]
+}

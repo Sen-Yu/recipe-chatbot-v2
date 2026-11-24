@@ -1,0 +1,156 @@
+{
+  "layout": "grid",
+  "title": "완성 사진 생성 · 비동기 후처리",
+  "subtitle": "레시피 텍스트를 먼저 보내고, 사진은 요청할 때만 나중에 붙입니다.",
+  "kinds": {
+    "big": {
+      "label": "큰 모델"
+    },
+    "small": {
+      "label": "작은 모델"
+    },
+    "code": {
+      "label": "코드"
+    },
+    "external": {
+      "label": "외부 API"
+    }
+  },
+  "nodes": [
+    {
+      "key": "RC",
+      "label": "레시피 확정",
+      "pos": [
+        0,
+        0
+      ],
+      "kind": "big"
+    },
+    {
+      "key": "V",
+      "label": "검증 노드",
+      "pos": [
+        0,
+        1
+      ],
+      "kind": "code"
+    },
+    {
+      "key": "T",
+      "label": "텍스트 응답",
+      "pos": [
+        0,
+        2
+      ],
+      "kind": "code",
+      "sub": "SSE로 먼저 전송"
+    },
+    {
+      "key": "E",
+      "label": "끝",
+      "pos": [
+        0,
+        4
+      ],
+      "shape": "pill"
+    },
+    {
+      "key": "PR",
+      "label": "프롬프트 생성",
+      "pos": [
+        1,
+        1
+      ],
+      "kind": "code",
+      "sub": "코드 템플릿"
+    },
+    {
+      "key": "C",
+      "label": "캐시 확인",
+      "pos": [
+        1,
+        2
+      ],
+      "kind": "code"
+    },
+    {
+      "key": "OUT",
+      "label": "이미지 전송",
+      "pos": [
+        1,
+        3
+      ],
+      "kind": "code",
+      "sub": "AI 생성 예시 표시"
+    },
+    {
+      "key": "G",
+      "label": "외부 이미지 모델",
+      "pos": [
+        2,
+        2
+      ],
+      "kind": "external"
+    },
+    {
+      "key": "SK",
+      "label": "이미지 없이 종료",
+      "pos": [
+        3,
+        2
+      ],
+      "kind": "code"
+    }
+  ],
+  "edges": [
+    {
+      "from": "RC",
+      "to": "V"
+    },
+    {
+      "from": "V",
+      "to": "T"
+    },
+    {
+      "from": "T",
+      "to": "E"
+    },
+    {
+      "from": "V",
+      "to": "PR",
+      "style": "dashed",
+      "label": "요청 시"
+    },
+    {
+      "from": "PR",
+      "to": "C"
+    },
+    {
+      "from": "C",
+      "to": "OUT",
+      "label": "있음"
+    },
+    {
+      "from": "C",
+      "to": "G",
+      "label": "없음"
+    },
+    {
+      "from": "G",
+      "to": "OUT",
+      "route": "hv",
+      "label": "성공",
+      "label_at": 0
+    },
+    {
+      "from": "G",
+      "to": "SK",
+      "label": "실패"
+    },
+    {
+      "from": "OUT",
+      "to": "E",
+      "route": "hv"
+    }
+  ]
+}

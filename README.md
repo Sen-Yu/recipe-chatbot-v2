@@ -66,10 +66,10 @@ uv run ruff check .     # 린트
 
 | 문서 | 그림 형식 |
 |---|---|
-| README (확정본) | `docs/images/*.png` 이미지 + 노드 설명 표. 원본은 `docs/diagrams/*.spec.json` |
-| 설계 기록, 초안 문서 | Mermaid 코드 블록 (형태 검토용) |
+| 확정 그림 (README, 설계 기록, 작업 계획, 업무 플로우) | `docs/images/*.png`. 원본은 `docs/diagrams/*.spec.json` |
+| 검토 중인 초안 | Mermaid 코드 블록 또는 화이트보드. 확정되면 명세로 옮겨 PNG로 바꿈 |
 
-확정 그림은 명세 파일 하나에서 그림과 설명 표를 함께 만듭니다. 그림에는 번호와 노드명만 넣고, 역할·모델·입출력은 표에 씁니다.
+확정 그림은 명세 파일 하나에서 만듭니다. 그림에는 번호와 노드명만 넣고, 역할·모델·입출력은 표나 본문에 씁니다. 한 줄 흐름은 기본 레이아웃, 갈라지고 합쳐지는 흐름은 격자 레이아웃(`"layout": "grid"`)을 씁니다.
 
 - 명세: [docs/diagrams/architecture-v2.spec.json](docs/diagrams/architecture-v2.spec.json)
 - 생성된 표: [docs/diagrams/architecture-v2.nodes.md](docs/diagrams/architecture-v2.nodes.md)
@@ -77,6 +77,10 @@ uv run ruff check .     # 린트
 
 ```bash
 python3 ~/.claude/skills/spec-figure/scripts/figure.py docs/diagrams/architecture-v2.spec.json --style editorial --out docs/images
+```
+
+```bash
+for f in docs/diagrams/*.spec.json; do python3 ~/.claude/skills/spec-figure/scripts/figure.py "$f" --out docs/images; done
 ```
 
 명세를 고친 뒤에는 그림을 다시 만들고, README의 표도 새로 생성된 `architecture-v2.nodes.md` 내용으로 바꿉니다.
