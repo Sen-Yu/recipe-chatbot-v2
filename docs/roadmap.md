@@ -2,6 +2,7 @@
 
 > 작성일: 2026-11-24 · 상태: 초안
 > 설계 배경은 [v2 아키텍처 설계 기록](architecture/recipe-chatbot-v2-architecture.md)을 봅니다.
+> 업무별 진행 상황과 날짜는 [업무 플로우](workflow.md)에 기록합니다.
 
 ## 흐름
 

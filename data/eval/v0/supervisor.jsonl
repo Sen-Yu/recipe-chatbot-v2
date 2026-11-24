@@ -1,0 +1,25 @@
+{"id": "sup-001", "source": "v1:E2E-1", "tags": ["재료제시"], "utterance": "계란, 대파, 돼지고기 있어", "state": {}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-002", "source": "v1:E2E-2-턴2", "tags": ["재료변경"], "utterance": "우유도 있어", "state": {"pantry": ["계란", "대파", "돼지고기"], "recipe_title": "돼지고기 대파 계란볶음"}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-003", "source": "v1:E2E-3-턴2", "tags": ["재료변경"], "utterance": "계란 빼줘", "state": {"pantry": ["계란", "대파", "돼지고기"], "recipe_title": "돼지고기 대파 계란볶음"}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-004", "source": "v1:E2E-7-턴2", "tags": ["재요청"], "utterance": "다른 거 없어?", "state": {"pantry": ["돼지고기", "김치", "두부"], "recipe_title": "김치찌개"}, "expected": {"next_any_of": ["recipe"]}, "note": "v1에서 '선택'으로 오분류됐던 케이스. v2에서는 레시피를 다시 만들어야 한다"}
+{"id": "sup-005", "source": "v1:E2E-8", "tags": ["이름검색"], "utterance": "된장찌개 레시피 알려줘", "state": {}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-006", "source": "v1:E2E-10", "tags": ["이름검색"], "utterance": "볶음밥 레시피 알려줘", "state": {}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-007", "source": "v1:E2E-11", "tags": ["이름검색"], "utterance": "스페이스라면 레시피 알려줘", "state": {}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-008", "source": "v1:E2E-12", "tags": ["재료제시", "궁합"], "utterance": "감, 게 있어", "state": {}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-009", "source": "v1:E2E-13", "tags": ["재료제시"], "utterance": "계란만 있어", "state": {}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-010", "source": "v1:E2E-14", "tags": ["정보부족"], "utterance": "레시피 추천해줘", "state": {}, "expected": {"next_any_of": ["ask_user"]}}
+{"id": "sup-011", "source": "v1:E2E-15", "tags": ["범위밖"], "utterance": "오늘 날씨 어때?", "state": {}, "expected": {"next_any_of": ["ask_user"]}, "note": "v2에는 별도 거절 경로가 없어 되묻기(안내)로 처리"}
+{"id": "sup-012", "source": "v1:E2E-16", "tags": ["모호"], "utterance": "다이어트 식단 짜줘", "state": {}, "expected": {"next_any_of": ["ask_user", "recipe"]}, "note": "v1은 미개발 기능 안내. v2는 되묻거나 조건을 받아 레시피로 갈 수 있다"}
+{"id": "sup-013", "source": "v1:E2E-17-턴2", "tags": ["재료변경", "복합"], "utterance": "계란 빼고 우유 추가하고 대파도 넣어줘", "state": {"pantry": ["계란", "대파"], "recipe_title": "계란파볶음"}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-014", "source": "v1:E2E-18-턴2", "tags": ["모호"], "utterance": "1번이랑 2번 둘다 궁금해", "state": {"pantry": ["계란", "대파", "돼지고기"], "recipe_title": "돼지고기 대파 계란볶음"}, "expected": {"next_any_of": ["ask_user"]}, "note": "v2에는 번호 목록이 없어 무엇을 원하는지 되물어야 한다"}
+{"id": "sup-015", "source": "v1:기능-52", "tags": ["재료제시"], "utterance": "계란이랑 밥 있는데 뭐 해먹을까", "state": {}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-016", "source": "v1:기능-58", "tags": ["이름검색", "축약어"], "utterance": "쏘야볶 알려줘", "state": {}, "expected": {"next_any_of": ["recipe", "ask_user"]}}
+{"id": "sup-017", "source": "v1:기능-62", "tags": ["특성요청"], "utterance": "매콤한 돼지고기 요리 추천해줘", "state": {}, "expected": {"next_any_of": ["recipe", "ingredient"]}}
+{"id": "sup-018", "source": "v1:기능-66", "tags": ["이름검색", "혼합"], "utterance": "집에 있는 재료로 만들 수 있는 김치찌개 알려줘", "state": {"pantry": ["김치", "두부"]}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-019", "source": "manual", "tags": ["턴중간"], "utterance": "밥이랑 김치, 계란 있어", "state": {"pantry": ["밥", "김치", "계란"]}, "expected": {"next_any_of": ["recipe"]}, "note": "재료 반영이 끝난 상태. 같은 턴에서 다음은 레시피"}
+{"id": "sup-020", "source": "manual", "tags": ["턴중간", "영양조건"], "utterance": "500칼로리 이하로 만들어줘", "state": {"pantry": ["밥", "김치", "계란"], "recipe_title": "김치볶음밥", "constraints": {"max_kcal": 500}}, "expected": {"next_any_of": ["nutrition"], "constraints": {"max_kcal": 500}}}
+{"id": "sup-021", "source": "manual", "tags": ["턴중간"], "utterance": "김치볶음밥 해줘", "state": {"pantry": ["밥", "김치", "계란"], "recipe_title": "김치볶음밥", "has_nutrition": true}, "expected": {"next_any_of": ["finish"]}}
+{"id": "sup-022", "source": "manual", "tags": ["검증미달"], "utterance": "땅콩 알레르기 있어", "state": {"pantry": ["밥", "김치"], "recipe_title": "땅콩 김치볶음밥", "validation_issues": ["알레르기 재료 포함: 땅콩"], "constraints": {"allergies": ["땅콩"]}}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-023", "source": "manual", "tags": ["재료제시", "조건추출"], "utterance": "땅콩 알레르기 있어. 계란이랑 밥 있어", "state": {}, "expected": {"next_any_of": ["ingredient"], "constraints": {"allergies": ["땅콩"]}}}
+{"id": "sup-024", "source": "manual", "tags": ["조건추출"], "utterance": "500칼로리 이하로 단백질 많은 거", "state": {"pantry": ["닭가슴살", "현미밥"]}, "expected": {"next_any_of": ["recipe", "ingredient"], "constraints": {"max_kcal": 500}}, "note": "'많은'은 숫자가 없어 min_protein_g 는 정답에 넣지 않는다"}
+{"id": "sup-025", "source": "manual:설계-변형", "tags": ["변형"], "utterance": "아까 그거 좀 맵게 해줘", "state": {"pantry": ["밥", "김치", "계란"], "recipe_title": "김치볶음밥"}, "expected": {"next_any_of": ["recipe"]}}

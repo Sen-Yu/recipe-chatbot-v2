@@ -55,6 +55,8 @@ uv run ruff check .     # 린트
 
 - [v2 아키텍처 설계 기록](docs/architecture/recipe-chatbot-v2-architecture.md): v1 분석, 검토한 초안 A~D, 결정과 이유, 모델 전략, 진행 순서
 - [작업 계획](docs/roadmap.md): 벤치마크, 기반 코드, 통합 검증, 어댑터 학습 순서와 병행 구간
+- [업무 플로우](docs/workflow.md): 업무별 상태, 담당, 시작·종료 날짜, 결과를 기록하는 진행 관리 문서
+- [평가 데이터셋](data/eval/README.md): 벤치마크용 역할별 평가 데이터의 형식, 출처, 정답 규칙
 
 ## 그림 관리
 

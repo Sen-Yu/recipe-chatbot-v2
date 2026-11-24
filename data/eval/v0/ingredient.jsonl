@@ -1,0 +1,18 @@
+{"id": "ing-001", "source": "v1:기능-A1", "tags": ["첫턴"], "utterance": "계란, 대파, 돼지고기 있어", "pantry": [], "expected": {"final_pantry": ["계란", "대파", "돼지고기"]}}
+{"id": "ing-002", "source": "v1:기능-A2", "tags": ["추가"], "utterance": "우유도 있어", "pantry": ["계란", "대파", "돼지고기"], "expected": {"final_pantry": ["계란", "대파", "돼지고기", "우유"]}}
+{"id": "ing-003", "source": "v1:기능-A3", "tags": ["제거"], "utterance": "계란 빼줘", "pantry": ["계란", "대파", "돼지고기"], "expected": {"final_pantry": ["대파", "돼지고기"]}}
+{"id": "ing-004", "source": "v1:기능-A4", "tags": ["교체"], "utterance": "사실 김치랑 참치만 있어", "pantry": ["계란", "대파", "돼지고기"], "expected": {"final_pantry": ["김치", "참치"]}}
+{"id": "ing-005", "source": "v1:기능-A5", "tags": ["제거"], "utterance": "돼지고기랑 대파 빼줘", "pantry": ["계란", "대파", "돼지고기"], "expected": {"final_pantry": ["계란"]}}
+{"id": "ing-006", "source": "v1:기능-A6", "tags": ["추가"], "utterance": "계란이랑 우유 추가로 넣어줘", "pantry": ["대파", "돼지고기"], "expected": {"final_pantry": ["대파", "돼지고기", "계란", "우유"]}}
+{"id": "ing-007", "source": "v1:기능-A7", "tags": ["동의어"], "utterance": "계란 말고 달걀만 있어", "pantry": ["계란"], "expected": {"final_pantry": ["계란"]}}
+{"id": "ing-008", "source": "v1:기능-A8", "tags": ["교환"], "utterance": "김치 빼고 대신 깍두기 넣어줘", "pantry": ["김치", "두부"], "expected": {"final_pantry": ["두부", "깍두기"]}}
+{"id": "ing-009", "source": "v1:기능-A9", "tags": ["재료없음"], "utterance": "레시피 추천해줘", "pantry": [], "expected": {"final_pantry": []}}
+{"id": "ing-010", "source": "v1:기능-A10", "tags": ["모호"], "utterance": "그냥 아무거나 있는 걸로", "pantry": ["계란", "밥"], "expected": {"final_pantry": ["계란", "밥"]}}
+{"id": "ing-011", "source": "v1:기능-48", "tags": ["비식재료"], "utterance": "ㅁㄴㅇㄹ 있어", "pantry": [], "expected": {"final_pantry": []}}
+{"id": "ing-012", "source": "v1:기능-49", "tags": ["복합"], "utterance": "계란 빼고 우유 추가하고 사실 대파도 넣어줘", "pantry": ["계란", "돼지고기"], "expected": {"final_pantry": ["돼지고기", "우유", "대파"]}}
+{"id": "ing-013", "source": "v1:E2E-17-턴2", "tags": ["복합"], "utterance": "계란 빼고 우유 추가하고 대파도 넣어줘", "pantry": ["계란", "대파"], "expected": {"final_pantry": ["대파", "우유"]}}
+{"id": "ing-014", "source": "v1:E2E-12", "tags": ["궁합"], "utterance": "감, 게 있어", "pantry": [], "expected": {"final_pantry": ["감", "게"]}}
+{"id": "ing-015", "source": "v1:E2E-13", "tags": ["재료1개"], "utterance": "계란만 있어", "pantry": [], "expected": {"final_pantry": ["계란"]}}
+{"id": "ing-016", "source": "v1:E2E-5", "tags": ["첫턴"], "utterance": "돼지고기, 김치, 두부 있어", "pantry": [], "expected": {"final_pantry": ["돼지고기", "김치", "두부"]}}
+{"id": "ing-017", "source": "v1:커밋-eee51b4", "tags": ["비식재료"], "utterance": "계란이랑 휴지, 세제 있어", "pantry": [], "expected": {"final_pantry": ["계란"]}}
+{"id": "ing-018", "source": "manual", "tags": ["양", "동의어"], "utterance": "쇠고기 반 근이랑 양파 2개 있어", "pantry": [], "expected": {"final_pantry": ["소고기", "양파"], "amounts": {"양파": [2, "개"]}}, "note": "반 근은 단위 표현이 다양해서 양 검사는 양파만 한다"}
