@@ -41,6 +41,14 @@
 
 ## 실행
 
+실행 환경은 Mac(M2, 16GB)과 Ollama입니다 (0.1 결정). Mac에서는 vLLM을 못 쓰므로 큰 모델과 작은 모델 모두 Ollama로 띄웁니다.
+
+```bash
+brew install ollama
+OLLAMA_FLASH_ATTENTION=1 OLLAMA_KV_CACHE_TYPE=q8_0 ollama serve   # 다른 터미널에서 (상시 실행: brew services start ollama)
+ollama pull qwen2.5:3b                                            # 후보 모델 받기
+```
+
 ```bash
 # 후보 하나를 모든 역할에 (Ollama 예시)
 uv run python -m recipe_chatbot.benchmark run --base-url http://localhost:11434/v1 --model qwen2.5:7b \
@@ -61,8 +69,15 @@ uv run python -m recipe_chatbot.benchmark compare reports/benchmark/*/report.jso
 - `report.md`: 역할별 표, 항목별 통과율, 틀린 케이스와 모델 출력
 - `report.json`: 전체 기록
 
+## 시험 실행 기록
+
+| 날짜 | 모델 | 범위 | 결과 |
+|---|---|---|---|
+| 2026-11-25 | `qwen2.5:3b` (Ollama Q4, M2 16GB) | 역할마다 3개 | 실행기·Ollama 연결 확인. 구조화 성공 100%, 연결 오류 0, 45초. 정답률은 수퍼바이저 0/3, 재료 0/3, 레시피 3/3, 영양 1/3, 선택 3/3 (후보 모델이 아니라 흐름 확인용) |
+
 ## 한계
 
+- 구조화 성공은 스키마에 맞는지만 봅니다. 스키마의 필드에 기본값이 있어서 `{"mode": "replace", "remove_names": ["없음"]}`처럼 내용이 틀린 출력도 형식은 통과합니다. 이런 출력은 정답률에서 걸러집니다.
 - 평가 세트가 작습니다(v0 97개, 영양 4개). 1.1.2에서 300개로 늘린 뒤 다시 돌립니다.
 - 레시피 품질(맛, 조리 순서가 자연스러운지)은 자동 채점하지 않습니다. 상위 후보 2~3개만 사람이 10개씩 읽어 봅니다.
 - 레시피 검색(RAG)이 아직 연결되지 않아서, 레시피 역할은 검색 후보 없이 생성만 평가합니다. RAG 인덱스(L.5)를 붙이면 다시 돌립니다.
