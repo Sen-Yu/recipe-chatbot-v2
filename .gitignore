@@ -37,7 +37,5 @@ image_cache/
 # 문서 전후 비교용 임시 파일
 review/
 
-# 레시피 수집 결과 (원본 저작물이라 공개 레포에 넣지 않음)
-data_pipeline/collected/
-data_pipeline/original_recipes/
-data_pipeline/structured_recipes/
+# 레시피 수집 상태표·원본·결과 (원본 저작물이라 공개 레포에 넣지 않음)
+data/ingest/
