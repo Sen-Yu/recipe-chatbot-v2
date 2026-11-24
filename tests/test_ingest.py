@@ -99,6 +99,11 @@ def no_sleep(_):
         ("후춧가루", "후춧가루", None, "", None, True),
         ("다진 마늘 1큰술", "다진 마늘", 1.0, "큰술", None, True),
         ("1/2개", "1/2개", None, "", None, False),
+        ("대파 적당량 (생략 가능)", "대파", None, "적당량", None, True),
+        ("청양고추 2~3개 (선택)", "청양고추", 2.5, "개", None, True),
+        ("소금 간맞추기 ", "소금", None, "간맞추기", None, True),
+        ("양파(소)1개", "양파", 1.0, "개", None, True),
+        ("물(종이컵 1컵이 180ml) 400ml", "물", 400.0, "ml", None, True),
     ],
 )
 def test_parse_line(raw, name, amount, unit, grams, parsed):

@@ -21,6 +21,7 @@ _QUALIFIERS = (
     "살짝",
     "적량",
     "충분히",
+    "간맞추기",
 )
 
 _NUM = r"\d+(?:\.\d+)?(?:\s*/\s*\d+)?|[½⅓⅔¼¾]"
@@ -35,6 +36,7 @@ _KOREAN_LINE = re.compile(
 )
 _GRAMS = re.compile(r"(\d+(?:\.\d+)?)\s*(kg|g|그램)\b", re.IGNORECASE)
 _BULLET = re.compile(r"^[\s●○•·\-*]+")
+_NOTE = re.compile(r"^(?P<main>.*?)\s*\((?P<note>[^)]*)\)\s*$")  # 끝에 붙은 괄호 메모
 
 
 def _number(text: str) -> float:
@@ -65,11 +67,15 @@ def _grams(amount: float | None, unit: str, paren: str | None) -> float | None:
 
 
 def _clean_name(name: str) -> str:
-    return _BULLET.sub("", name).strip(" ,:")
+    name = re.sub(r"\s*\([^)]*\)\s*", " ", name)  # '양파(소)' → '양파'
+    return re.sub(r"\s+", " ", _BULLET.sub("", name)).strip(" ,:")
 
 
 def parse_line(raw: str) -> IngredientLine:
     text = _BULLET.sub("", raw).strip()
+    note = _NOTE.match(text)
+    if note and note.group("main") and not re.search(r"\d", note.group("note")):
+        text = note.group("main")  # '(생략 가능)'처럼 숫자 없는 메모는 버린다. '(100g)'은 남긴다
     if not text:
         return IngredientLine(raw=raw, name="", parsed=False)
 
