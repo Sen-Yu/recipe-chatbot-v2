@@ -97,8 +97,17 @@ class VectorRetriever:
         owned = {normalize_ingredient_name(n.replace(" ", "")) for n in ingredient_names}
         if owned:  # 의미가 비슷해도 가진 재료를 더 많이 쓰는 레시피를 앞으로
             scores = scores + OVERLAP_WEIGHT * np.array([len(owned & names) for names in self._names])
-        top = np.argsort(-scores)[:k]
-        return [self.recipes[i] for i in top]
+        # 같은 이름의 레시피는 한 번만 ('고등어조림 | 고등어조림 | 고등어조림' 대신 서로 다른 후보)
+        picked: list[StructuredRecipe] = []
+        seen: set[str] = set()
+        for i in np.argsort(-scores):
+            title = self.recipes[i].title.replace(" ", "")
+            if title not in seen:
+                seen.add(title)
+                picked.append(self.recipes[i])
+                if len(picked) == k:
+                    break
+        return picked
 
     # ---- 저장 · 불러오기 ----
     @classmethod
