@@ -1,7 +1,7 @@
 {
   "layout": "grid",
   "title": "초안 C · 계획 후 실행",
-  "subtitle": "플래너가 단계를 먼저 쓰고, 실행기가 하나씩 실행합니다.",
+  "subtitle": "계획을 먼저 쓰고 하나씩 실행합니다.",
   "kinds": {
     "big": {
       "label": "LLM 호출"
@@ -27,8 +27,7 @@
         0,
         1
       ],
-      "kind": "big",
-      "sub": "단계 목록 작성"
+      "kind": "big"
     },
     {
       "key": "X",
@@ -37,8 +36,7 @@
         0,
         2
       ],
-      "kind": "big",
-      "sub": "단계별 실행"
+      "kind": "big"
     },
     {
       "key": "T",
@@ -56,8 +54,7 @@
         0,
         3
       ],
-      "kind": "code",
-      "sub": "계획 달성 여부"
+      "kind": "code"
     },
     {
       "key": "R",

@@ -33,3 +33,6 @@ image_cache/
 
 # mermaidiff 변경 브리프 (로컬 확인용)
 .mermaidiff/
+
+# 문서 전후 비교용 임시 파일
+review/

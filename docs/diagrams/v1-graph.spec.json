@@ -41,13 +41,12 @@
     },
     {
       "key": "A2",
-      "label": "RAG 검색",
+      "label": "RAG 검색·평가",
       "pos": [
         0,
         3
       ],
-      "kind": "code",
-      "sub": "적합성 평가"
+      "kind": "code"
     },
     {
       "key": "A3",
@@ -83,8 +82,7 @@
         2,
         2
       ],
-      "kind": "big",
-      "sub": "RAG 매칭·웹 검색"
+      "kind": "big"
     },
     {
       "key": "N1",
@@ -93,8 +91,7 @@
         3,
         2
       ],
-      "kind": "code",
-      "sub": "무관·미개발 요청"
+      "kind": "code"
     }
   ],
   "edges": [
