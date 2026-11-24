@@ -18,11 +18,15 @@ from recipe_chatbot.schemas import SupervisorDecision
 from .conftest import SPECS
 
 
-def test_model_name_priority():
+def test_model_specs():
+    # 요청에 쓰는 모델 이름: served_name > adapter > base
     assert ModelSpec("big", "base").model_name == "base"
     assert ModelSpec("big", "base", adapter="lora").model_name == "lora"
     ollama = ModelSpec("big", "base", adapter="lora", served_name="base-lora:latest")
     assert ollama.model_name == "base-lora:latest"
+    # 에이전트 하나라도 모델이 빠지면 시작하지 않는다
+    with pytest.raises(ValueError, match="nutrition"):
+        ModelRouter({k: v for k, v in SPECS.items() if k != "nutrition"}, {"big": None, "small": None})
 
 
 def test_router_routes_by_agent_and_retries_invalid_output():
@@ -39,11 +43,6 @@ def test_router_gives_up_after_retries():
     router = ModelRouter(SPECS, {"big": fake, "small": fake}, retries=1)
     with pytest.raises(StructuredOutputError):
         router.invoke("supervisor", SupervisorDecision, "sys", "user")
-
-
-def test_router_requires_every_agent():
-    with pytest.raises(ValueError, match="nutrition"):
-        ModelRouter({k: v for k, v in SPECS.items() if k != "nutrition"}, {"big": None, "small": None})
 
 
 def test_openai_compatible_client_request_shape():

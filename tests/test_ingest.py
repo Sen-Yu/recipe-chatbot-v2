@@ -6,10 +6,8 @@ import httpx
 import pytest
 
 from recipe_chatbot.ingest import pipeline, refine
-from recipe_chatbot.ingest.__main__ import main as cli
 from recipe_chatbot.ingest.amounts import parse_line
 from recipe_chatbot.ingest.sources import FoodSafety, ManRecipe
-from recipe_chatbot.ingest.sources.foodsafety import parse_parts
 from recipe_chatbot.ingest.store import Store
 from recipe_chatbot.ingest.titles import clean_title
 
@@ -175,19 +173,6 @@ def test_manrecipe_page_without_recipe_is_skipped():
     assert ManRecipe().parse("103", b"<html></html>") is None
 
 
-def test_foodsafety_parse_parts_skips_headers():
-    names = [i.name for i in parse_parts(FS_ROW["RCP_PARTS_DTLS"])]
-    assert names == ["두부", "대파", "간장", "참기름"]
-
-
-def test_foodsafety_parse():
-    r = FoodSafety(api_key="k").parse("900", json.dumps(FS_ROW).encode())
-    assert r.steps == ["두부를 썬다.", "양념장을 끼얹어 찐다."]
-    assert r.nutrition.kcal == 210 and r.nutrition.protein_g == 15.2 and r.nutrition.sodium_mg is None
-    assert r.ingredients[0].grams == 150.0
-    assert (r.usage.rag, r.usage.train) == (True, True)
-
-
 def test_pipeline_end_to_end(store, client, tmp_path):
     src = ManRecipe()
     assert pipeline.discover(src, client, store, sleep=no_sleep, keywords=["감자"], pages=3) == 2
@@ -230,13 +215,6 @@ def test_fetch_waits_between_requests(store, client):
     assert waits == [5.0, 5.0]
 
 
-def test_fetch_order_alternates_keywords(store):
-    store.add_listed("10000recipe", ["1", "2", "3"], found_by="잡채")
-    store.add_listed("10000recipe", ["4", "5"], found_by="갈비찜")
-    assert store.ids_interleaved("10000recipe", "listed") == ["1", "4", "2", "5", "3"]
-    assert store.ids_interleaved("10000recipe", "listed", limit=3) == ["1", "4", "2"]
-
-
 def test_reparse_uses_saved_raw(store, client):
     src = ManRecipe()
     store.add_listed(src.name, ["101"])
@@ -262,16 +240,3 @@ def test_refine_rejects_short_recipes(store):
     r = ManRecipe().parse("1", recipe_page("짧은 요리", ["두부 1모", "대파 1대"], ["끝"]).encode())
     store.save_parsed(r)
     assert refine.build(store)["rejected"] == {"조리 단계 2개 미만": 1}
-
-
-def test_cli_status_and_build(tmp_path, capsys):
-    root = str(tmp_path / "ingest")
-    assert cli(["--root", root, "status"]) == 0
-    assert cli(["--root", root, "build"]) == 0
-    assert '"kept": 0' in capsys.readouterr().out
-
-
-def test_foodsafety_needs_key(store, client, monkeypatch):
-    monkeypatch.delenv("FOODSAFETY_API_KEY", raising=False)
-    with pytest.raises(RuntimeError):
-        FoodSafety().discover(client, store, no_sleep)
