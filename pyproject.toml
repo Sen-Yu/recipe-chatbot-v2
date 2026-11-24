@@ -11,6 +11,9 @@ dependencies = [
 ]
 
 [dependency-groups]
+crawl = [
+    "playwright>=1.65.2",
+]
 dev = [
     "pytest>=8",
     "ruff>=0.6",
@@ -32,3 +35,6 @@ src = ["src", "tests"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+"data_pipeline/structure_prompt.py" = ["E501"]  # v1 프롬프트 원문을 줄바꿈 없이 그대로 둔다

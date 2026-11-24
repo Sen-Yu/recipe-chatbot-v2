@@ -121,8 +121,8 @@
         3.4,
         2
       ],
-      "kind": "hold",
-      "sub": "출처 결정 대기"
+      "kind": "doing",
+      "sub": "v1 크롤러 발췌"
     }
   ],
   "groups": [
