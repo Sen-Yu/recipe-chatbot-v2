@@ -12,9 +12,9 @@ from pydantic import BaseModel, Field, model_validator
 
 from .schemas import NutritionInfo, StructuredRecipe, UserConstraints
 
-Role = Literal["supervisor", "ingredient", "recipe", "nutrition"]
-ROLES: tuple[Role, ...] = ("supervisor", "ingredient", "recipe", "nutrition")
-NextAction = Literal["ingredient", "recipe", "nutrition", "finish", "ask_user"]
+Role = Literal["supervisor", "ingredient", "recipe", "nutrition", "selection"]
+ROLES: tuple[Role, ...] = ("supervisor", "ingredient", "recipe", "nutrition", "selection")
+NextAction = Literal["ingredient", "recipe", "nutrition", "select", "finish", "ask_user"]
 
 
 class CaseBase(BaseModel):
@@ -101,13 +101,42 @@ class NutritionCase(CaseBase):
         return self
 
 
+# ------------------------------------------------------------------ 선택 (입력 게이트 + 결정 모델)
+class SelectionExpected(BaseModel):
+    gate: bool = Field(description="입력 게이트가 결정 모델로 보내야 하면 true")
+    final: Literal["one", "many", "ask", "supervisor"] = Field(
+        description="최종 처리: 하나 확정, 여러 개라 되묻기, 몰라서 되묻기, 수퍼바이저로"
+    )
+    number: int | None = Field(default=None, description="final=one 일 때 고른 번호 (1부터)")
+    rules_only: bool = Field(
+        default=True, description="규칙만으로 정해져야 하면 true, 작은 모델이 필요하면 false"
+    )
+
+    @model_validator(mode="after")
+    def _consistent(self):
+        if (self.final == "one") != (self.number is not None):
+            raise ValueError("final=one 일 때만 number를 쓴다")
+        if not self.gate and self.final != "supervisor":
+            raise ValueError("게이트를 통과하지 않으면 final=supervisor")
+        return self
+
+
+class SelectionCase(CaseBase):
+    options: list[str] = Field(default_factory=list, description="직전에 보여준 후보 제목")
+    utterance: str
+    expected: SelectionExpected
+
+
 CASE_TYPES: dict[Role, type[CaseBase]] = {
     "supervisor": SupervisorCase,
     "ingredient": IngredientCase,
     "recipe": RecipeCase,
     "nutrition": NutritionCase,
+    "selection": SelectionCase,
 }
-ID_PREFIX: dict[Role, str] = {"supervisor": "sup", "ingredient": "ing", "recipe": "rec", "nutrition": "nut"}
+ID_PREFIX: dict[Role, str] = {
+    "supervisor": "sup", "ingredient": "ing", "recipe": "rec", "nutrition": "nut", "selection": "sel",
+}
 
 
 def load_cases(path: str | Path, role: Role) -> list[CaseBase]:

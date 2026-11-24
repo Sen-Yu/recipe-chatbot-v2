@@ -17,7 +17,7 @@ from .tracing import Tracer
 
 T = TypeVar("T", bound=BaseModel)
 
-AGENTS = ("supervisor", "ingredient", "recipe", "nutrition")
+AGENTS = ("supervisor", "ingredient", "recipe", "nutrition", "selector")
 
 
 @dataclass(frozen=True)
