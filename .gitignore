@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# 환경 변수와 비밀 키
+.env
+.env.*
+
+# 모델 가중치, 어댑터, 데이터
+models/
+adapters/
+*.safetensors
+*.gguf
+*.bin
+data/raw/
+
+# 벡터 DB와 로그
+chroma_db/
+*.log
+logs/
+
+# 생성 이미지 캐시
+image_cache/
+
+# OS / 에디터
+.DS_Store
+.idea/
+.vscode/
