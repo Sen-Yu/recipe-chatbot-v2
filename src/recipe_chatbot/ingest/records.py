@@ -43,7 +43,8 @@ class SourceRecipe(BaseModel):
     source: str = Field(description="출처 어댑터 이름 (예: 10000recipe, foodsafety)")
     source_id: str
     url: str | None = None
-    title: str
+    title: str = Field(description="요리 이름 (출처 제목에서 꾸밈말을 지운 것)")
+    title_raw: str = Field(default="", description="출처의 원래 제목")
     description: str = ""
     servings: int | None = None
     cook_time: int | None = Field(default=None, description="분")

@@ -16,6 +16,7 @@ import httpx
 from ..amounts import parse_line
 from ..records import SourceRecipe, Usage
 from ..store import Store
+from ..titles import clean_title
 from .base import Sleep, Source
 from .keywords import FOOD_KEYWORDS
 
@@ -105,7 +106,8 @@ class ManRecipe(Source):
             source=self.name,
             source_id=source_id,
             url=f"{BASE}/recipe/{source_id}",
-            title=str(ld.get("name", "")).strip(),
+            title=clean_title(str(ld.get("name", ""))),
+            title_raw=str(ld.get("name", "")).strip(),
             description=str(ld.get("description", "")).strip(),
             servings=int(servings.group(1)) if servings else None,
             cook_time=_minutes(ld.get("totalTime")),

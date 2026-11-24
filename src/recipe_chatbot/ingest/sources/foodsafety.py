@@ -120,7 +120,8 @@ class FoodSafety(Source):
             source=self.name,
             source_id=source_id,
             url=None,
-            title=(row.get("RCP_NM") or "").strip(),
+            title=(row.get("RCP_NM") or "").strip(),  # 공공데이터 제목은 이미 요리 이름
+            title_raw=(row.get("RCP_NM") or "").strip(),
             description=(row.get("RCP_NA_TIP") or "").strip(),
             servings=1,  # 영양 정보가 1인분 기준
             ingredients=ingredients,

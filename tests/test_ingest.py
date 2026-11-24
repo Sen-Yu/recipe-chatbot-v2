@@ -11,6 +11,7 @@ from recipe_chatbot.ingest.amounts import parse_line
 from recipe_chatbot.ingest.sources import FoodSafety, ManRecipe
 from recipe_chatbot.ingest.sources.foodsafety import parse_parts
 from recipe_chatbot.ingest.store import Store
+from recipe_chatbot.ingest.titles import clean_title
 
 
 def recipe_page(name: str, ingredients: list[str], steps: list[str], reviews: int = 3) -> str:
@@ -111,9 +112,34 @@ def test_parse_line(raw, name, amount, unit, grams, parsed):
     assert (r.name, r.amount, r.unit, r.grams, r.parsed) == (name, amount, unit, grams, parsed)
 
 
+@pytest.mark.parametrize(
+    ("raw", "expected"),
+    [
+        ("감자조림", "감자조림"),
+        ("감자조림 만드는 법", "감자조림"),
+        ("김치찌개 황금레시피 :-)", "김치찌개"),
+        ("유명셰프 백종원 잡채 레시피", "잡채"),
+        ("[반찬요리]감자조림 맛있게 만드는법,감자조림 만들기", "감자조림"),
+        ("바지락 칼국수 / 식당 부럽지않아요", "바지락 칼국수"),
+        ("가지볶음 - 집밥백선생2 가지요리", "가지볶음"),
+        ("봄 향기가 가득한~ 달래된장국", "달래된장국"),
+        ("국물맛이 끝내주는 꽃게탕", "꽃게탕"),
+        ("후다닥 볶아 한끼해결 참치 김치볶음밥", "참치 김치볶음밥"),
+        ("♡라면이 떡볶이를 만나면~ 대박~~^^", "떡볶이"),
+        ("초간단!! 5분 계란찜", "계란찜"),
+        ("엄마표 계란말이", "계란말이"),
+        ("매콤한 냉장고 볶음밥", "냉장고 볶음밥"),
+        ("비빔면", "비빔면"),
+        ("전주 비빔밥", "전주 비빔밥"),
+    ],
+)
+def test_clean_title(raw, expected):
+    assert clean_title(raw) == expected
+
+
 def test_manrecipe_parse_json_ld():
     r = ManRecipe().parse("101", PAGES["101"].encode())
-    assert r.title == "테스트 감자조림"
+    assert r.title == "테스트 감자조림" and r.title_raw == "테스트 감자조림"
     assert (r.servings, r.cook_time, r.rating, r.rating_count) == (2, 75, 4.5, 3)
     assert [i.name for i in r.ingredients] == ["감자", "간장", "설탕", "물"]
     assert r.steps == ["감자를 썬다.", "졸인다."]
