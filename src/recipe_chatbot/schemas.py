@@ -45,9 +45,21 @@ class StructuredRecipe(BaseModel):
 
 
 class RecipeDraft(BaseModel):
-    """레시피 에이전트 출력."""
+    """레시피 에이전트 출력. alternatives가 있으면 recipe와 함께 후보 목록으로 보여주고 사용자가 고른다."""
 
     recipe: StructuredRecipe
+    alternatives: list[StructuredRecipe] = Field(
+        default_factory=list, description="함께 보여줄 다른 후보 (최대 3개). 하나만 낼 때는 빈 리스트"
+    )
+
+
+class OptionChoice(BaseModel):
+    """결정 모델의 작은 모델 단계 출력: 사용자가 후보 중 무엇을 골랐는지."""
+
+    is_selection: bool = Field(description="후보 목록에서 고르는 발화이면 true, 다른 요청이면 false")
+    number: int | None = Field(
+        default=None, description="고른 후보 번호 (1부터). 여러 개를 골랐거나 알 수 없으면 null"
+    )
 
 
 class UserConstraints(BaseModel):
@@ -76,7 +88,7 @@ class NutritionNote(BaseModel):
 class SupervisorDecision(BaseModel):
     """수퍼바이저 출력: 다음에 할 일."""
 
-    next: Literal["ingredient", "recipe", "nutrition", "finish", "ask_user"]
+    next: Literal["ingredient", "recipe", "nutrition", "select", "finish", "ask_user"]
     reason: str = ""
     question: str | None = Field(default=None, description="ask_user일 때 사용자에게 되물을 문장")
     constraints: UserConstraints | None = Field(

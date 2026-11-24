@@ -11,6 +11,7 @@ SPECS = {
     "recipe": ModelSpec(endpoint="big", base="big-base", adapter="recipe-lora"),
     "ingredient": ModelSpec(endpoint="small", base="small-base"),
     "nutrition": ModelSpec(endpoint="small", base="small-base"),
+    "selector": ModelSpec(endpoint="small", base="small-base"),
 }
 
 KIMCHI_RICE = StructuredRecipe(

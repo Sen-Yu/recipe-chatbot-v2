@@ -1,0 +1,168 @@
+{
+  "layout": "grid",
+  "title": "초안 D · 수퍼바이저 멀티 에이전트",
+  "subtitle": "수퍼바이저가 에이전트에 일을 맡깁니다. (채택 시점)",
+  "kinds": {
+    "big": {
+      "label": "큰 모델"
+    },
+    "small": {
+      "label": "작은 모델"
+    },
+    "code": {
+      "label": "코드"
+    },
+    "external": {
+      "label": "외부 API"
+    }
+  },
+  "nodes": [
+    {
+      "key": "S",
+      "label": "시작",
+      "pos": [
+        0,
+        0
+      ],
+      "shape": "pill"
+    },
+    {
+      "key": "SUP",
+      "label": "수퍼바이저",
+      "pos": [
+        0,
+        1
+      ],
+      "kind": "big"
+    },
+    {
+      "key": "V",
+      "label": "검증 노드",
+      "pos": [
+        0,
+        2
+      ],
+      "kind": "code"
+    },
+    {
+      "key": "R",
+      "label": "응답",
+      "pos": [
+        0,
+        3
+      ],
+      "kind": "code"
+    },
+    {
+      "key": "E",
+      "label": "끝",
+      "pos": [
+        0,
+        4
+      ],
+      "shape": "pill"
+    },
+    {
+      "key": "ING",
+      "label": "재료 에이전트",
+      "pos": [
+        2,
+        0
+      ],
+      "kind": "small"
+    },
+    {
+      "key": "REC",
+      "label": "레시피 에이전트",
+      "pos": [
+        2,
+        1
+      ],
+      "kind": "big"
+    },
+    {
+      "key": "NUT",
+      "label": "영양 에이전트",
+      "pos": [
+        2,
+        2
+      ],
+      "kind": "small"
+    },
+    {
+      "key": "MR",
+      "label": "모델 라우터",
+      "pos": [
+        3.3,
+        1
+      ],
+      "kind": "code"
+    }
+  ],
+  "groups": [
+    {
+      "label": "에이전트",
+      "nodes": [
+        "ING",
+        "REC",
+        "NUT"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "S",
+      "to": "SUP"
+    },
+    {
+      "from": "SUP",
+      "to": "V"
+    },
+    {
+      "from": "V",
+      "to": "R"
+    },
+    {
+      "from": "R",
+      "to": "E"
+    },
+    {
+      "from": "V",
+      "to": "SUP",
+      "route": {
+        "channel": -0.6
+      },
+      "label": "미달"
+    },
+    {
+      "from": "SUP",
+      "to": "ING",
+      "route": {
+        "channel": 1.0
+      },
+      "from_dx": -0.25,
+      "both": true
+    },
+    {
+      "from": "SUP",
+      "to": "REC",
+      "both": true,
+      "label": "호출·결과"
+    },
+    {
+      "from": "SUP",
+      "to": "NUT",
+      "route": {
+        "channel": 1.0
+      },
+      "from_dx": 0.25,
+      "both": true
+    },
+    {
+      "from": "REC",
+      "to": "MR",
+      "style": "dashed",
+      "label": "모델 선택"
+    }
+  ]
+}

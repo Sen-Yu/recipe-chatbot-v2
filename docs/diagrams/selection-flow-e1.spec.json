@@ -1,0 +1,144 @@
+{
+  "layout": "grid",
+  "title": "후보 선택 · 입력 게이트와 결정 모델 (E1)",
+  "subtitle": "고르는 말은 큰 모델 없이 처리합니다.",
+  "kinds": {
+    "big": {
+      "label": "큰 모델"
+    },
+    "small": {
+      "label": "작은 모델"
+    },
+    "code": {
+      "label": "코드"
+    },
+    "external": {
+      "label": "외부 API"
+    }
+  },
+  "nodes": [
+    {
+      "key": "S",
+      "label": "시작",
+      "pos": [
+        1,
+        0
+      ],
+      "shape": "pill"
+    },
+    {
+      "key": "G",
+      "label": "입력 게이트",
+      "pos": [
+        1,
+        1
+      ],
+      "kind": "code",
+      "badge": "0"
+    },
+    {
+      "key": "D",
+      "label": "결정 모델",
+      "pos": [
+        0,
+        2
+      ],
+      "kind": "small",
+      "sub": "규칙 → 작은 모델",
+      "badge": "D"
+    },
+    {
+      "key": "SUP",
+      "label": "수퍼바이저",
+      "pos": [
+        2,
+        2
+      ],
+      "kind": "big",
+      "badge": "1"
+    },
+    {
+      "key": "V",
+      "label": "검증 노드",
+      "pos": [
+        1,
+        3
+      ],
+      "kind": "code",
+      "badge": "2"
+    },
+    {
+      "key": "R",
+      "label": "응답",
+      "pos": [
+        1,
+        4
+      ],
+      "kind": "code",
+      "badge": "3"
+    },
+    {
+      "key": "E",
+      "label": "끝",
+      "pos": [
+        1,
+        5
+      ],
+      "shape": "pill"
+    }
+  ],
+  "edges": [
+    {
+      "from": "S",
+      "to": "G"
+    },
+    {
+      "from": "G",
+      "to": "D",
+      "route": "vh",
+      "label": "선택 발화",
+      "label_at": 1
+    },
+    {
+      "from": "G",
+      "to": "SUP",
+      "route": "vh",
+      "label": "그 외",
+      "label_at": 1
+    },
+    {
+      "from": "D",
+      "to": "V",
+      "route": "hv",
+      "label": "확정",
+      "label_at": 0
+    },
+    {
+      "from": "SUP",
+      "to": "V",
+      "route": "hv"
+    },
+    {
+      "from": "D",
+      "to": "SUP",
+      "both": true,
+      "label": "select / 선택 아님"
+    },
+    {
+      "from": "D",
+      "to": "R",
+      "route": {
+        "channel": -0.6
+      },
+      "label": "되묻기"
+    },
+    {
+      "from": "V",
+      "to": "R"
+    },
+    {
+      "from": "R",
+      "to": "E"
+    }
+  ]
+}

@@ -1,7 +1,10 @@
-"""그래프 조립.
+"""그래프 조립 (초안 E1).
 
-시작 → start_turn → 1 supervisor ⇄ (A ingredient · B recipe · C nutrition)
-                         → 2 validate → (미달이면 1로) → 3 respond → 끝
+시작 → start_turn → 0 입력 게이트 ─ 선택 발화 → D decide ─ 확정 → 2 validate
+                                │                     ├ 되묻기 → 3 respond
+                                │                     └ 선택 아님 → 1 supervisor
+                                └ 그 외 → 1 supervisor ⇄ (A ingredient · B recipe · C nutrition · D decide)
+                                                → 2 validate → (미달이면 1로) → 3 respond → 끝
 """
 
 from langgraph.checkpoint.memory import InMemorySaver
@@ -32,15 +35,18 @@ def build_graph(deps: Deps, checkpointer=None):
     add("ingredient_agent", lambda s: nodes.ingredient_agent(s, deps))
     add("recipe_agent", lambda s: nodes.recipe_agent(s, deps))
     add("nutrition_agent", lambda s: nodes.nutrition_agent(s, deps))
+    add("decide", lambda s: nodes.decide(s, deps))
     add("validate", lambda s: nodes.validate(s, deps))
     add("respond", lambda s: nodes.respond(s, deps))
 
     g.add_edge(START, "start_turn")
-    g.add_edge("start_turn", "supervisor")
+    # 0 입력 게이트: 코드 함수라 노드가 아니라 조건부 엣지로 둔다
+    g.add_conditional_edges("start_turn", nodes.route_gate, ["decide", "supervisor"])
+    g.add_conditional_edges("decide", nodes.route_decide, ["validate", "respond", "supervisor"])
     g.add_conditional_edges(
         "supervisor",
         nodes.route_supervisor,
-        ["ingredient_agent", "recipe_agent", "nutrition_agent", "validate", "respond"],
+        ["ingredient_agent", "recipe_agent", "nutrition_agent", "decide", "validate", "respond"],
     )
     for agent in ("ingredient_agent", "recipe_agent", "nutrition_agent"):
         g.add_edge(agent, "supervisor")

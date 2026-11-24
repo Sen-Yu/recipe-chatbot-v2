@@ -1,0 +1,142 @@
+{
+  "layout": "grid",
+  "title": "초안 A · 하이브리드 라우터",
+  "subtitle": "복합 요청만 에이전트 루프로 보냅니다.",
+  "kinds": {
+    "big": {
+      "label": "LLM 호출"
+    },
+    "code": {
+      "label": "코드"
+    }
+  },
+  "nodes": [
+    {
+      "key": "S",
+      "label": "시작",
+      "pos": [
+        1,
+        0
+      ],
+      "shape": "pill"
+    },
+    {
+      "key": "Q",
+      "label": "질의 분석",
+      "pos": [
+        1,
+        1
+      ],
+      "kind": "big"
+    },
+    {
+      "key": "F",
+      "label": "기존 고정 경로",
+      "pos": [
+        0,
+        2
+      ],
+      "kind": "big"
+    },
+    {
+      "key": "AG",
+      "label": "에이전트 루프",
+      "pos": [
+        1,
+        2
+      ],
+      "kind": "big"
+    },
+    {
+      "key": "I",
+      "label": "즉시 응답",
+      "pos": [
+        2,
+        2
+      ],
+      "kind": "code"
+    },
+    {
+      "key": "V",
+      "label": "검증 노드",
+      "pos": [
+        1,
+        3
+      ],
+      "kind": "code"
+    },
+    {
+      "key": "R",
+      "label": "응답",
+      "pos": [
+        1,
+        4
+      ],
+      "kind": "code"
+    },
+    {
+      "key": "E",
+      "label": "끝",
+      "pos": [
+        1,
+        5
+      ],
+      "shape": "pill"
+    }
+  ],
+  "edges": [
+    {
+      "from": "S",
+      "to": "Q"
+    },
+    {
+      "from": "Q",
+      "to": "F",
+      "route": "vh",
+      "label": "단순",
+      "label_at": 1
+    },
+    {
+      "from": "Q",
+      "to": "AG",
+      "label": "복합"
+    },
+    {
+      "from": "Q",
+      "to": "I",
+      "route": "vh",
+      "label": "무관",
+      "label_at": 1
+    },
+    {
+      "from": "F",
+      "to": "V",
+      "route": "hv"
+    },
+    {
+      "from": "AG",
+      "to": "V"
+    },
+    {
+      "from": "I",
+      "to": "E",
+      "route": "hv"
+    },
+    {
+      "from": "V",
+      "to": "R"
+    },
+    {
+      "from": "R",
+      "to": "E"
+    },
+    {
+      "from": "V",
+      "to": "AG",
+      "route": {
+        "channel": 1.55
+      },
+      "label": "미달"
+    }
+  ]
+}

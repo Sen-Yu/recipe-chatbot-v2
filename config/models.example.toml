@@ -29,3 +29,7 @@ base = "SMALL_BASE_MODEL"
 [agents.nutrition]
 endpoint = "small"
 base = "SMALL_BASE_MODEL"
+
+[agents.selector]                          # 결정 모델의 작은 모델 단계
+endpoint = "small"
+base = "SMALL_BASE_MODEL"
