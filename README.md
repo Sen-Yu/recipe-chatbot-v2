@@ -71,6 +71,8 @@ uv run ruff check .     # 린트
 
 확정 그림은 명세 파일 하나에서 만듭니다. 그림에는 번호와 노드명만 넣고, 역할·모델·입출력은 표나 본문에 씁니다. 한 줄 흐름은 기본 레이아웃, 갈라지고 합쳐지는 흐름은 격자 레이아웃(`"layout": "grid"`)을 씁니다.
 
+모든 그림 오른쪽 아래에 `버전 · 작성 일시`가 붙습니다. 명세 내용이 바뀔 때만 버전이 오르고 일시가 바뀌므로, 문서 내용과 그림의 버전·일시를 비교하면 그림이 최신인지 알 수 있습니다. 내용이 같으면 다시 렌더링해도 그대로입니다.
+
 - 명세: [docs/diagrams/architecture-v2.spec.json](docs/diagrams/architecture-v2.spec.json)
 - 생성된 표: [docs/diagrams/architecture-v2.nodes.md](docs/diagrams/architecture-v2.nodes.md)
 - 생성 도구: 작성자 로컬의 `spec-figure` 스킬 (`figure.py`). Python 3와 Chrome 헤드리스로 SVG와 2배 해상도 PNG를 만듭니다.
