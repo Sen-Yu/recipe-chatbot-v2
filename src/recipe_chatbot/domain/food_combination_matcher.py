@@ -1,0 +1,118 @@
+"""
+레시피 재료 리스트를 받아 궁합이 안 좋은 조합을 찾아주는 매칭 모듈.
+
+두 가지 방식으로 매칭한다:
+1. check_pair_taboo   : food_combination_taboo.json의 combinations(구체적 재료 쌍) 매칭
+2. check_category_taboo: generalized_category_rules(탄닌+철분, 퓨린 조합 등 카테고리 단위 규칙) 매칭
+
+재료명 비교는 항상 ingredient_synonyms.normalize_ingredient_name()을 거친 대표명 기준으로 한다.
+"""
+
+import json
+from itertools import combinations
+from pathlib import Path
+
+from .ingredient_categories import CATEGORY_LABEL_TO_TAG, get_ingredient_categories
+from .ingredient_synonyms import HYPERNYM_MAP, normalize_ingredient_name
+
+_DATA_PATH = Path(__file__).parent / "food_combination_taboo.json"
+
+with open(_DATA_PATH, encoding="utf-8") as f:
+    _DATA = json.load(f)
+
+_COMBINATIONS = _DATA["combinations"]
+_CATEGORY_RULES = _DATA["generalized_category_rules"]
+
+
+def _normalize_for_taboo(name: str) -> str:
+    """
+    궁합 매칭 전용 정규화: 동의어 정규화 후 상위개념까지 반영해서 "묵은지"와 "김치"를
+    같은 재료로 취급한다. ingredient_synonyms.is_ingredient_satisfied()는 "보유 재료가
+    요구 재료를 충족하는가"라는 방향성 있는 판단이라 그대로 재사용할 수 없어서,
+    방향 없는 동일성 비교(궁합 쌍 매칭)에 맞는 별도 헬퍼로 둔다.
+    """
+    norm = normalize_ingredient_name(name)
+    hypernym = HYPERNYM_MAP.get(norm)
+    return normalize_ingredient_name(hypernym) if hypernym else norm
+
+
+## combinations를 빠른 조회를 위해 {frozenset({a, b}): 항목} 형태로 인덱싱
+_PAIR_INDEX = {
+    frozenset(_normalize_for_taboo(n) for n in item["pair"]): item
+    for item in _COMBINATIONS
+}
+
+
+def check_pair_taboo(ingredient_list: list[str]) -> list[dict]:
+    """
+    주어진 재료 리스트 안에서, 사전에 등록된 '구체적 재료 쌍' 궁합이 있는지 찾는다.
+    반환: [{"pair": [...], "reason": ..., "level": ..., "note": ...}, ...]
+    """
+    normalized = [_normalize_for_taboo(n) for n in ingredient_list]
+    found = []
+    seen_keys = set()
+
+    for a, b in combinations(set(normalized), 2):
+        key = frozenset({a, b})
+        if key in _PAIR_INDEX and key not in seen_keys:
+            found.append(_PAIR_INDEX[key])
+            seen_keys.add(key)
+
+    return found
+
+
+def check_category_taboo(ingredient_list: list[str]) -> list[dict]:
+    """
+    주어진 재료 리스트가 특정 '카테고리 조합 규칙'(예: 탄닌+철분)에 걸리는지 확인.
+    각 규칙은 categories 필드에 2개의 한글 카테고리 라벨을 갖고 있으며,
+    재료 리스트 전체에서 두 카테고리가 모두 발견되면 매칭된 것으로 본다.
+
+    반환: [{"categories": [...], "examples": [...], "reason": ..., "level": ..., "note": ...}, ...]
+    """
+    ## 재료 리스트 전체가 가진 카테고리 태그 합집합
+    all_tags = set()
+    for name in ingredient_list:
+        all_tags |= get_ingredient_categories(name)
+
+    found = []
+    for rule in _CATEGORY_RULES:
+        labels = rule["categories"]
+        tag_values = [CATEGORY_LABEL_TO_TAG.get(label) for label in labels]
+
+        ## "특정 약물/조합"처럼 재료 카테고리로 표현할 수 없는 라벨이 하나라도 섞여 있으면
+        ## 그 라벨만 빼고 나머지 라벨만으로 판정하는 건 원래 규칙보다 느슨한 별개의 조건이
+        ## 된다 (예: "티라민 식품 + 특정 약물" 규칙이 "티라민 식품 2개"로 변질됨).
+        ## 약물 정보는 재료만으로 알 수 없으므로 이런 규칙은 아예 평가하지 않는다.
+        if None in tag_values:
+            continue
+
+        tags_needed = set(tag_values)
+        if not tags_needed:
+            continue
+
+        ## 규칙이 요구하는 태그가 전부 재료 리스트에 있으면 매칭
+        ## (단, 태그가 1개뿐인 규칙 -- 예: 퓨린+퓨린 -- 은 같은 태그를 가진 재료가
+        ##  2개 이상 있어야 의미가 있으므로 별도 처리)
+        if len(tags_needed) == 1:
+            tag = next(iter(tags_needed))
+            matching_ingredients = [
+                n for n in ingredient_list if tag in get_ingredient_categories(n)
+            ]
+            if len(matching_ingredients) >= 2:
+                found.append(rule)
+        else:
+            if tags_needed.issubset(all_tags):
+                found.append(rule)
+
+    return found
+
+
+def check_all(ingredient_list: list[str]) -> dict:
+    """
+    check_pair_taboo + check_category_taboo를 합쳐서 반환.
+    반환 형태: {"pair_matches": [...], "category_matches": [...]}
+    """
+    return {
+        "pair_matches": check_pair_taboo(ingredient_list),
+        "category_matches": check_category_taboo(ingredient_list),
+    }

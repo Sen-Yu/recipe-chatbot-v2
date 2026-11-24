@@ -6,7 +6,24 @@
 
 ## 상태
 
-설계 단계입니다. 아직 코드는 없습니다.
+기반 코드 단계입니다. 그래프와 에이전트는 가짜 모델로 동작을 검증했고, 실제 모델은 벤치마크 후 연결합니다.
+
+## 개발
+
+```bash
+uv sync                 # Python 3.14 + 의존성 설치
+uv run pytest -q        # 테스트
+uv run ruff check .     # 린트
+```
+
+| 경로 | 내용 |
+|---|---|
+| `src/recipe_chatbot/graph.py` | 그래프 조립: 시작 → 수퍼바이저 ⇄ 에이전트 → 검증 → 응답 → 끝 |
+| `src/recipe_chatbot/nodes.py` | 노드: 수퍼바이저, 재료·레시피·영양 에이전트, 검증, 응답 |
+| `src/recipe_chatbot/models.py` | 모델 라우터 `(베이스 모델, 어댑터)`, vLLM·Ollama 공용 클라이언트, 가짜 모델 |
+| `src/recipe_chatbot/tools.py` | 코드 도구: 재료 목록 갱신, 궁합 경고, 레시피 검색, 영양 계산 |
+| `src/recipe_chatbot/domain/` | v1에서 옮긴 재료명 정규화, 성분 카테고리, 궁합 검사 |
+| `config/models.example.toml` | 에이전트별 모델 설정 예시 |
 
 ## v1에서 달라지는 점
 
