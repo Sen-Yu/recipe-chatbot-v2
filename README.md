@@ -37,6 +37,7 @@
 ## 문서
 
 - [v2 아키텍처 설계 기록](docs/architecture/recipe-chatbot-v2-architecture.md): v1 분석, 검토한 초안 A~D, 결정과 이유, 모델 전략, 진행 순서
+- [작업 계획](docs/roadmap.md): 벤치마크, 기반 코드, 통합 검증, 어댑터 학습 순서와 병행 구간
 
 ## 그림 관리
 
