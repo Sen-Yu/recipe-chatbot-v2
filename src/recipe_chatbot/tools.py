@@ -50,7 +50,9 @@ def missing_ingredients(recipe: StructuredRecipe, owned: Iterable[str]) -> list[
 
 # ------------------------------------------------------------------ 레시피 검색
 class RecipeRetriever(Protocol):
-    def search(self, ingredient_names: list[str], k: int = 3) -> list[StructuredRecipe]: ...
+    def search(self, ingredient_names: list[str], k: int = 3, request: str = "") -> list[StructuredRecipe]:
+        """보유 재료와 사용자 요청 문장으로 레시피 후보를 찾는다."""
+        ...
 
 
 class InMemoryRetriever:
@@ -59,8 +61,8 @@ class InMemoryRetriever:
     def __init__(self, recipes: list[StructuredRecipe] | None = None):
         self.recipes = recipes or []
 
-    def search(self, ingredient_names: list[str], k: int = 3) -> list[StructuredRecipe]:
-        scored = []
+    def search(self, ingredient_names: list[str], k: int = 3, request: str = "") -> list[StructuredRecipe]:
+        scored = []  # 요청 문장은 쓰지 않는다 (재료 겹침만 본다)
         for r in self.recipes:
             missing = missing_ingredients(r, ingredient_names)
             covered = len(r.ingredients) - len(missing)
