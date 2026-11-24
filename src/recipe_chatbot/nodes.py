@@ -235,17 +235,22 @@ def recipe_agent(state: GraphState, deps: Deps) -> GraphState:
 
 
 # ------------------------------------------------------------------ C 영양 에이전트
-def nutrition_agent(state: GraphState, deps: Deps) -> GraphState:
-    info = calc_nutrition(state["recipe"], deps.nutrition_db)
+def nutrition_message(title: str, info: NutritionInfo, constraints: UserConstraints) -> str:
+    """영양 에이전트에 보내는 메시지. 벤치마크도 같은 메시지를 쓴다."""
     payload = {
-        "레시피": state["recipe"].title,
+        "레시피": title,
         "1인분 영양": info.per_serving,
         "계산에서 빠진 재료": info.unmatched,
-        "조건": state.get("constraints", UserConstraints()).model_dump(),
+        "조건": constraints.model_dump(),
     }
-    note = deps.router.invoke(
-        "nutrition", NutritionNote, prompts.NUTRITION, json.dumps(payload, ensure_ascii=False)
-    )
+    return json.dumps(payload, ensure_ascii=False)
+
+
+def nutrition_agent(state: GraphState, deps: Deps) -> GraphState:
+    info = calc_nutrition(state["recipe"], deps.nutrition_db)
+    constraints = state.get("constraints", UserConstraints())
+    user = nutrition_message(state["recipe"].title, info, constraints)
+    note = deps.router.invoke("nutrition", NutritionNote, prompts.NUTRITION, user)
     return {"nutrition": info, "nutrition_note": note}
 
 

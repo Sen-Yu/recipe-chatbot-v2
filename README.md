@@ -68,6 +68,7 @@ uv run ruff check .     # 린트
 | `src/recipe_chatbot/tools.py` | 재료·궁합·검색·영양 계산 도구 |
 | `src/recipe_chatbot/domain/` | v1에서 옮긴 재료명 정규화와 궁합 검사 |
 | `src/recipe_chatbot/ingest/` | 레시피 수집 (출처 어댑터, 상태표, 파싱, 정제) |
+| `src/recipe_chatbot/benchmark/` | 역할별 벤치마크 실행기와 채점 |
 | `config/models.example.toml` | 에이전트별 모델 설정 예시 |
 
 ## 문서
@@ -79,6 +80,7 @@ uv run ruff check .     # 린트
 | [업무 플로우](docs/workflow.md) | 업무별 상태와 날짜, 결과 |
 | [평가 데이터셋](data/eval/README.md) | 벤치마크용 역할별 평가 데이터 |
 | [레시피 수집](docs/data-ingest.md) | RAG·학습용 레시피 수집 단계와 출처별 이용 범위 |
+| [벤치마크](docs/benchmark.md) | 평가 지표, 모델 고르는 기준, 실행 방법 |
 
 <details>
 <summary>그림 관리 방법</summary>
