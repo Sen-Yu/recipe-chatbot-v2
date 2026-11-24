@@ -66,9 +66,33 @@ def _grams(amount: float | None, unit: str, paren: str | None) -> float | None:
     return None
 
 
+# 재료 이름 뒤에 붙은 크기·양·용도 표현 ('양파 큰것', '고추장 듬뿍', 'LA갈비 찜용')
+_NAME_TAIL = re.compile(
+    r"\s+(큰\s?것|작은\s?것|중간\s?것|중간|큰|작은|중|대|소|듬뿍|크게|작게|넉넉히|조금|약간|\S+용)$"
+)
+# 같은 단위의 여러 표기를 하나로 ('T', 'Ts', '스푼', '숟가락' → '큰술'). 대소문자를 구분한다: T=큰술, t=작은술
+_UNIT_ALIASES = {
+    **dict.fromkeys(
+        ["T", "Ts", "TS", "Tbsp", "tbsp", "Tb"]
+        + ["스푼", "큰스푼", "숟가락", "숟갈", "밥숟가락", "밥스푼", "수저"],
+        "큰술",
+    ),
+    **dict.fromkeys(["t", "ts", "tsp", "티스푼", "작은스푼", "찻숟가락", "커피스푼"], "작은술"),
+    **dict.fromkeys(["cc", "CC", "mL", "ML", "㎖"], "ml"),
+    **dict.fromkeys(["G", "그램", "그람"], "g"),
+    **dict.fromkeys(["C", "cup"], "컵"),
+}
+
+
+def normalize_unit(unit: str) -> str:
+    return _UNIT_ALIASES.get(unit, unit)
+
+
 def _clean_name(name: str) -> str:
     name = re.sub(r"\s*\([^)]*\)\s*", " ", name)  # '양파(소)' → '양파'
-    return re.sub(r"\s+", " ", _BULLET.sub("", name)).strip(" ,:")
+    name = re.sub(r"\s+", " ", _BULLET.sub("", name)).strip(" ,:")
+    stripped = _NAME_TAIL.sub("", name)
+    return stripped or name
 
 
 def parse_line(raw: str) -> IngredientLine:
@@ -84,7 +108,7 @@ def parse_line(raw: str) -> IngredientLine:
         amount = _number(m.group("num"))
         if m.group("num2"):
             amount = (amount + _number(m.group("num2"))) / 2  # 범위는 가운데 값
-        unit = m.group("unit") or ""
+        unit = normalize_unit(m.group("unit") or "")
         return IngredientLine(
             raw=raw,
             name=_clean_name(m.group("name")),
@@ -100,8 +124,8 @@ def parse_line(raw: str) -> IngredientLine:
             raw=raw,
             name=_clean_name(m.group("name")),
             amount=amount,
-            unit=m.group("unit"),
-            grams=_grams(amount, m.group("unit"), m.group("paren")),
+            unit=normalize_unit(m.group("unit")),
+            grams=_grams(amount, normalize_unit(m.group("unit")), m.group("paren")),
         )
 
     words = text.split()

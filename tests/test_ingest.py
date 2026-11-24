@@ -105,6 +105,16 @@ def no_sleep(_):
         ("소금 간맞추기 ", "소금", None, "간맞추기", None, True),
         ("양파(소)1개", "양파", 1.0, "개", None, True),
         ("물(종이컵 1컵이 180ml) 400ml", "물", 400.0, "ml", None, True),
+        ("양파 큰것 1/2개", "양파", 0.5, "개", None, True),
+        ("고추장 듬뿍 1스푼", "고추장", 1.0, "큰술", None, True),
+        ("갈비 찜용 1.5근", "갈비", 1.5, "근", None, True),
+        ("김밥용 단무지 4개", "김밥용 단무지", 4.0, "개", None, True),
+        ("간장 2T", "간장", 2.0, "큰술", None, True),
+        ("설탕 1t", "설탕", 1.0, "작은술", None, True),
+        ("버터 1Ts", "버터", 1.0, "큰술", None, True),
+        ("소금 1ts", "소금", 1.0, "작은술", None, True),
+        ("물 300cc", "물", 300.0, "ml", None, True),
+        ("고기 200그램", "고기", 200.0, "g", 200.0, True),
     ],
 )
 def test_parse_line(raw, name, amount, unit, grams, parsed):
@@ -131,6 +141,18 @@ def test_parse_line(raw, name, amount, unit, grams, parsed):
         ("매콤한 냉장고 볶음밥", "냉장고 볶음밥"),
         ("비빔면", "비빔면"),
         ("전주 비빔밥", "전주 비빔밥"),
+        ("【고깃집 김치찌개 만드는 방법】", "고깃집 김치찌개"),
+        ("매일 먹어도 좋은 [바지락 칼국수]", "바지락 칼국수"),
+        ("닭볶음탕 만들기 쉽고 맛있기까지 하네요~", "닭볶음탕"),
+        ("속이 꽉 찬 김밥", "김밥"),
+        ("깔끔한 한정식집 메뉴 참나물무침", "참나물무침"),
+        ("김치콩나물 국 얼큰하고 맛나게 끓이기!", "김치콩나물 국"),
+        ("엄청쉬운 밥도둑 갈비찜 만능소스", "갈비찜"),
+        ("잡채맛있게하는법! 너무간단해", "잡채"),
+        ("잡채만들기 황금레시피", "잡채"),
+        ("아이반찬으로 굿! 맛살계란말이 만들기", "맛살계란말이"),
+        ("초간단 카페 파스타! 휴일에 간편한 한끼로 OK~", "카페 파스타"),
+        ("7. 맛있는 미역국 레시피 <미역활용요리 1탄>", "미역국"),
     ],
 )
 def test_clean_title(raw, expected):
@@ -206,6 +228,13 @@ def test_fetch_waits_between_requests(store, client):
     store.add_listed(src.name, ["101", "102"])
     pipeline.fetch(src, client, store, sleep=waits.append)
     assert waits == [5.0, 5.0]
+
+
+def test_fetch_order_alternates_keywords(store):
+    store.add_listed("10000recipe", ["1", "2", "3"], found_by="잡채")
+    store.add_listed("10000recipe", ["4", "5"], found_by="갈비찜")
+    assert store.ids_interleaved("10000recipe", "listed") == ["1", "4", "2", "5", "3"]
+    assert store.ids_interleaved("10000recipe", "listed", limit=3) == ["1", "4", "2"]
 
 
 def test_reparse_uses_saved_raw(store, client):

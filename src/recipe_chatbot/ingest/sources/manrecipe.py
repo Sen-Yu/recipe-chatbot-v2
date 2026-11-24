@@ -14,11 +14,11 @@ import urllib.parse
 import httpx
 
 from ..amounts import parse_line
+from ..keywords import FOOD_KEYWORDS
 from ..records import SourceRecipe, Usage
 from ..store import Store
 from ..titles import clean_title
 from .base import Sleep, Source
-from .keywords import FOOD_KEYWORDS
 
 BASE = "https://www.10000recipe.com"
 _ID_LINK = re.compile(r'href="/recipe/(\d+)"')

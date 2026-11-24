@@ -45,7 +45,7 @@ def fetch(
     sleep: Sleep = time.sleep,
 ) -> StageResult:
     result, streak = StageResult(), 0
-    for sid in store.ids(source.name, "listed", limit):
+    for sid in store.ids_interleaved(source.name, "listed", limit):
         try:
             raw = source.fetch(client, sid)
         except httpx.HTTPError as e:

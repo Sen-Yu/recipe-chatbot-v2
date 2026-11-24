@@ -77,6 +77,22 @@ class Store:
             sql += f" LIMIT {int(limit)}"
         return [r[0] for r in self.db.execute(sql, (source, status))]
 
+    def ids_interleaved(self, source: str, status: str, limit: int | None = None) -> list[str]:
+        """찾은 검색어(found_by)를 번갈아 가며 고른 id 목록. 적은 양으로도 여러 요리를 고르게 받기 위함."""
+        groups: dict[str, list[str]] = {}
+        sql = "SELECT source_id, COALESCE(found_by, '') FROM items WHERE source=? AND status=? "
+        sql += "ORDER BY updated_at, source_id"
+        for sid, key in self.db.execute(sql, (source, status)):
+            groups.setdefault(key, []).append(sid)
+        out: list[str] = []
+        queues = list(groups.values())
+        while queues and (limit is None or len(out) < limit):
+            for q in queues:
+                if q and (limit is None or len(out) < limit):
+                    out.append(q.pop(0))
+            queues = [q for q in queues if q]
+        return out
+
     def counts(self) -> dict[str, dict[str, int]]:
         out: dict[str, dict[str, int]] = {}
         for source, status, n in self.db.execute("SELECT source, status, COUNT(*) FROM items GROUP BY 1, 2"):

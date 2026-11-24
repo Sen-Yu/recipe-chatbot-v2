@@ -15,8 +15,8 @@ import random
 import sys
 
 from . import pipeline, refine
+from .keywords import FOOD_KEYWORDS
 from .sources import SOURCES
-from .sources.keywords import FOOD_KEYWORDS
 from .store import Store
 
 DEFAULT_ROOT = "data/ingest"
