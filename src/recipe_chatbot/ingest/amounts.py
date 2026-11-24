@@ -22,6 +22,10 @@ _QUALIFIERS = (
     "적량",
     "충분히",
     "간맞추기",
+    "원하는만큼",
+    "기호에맞게",
+    "기호껏",
+    "입맛대로",
 )
 
 _NUM = r"\d+(?:\.\d+)?(?:\s*/\s*\d+)?|[½⅓⅔¼¾]"
@@ -88,11 +92,28 @@ def normalize_unit(unit: str) -> str:
     return _UNIT_ALIASES.get(unit, unit)
 
 
+# 같은 재료의 맞춤법·띄어쓰기 차이만 하나로 ('고추가루' → '고춧가루', '다진 마늘' → '다진마늘').
+# 뜻이 다른 재료(후추와 후춧가루 등)는 합치지 않는다.
+_NAME_ALIASES = {
+    "고추가루": "고춧가루",
+    "달걀": "계란",
+    "계란노른자": "계란 노른자",
+    "달걀노른자": "계란 노른자",
+}
+_TWO_AMOUNTS = re.compile(rf"^(?P<name>.*?)\s*(?P<num>{_NUM})\s*(?P<unit>[가-힣A-Za-z]+)$")
+
+
+def _canonical(name: str) -> str:
+    name = re.sub(r"^다진\s+", "다진", name)
+    return _NAME_ALIASES.get(name, name)
+
+
 def _clean_name(name: str) -> str:
     name = re.sub(r"\s*\([^)]*\)\s*", " ", name)  # '양파(소)' → '양파'
     name = re.sub(r"\s+", " ", _BULLET.sub("", name)).strip(" ,:")
+    name = re.sub(r"(?<=[가-힣A-Za-z])\d$", "", name)  # 재료 묶음 번호 ('박력분1', '박력분2')
     stripped = _NAME_TAIL.sub("", name)
-    return stripped or name
+    return _canonical(stripped or name)
 
 
 def parse_line(raw: str) -> IngredientLine:
@@ -109,12 +130,23 @@ def parse_line(raw: str) -> IngredientLine:
         if m.group("num2"):
             amount = (amount + _number(m.group("num2"))) / 2  # 범위는 가운데 값
         unit = normalize_unit(m.group("unit") or "")
+        name, grams = m.group("name"), _grams(amount, unit, m.group("paren"))
+        # 양을 두 번 쓴 줄: 하나는 그램, 하나는 단위 ('김치 1컵 170g', '고사리 200g 1팩')
+        two = _TWO_AMOUNTS.match(name)
+        if two and _clean_name(two.group("name")):
+            inner = _number(two.group("num"))
+            inner_unit = normalize_unit(two.group("unit"))
+            inner_grams = _grams(inner, inner_unit, None)
+            if grams is not None and inner_grams is None:
+                name, amount, unit = two.group("name"), inner, inner_unit
+            elif inner_grams is not None and grams is None:
+                name, grams = two.group("name"), inner_grams
         return IngredientLine(
             raw=raw,
-            name=_clean_name(m.group("name")),
+            name=_clean_name(name),
             amount=round(amount, 2),
             unit=unit,
-            grams=_grams(amount, unit, m.group("paren")),
+            grams=grams,
         )
 
     m = _KOREAN_LINE.match(text)
