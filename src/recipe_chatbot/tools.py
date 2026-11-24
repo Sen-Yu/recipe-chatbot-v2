@@ -42,10 +42,7 @@ def combination_warnings(names: Iterable[str]) -> list[str]:
 def missing_ingredients(recipe: StructuredRecipe, owned: Iterable[str]) -> list[str]:
     """레시피 재료 중 보유 재료로 충족되지 않는 것."""
     owned = list(owned)
-    return [
-        r.name for r in recipe.ingredients
-        if not any(is_ingredient_satisfied(r.name, o) for o in owned)
-    ]
+    return [r.name for r in recipe.ingredients if not any(is_ingredient_satisfied(r.name, o) for o in owned)]
 
 
 # ------------------------------------------------------------------ 레시피 검색
@@ -75,8 +72,17 @@ NUTRIENT_KEYS = ("kcal", "protein_g", "fat_g", "carb_g")
 
 # 단위 → g (ml는 물 기준 1g으로 근사)
 UNIT_GRAMS = {
-    "g": 1.0, "그램": 1.0, "kg": 1000.0, "ml": 1.0, "l": 1000.0, "L": 1000.0,
-    "큰술": 15.0, "T": 15.0, "작은술": 5.0, "t": 5.0, "컵": 200.0,
+    "g": 1.0,
+    "그램": 1.0,
+    "kg": 1000.0,
+    "ml": 1.0,
+    "l": 1000.0,
+    "L": 1000.0,
+    "큰술": 15.0,
+    "T": 15.0,
+    "작은술": 5.0,
+    "t": 5.0,
+    "컵": 200.0,
 }
 
 # (대표 재료명, 단위) → 1단위 무게(g). 단위가 '개' 같은 재료별 단위일 때 쓴다.

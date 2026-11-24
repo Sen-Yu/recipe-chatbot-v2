@@ -59,7 +59,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--small-model", help="재료·영양·선택 모델 (--model 대신)")
     p.add_argument("--small-base-url", help="작은 모델 엔드포인트가 다를 때")
     p.add_argument("--timeout", type=float, default=120.0)
-    p.add_argument("--data", default="data/eval/v0", help="평가 세트 폴더")
+    p.add_argument("--data", default="data/eval/v1", help="평가 세트 폴더")
     p.add_argument("--roles", help=f"쉼표로 구분 ({','.join(ROLES)})")
     p.add_argument("--limit", type=int, help="역할마다 앞에서 N개만 (빠른 확인용)")
     p.add_argument("--name", default="run", help="결과 폴더 이름")

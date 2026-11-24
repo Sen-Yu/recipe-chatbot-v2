@@ -17,7 +17,7 @@ from recipe_chatbot.selection import is_selection_like, resolve
 
 from .conftest import SPECS
 
-DATA = "data/eval/v0"
+DATA = "data/eval/v1"
 
 
 def oracle_answers() -> dict[str, list]:

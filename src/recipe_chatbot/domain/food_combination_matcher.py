@@ -37,10 +37,7 @@ def _normalize_for_taboo(name: str) -> str:
 
 
 ## combinations를 빠른 조회를 위해 {frozenset({a, b}): 항목} 형태로 인덱싱
-_PAIR_INDEX = {
-    frozenset(_normalize_for_taboo(n) for n in item["pair"]): item
-    for item in _COMBINATIONS
-}
+_PAIR_INDEX = {frozenset(_normalize_for_taboo(n) for n in item["pair"]): item for item in _COMBINATIONS}
 
 
 def check_pair_taboo(ingredient_list: list[str]) -> list[dict]:
@@ -95,9 +92,7 @@ def check_category_taboo(ingredient_list: list[str]) -> list[dict]:
         ##  2개 이상 있어야 의미가 있으므로 별도 처리)
         if len(tags_needed) == 1:
             tag = next(iter(tags_needed))
-            matching_ingredients = [
-                n for n in ingredient_list if tag in get_ingredient_categories(n)
-            ]
+            matching_ingredients = [n for n in ingredient_list if tag in get_ingredient_categories(n)]
             if len(matching_ingredients) >= 2:
                 found.append(rule)
         else:

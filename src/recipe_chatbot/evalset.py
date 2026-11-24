@@ -31,6 +31,7 @@ class SupervisorState(BaseModel):
     has_nutrition: bool = False
     validation_issues: list[str] = Field(default_factory=list)
     constraints: UserConstraints = Field(default_factory=UserConstraints)
+    options: list[str] = Field(default_factory=list, description="화면에 떠 있는 후보 제목")
 
 
 class SupervisorExpected(BaseModel):
@@ -69,6 +70,9 @@ class RecipeExpected(BaseModel):
         default=None, description="요리 이름 요청일 때 실존 여부. null이면 정답 미확정"
     )
     max_cook_time: int | None = None
+    must_differ_from_previous: bool = Field(
+        default=False, description="재요청: 이전 레시피와 다른 요리여야 함"
+    )
 
 
 class RecipeCase(CaseBase):
@@ -135,7 +139,11 @@ CASE_TYPES: dict[Role, type[CaseBase]] = {
     "selection": SelectionCase,
 }
 ID_PREFIX: dict[Role, str] = {
-    "supervisor": "sup", "ingredient": "ing", "recipe": "rec", "nutrition": "nut", "selection": "sel",
+    "supervisor": "sup",
+    "ingredient": "ing",
+    "recipe": "rec",
+    "nutrition": "nut",
+    "selection": "sel",
 }
 
 

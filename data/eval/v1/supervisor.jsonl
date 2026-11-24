@@ -1,0 +1,85 @@
+{"id": "sup-001", "source": "v1:E2E-1", "tags": ["재료제시"], "utterance": "계란, 대파, 돼지고기 있어", "state": {}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-002", "source": "v1:E2E-2-턴2", "tags": ["재료변경"], "utterance": "우유도 있어", "state": {"pantry": ["계란", "대파", "돼지고기"], "recipe_title": "돼지고기 대파 계란볶음"}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-003", "source": "v1:E2E-3-턴2", "tags": ["재료변경"], "utterance": "계란 빼줘", "state": {"pantry": ["계란", "대파", "돼지고기"], "recipe_title": "돼지고기 대파 계란볶음"}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-004", "source": "v1:E2E-7-턴2", "tags": ["재요청"], "utterance": "다른 거 없어?", "state": {"pantry": ["돼지고기", "김치", "두부"], "recipe_title": "김치찌개"}, "expected": {"next_any_of": ["recipe"]}, "note": "v1에서 '선택'으로 오분류됐던 케이스. v2에서는 레시피를 다시 만들어야 한다"}
+{"id": "sup-005", "source": "v1:E2E-8", "tags": ["이름검색"], "utterance": "된장찌개 레시피 알려줘", "state": {}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-006", "source": "v1:E2E-10", "tags": ["이름검색"], "utterance": "볶음밥 레시피 알려줘", "state": {}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-007", "source": "v1:E2E-11", "tags": ["이름검색"], "utterance": "스페이스라면 레시피 알려줘", "state": {}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-008", "source": "v1:E2E-12", "tags": ["재료제시", "궁합"], "utterance": "감, 게 있어", "state": {}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-009", "source": "v1:E2E-13", "tags": ["재료제시"], "utterance": "계란만 있어", "state": {}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-010", "source": "v1:E2E-14", "tags": ["정보부족"], "utterance": "레시피 추천해줘", "state": {}, "expected": {"next_any_of": ["ask_user"]}}
+{"id": "sup-011", "source": "v1:E2E-15", "tags": ["범위밖"], "utterance": "오늘 날씨 어때?", "state": {}, "expected": {"next_any_of": ["ask_user"]}, "note": "v2에는 별도 거절 경로가 없어 되묻기(안내)로 처리"}
+{"id": "sup-012", "source": "v1:E2E-16", "tags": ["모호"], "utterance": "다이어트 식단 짜줘", "state": {}, "expected": {"next_any_of": ["ask_user", "recipe"]}, "note": "v1은 미개발 기능 안내. v2는 되묻거나 조건을 받아 레시피로 갈 수 있다"}
+{"id": "sup-013", "source": "v1:E2E-17-턴2", "tags": ["재료변경", "복합"], "utterance": "계란 빼고 우유 추가하고 대파도 넣어줘", "state": {"pantry": ["계란", "대파"], "recipe_title": "계란파볶음"}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-014", "source": "v1:E2E-18-턴2", "tags": ["모호"], "utterance": "1번이랑 2번 둘다 궁금해", "state": {"pantry": ["계란", "대파", "돼지고기"], "recipe_title": "돼지고기 대파 계란볶음"}, "expected": {"next_any_of": ["ask_user"]}, "note": "v2에는 번호 목록이 없어 무엇을 원하는지 되물어야 한다"}
+{"id": "sup-015", "source": "v1:기능-52", "tags": ["재료제시"], "utterance": "계란이랑 밥 있는데 뭐 해먹을까", "state": {}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-016", "source": "v1:기능-58", "tags": ["이름검색", "축약어"], "utterance": "쏘야볶 알려줘", "state": {}, "expected": {"next_any_of": ["recipe", "ask_user"]}}
+{"id": "sup-017", "source": "v1:기능-62", "tags": ["특성요청"], "utterance": "매콤한 돼지고기 요리 추천해줘", "state": {}, "expected": {"next_any_of": ["recipe", "ingredient"]}}
+{"id": "sup-018", "source": "v1:기능-66", "tags": ["이름검색", "혼합"], "utterance": "집에 있는 재료로 만들 수 있는 김치찌개 알려줘", "state": {"pantry": ["김치", "두부"]}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-019", "source": "manual", "tags": ["턴중간"], "utterance": "밥이랑 김치, 계란 있어", "state": {"pantry": ["밥", "김치", "계란"]}, "expected": {"next_any_of": ["recipe"]}, "note": "재료 반영이 끝난 상태. 같은 턴에서 다음은 레시피"}
+{"id": "sup-020", "source": "manual", "tags": ["턴중간", "영양조건"], "utterance": "500칼로리 이하로 만들어줘", "state": {"pantry": ["밥", "김치", "계란"], "recipe_title": "김치볶음밥", "constraints": {"max_kcal": 500}}, "expected": {"next_any_of": ["nutrition"], "constraints": {"max_kcal": 500}}}
+{"id": "sup-021", "source": "manual", "tags": ["턴중간"], "utterance": "김치볶음밥 해줘", "state": {"pantry": ["밥", "김치", "계란"], "recipe_title": "김치볶음밥", "has_nutrition": true}, "expected": {"next_any_of": ["finish"]}}
+{"id": "sup-022", "source": "manual", "tags": ["검증미달"], "utterance": "땅콩 알레르기 있어", "state": {"pantry": ["밥", "김치"], "recipe_title": "땅콩 김치볶음밥", "validation_issues": ["알레르기 재료 포함: 땅콩"], "constraints": {"allergies": ["땅콩"]}}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-023", "source": "manual", "tags": ["재료제시", "조건추출"], "utterance": "땅콩 알레르기 있어. 계란이랑 밥 있어", "state": {}, "expected": {"next_any_of": ["ingredient"], "constraints": {"allergies": ["땅콩"]}}}
+{"id": "sup-024", "source": "manual", "tags": ["조건추출"], "utterance": "500칼로리 이하로 단백질 많은 거", "state": {"pantry": ["닭가슴살", "현미밥"]}, "expected": {"next_any_of": ["recipe", "ingredient"], "constraints": {"max_kcal": 500}}, "note": "'많은'은 숫자가 없어 min_protein_g 는 정답에 넣지 않는다"}
+{"id": "sup-025", "source": "manual:설계-변형", "tags": ["변형"], "utterance": "아까 그거 좀 맵게 해줘", "state": {"pantry": ["밥", "김치", "계란"], "recipe_title": "김치볶음밥"}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-026", "source": "synthetic:claude", "tags": ["재료제시"], "utterance": "냉장고에 두부랑 애호박, 양파 있어", "state": {}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-027", "source": "synthetic:claude", "tags": ["재료제시", "양"], "utterance": "집에 닭다리살 500g 있어", "state": {}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-028", "source": "synthetic:claude", "tags": ["재료제시"], "utterance": "감자 3개랑 베이컨 있는데 뭐 만들지", "state": {}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-029", "source": "synthetic:claude", "tags": ["재료제시"], "utterance": "참치캔 하나랑 밥 있어요", "state": {}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-030", "source": "synthetic:claude", "tags": ["재료제시"], "utterance": "토마토, 계란, 양파로 뭐 만들 수 있어?", "state": {}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-031", "source": "synthetic:claude", "tags": ["재료제시"], "utterance": "어묵이랑 떡 있어", "state": {}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-032", "source": "synthetic:claude", "tags": ["재료제시"], "utterance": "고등어 한 마리 있는데", "state": {}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-033", "source": "synthetic:claude", "tags": ["재료제시"], "utterance": "소고기 다짐육이랑 양파 있어", "state": {}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-034", "source": "synthetic:claude", "tags": ["재료변경"], "utterance": "양파도 있어", "state": {"pantry": ["돼지고기", "김치", "두부"], "recipe_title": "김치찌개"}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-035", "source": "synthetic:claude", "tags": ["재료변경"], "utterance": "두부는 다 먹었어", "state": {"pantry": ["돼지고기", "김치", "두부"], "recipe_title": "김치찌개"}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-036", "source": "synthetic:claude", "tags": ["재료변경", "교환"], "utterance": "김치 빼고 감자 넣어줘", "state": {"pantry": ["돼지고기", "김치", "두부"], "recipe_title": "김치찌개"}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-037", "source": "synthetic:claude", "tags": ["재료변경"], "utterance": "아 참치도 하나 있다", "state": {"pantry": ["돼지고기", "김치", "두부"]}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-038", "source": "synthetic:claude", "tags": ["재료변경"], "utterance": "사실 돼지고기는 없어", "state": {"pantry": ["돼지고기", "김치", "두부"], "recipe_title": "김치찌개"}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-039", "source": "synthetic:claude", "tags": ["재료변경"], "utterance": "버섯이랑 애호박 추가", "state": {"pantry": ["돼지고기", "김치", "두부"]}, "expected": {"next_any_of": ["ingredient"]}}
+{"id": "sup-040", "source": "synthetic:claude", "tags": ["턴중간"], "utterance": "돼지고기, 김치, 두부 있어", "state": {"pantry": ["돼지고기", "김치", "두부"]}, "expected": {"next_any_of": ["recipe"]}, "note": "재료 반영이 끝난 상태"}
+{"id": "sup-041", "source": "synthetic:claude", "tags": ["턴중간"], "utterance": "이걸로 뭐 해먹지", "state": {"pantry": ["돼지고기", "김치", "두부"]}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-042", "source": "synthetic:claude", "tags": ["턴중간"], "utterance": "있는 재료로 추천해줘", "state": {"pantry": ["돼지고기", "김치", "두부"]}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-043", "source": "synthetic:claude", "tags": ["턴중간"], "utterance": "저녁 메뉴 추천해줘", "state": {"pantry": ["돼지고기", "김치", "두부"]}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-044", "source": "synthetic:claude", "tags": ["턴중간"], "utterance": "간단한 거 하나 알려줘", "state": {"pantry": ["돼지고기", "김치", "두부"]}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-045", "source": "synthetic:claude", "tags": ["이름검색"], "utterance": "닭볶음탕 만드는 법 알려줘", "state": {}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-046", "source": "synthetic:claude", "tags": ["이름검색"], "utterance": "잡채 어떻게 만들어?", "state": {}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-047", "source": "synthetic:claude", "tags": ["이름검색"], "utterance": "오늘 저녁엔 부대찌개 끓이고 싶어", "state": {}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-048", "source": "synthetic:claude", "tags": ["이름검색"], "utterance": "감바스 레시피", "state": {}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-049", "source": "synthetic:claude", "tags": ["이름검색"], "utterance": "계란찜 폭신하게 만드는 법", "state": {}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-050", "source": "synthetic:claude", "tags": ["이름검색", "보유재료있음"], "utterance": "제육볶음 레시피 좀", "state": {"pantry": ["돼지고기", "김치", "두부"]}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-051", "source": "synthetic:claude", "tags": ["영양질문"], "utterance": "이거 칼로리 얼마야?", "state": {"pantry": ["돼지고기", "김치", "두부"], "recipe_title": "김치찌개"}, "expected": {"next_any_of": ["nutrition"]}}
+{"id": "sup-052", "source": "synthetic:claude", "tags": ["영양질문"], "utterance": "단백질은 얼마나 돼?", "state": {"pantry": ["돼지고기", "김치", "두부"], "recipe_title": "김치찌개"}, "expected": {"next_any_of": ["nutrition"]}}
+{"id": "sup-053", "source": "synthetic:claude", "tags": ["영양질문"], "utterance": "영양성분 알려줘", "state": {"pantry": ["돼지고기", "김치", "두부"], "recipe_title": "김치찌개"}, "expected": {"next_any_of": ["nutrition"]}}
+{"id": "sup-054", "source": "synthetic:claude", "tags": ["영양질문"], "utterance": "살찌는 음식이야?", "state": {"pantry": ["돼지고기", "김치", "두부"], "recipe_title": "김치찌개"}, "expected": {"next_any_of": ["nutrition"]}}
+{"id": "sup-055", "source": "synthetic:claude", "tags": ["영양질문"], "utterance": "1인분에 몇 칼로리야", "state": {"pantry": ["돼지고기", "김치", "두부"], "recipe_title": "김치찌개"}, "expected": {"next_any_of": ["nutrition"]}}
+{"id": "sup-056", "source": "synthetic:claude", "tags": ["완료"], "utterance": "좋아 그걸로 할게", "state": {"pantry": ["돼지고기", "김치", "두부"], "recipe_title": "김치찌개", "has_nutrition": true}, "expected": {"next_any_of": ["finish"]}}
+{"id": "sup-057", "source": "synthetic:claude", "tags": ["완료"], "utterance": "응 보여줘", "state": {"pantry": ["돼지고기", "김치", "두부"], "recipe_title": "김치찌개", "has_nutrition": true}, "expected": {"next_any_of": ["finish"]}}
+{"id": "sup-058", "source": "synthetic:claude", "tags": ["완료"], "utterance": "좋아요", "state": {"pantry": ["돼지고기", "김치", "두부"], "recipe_title": "김치찌개", "has_nutrition": true}, "expected": {"next_any_of": ["finish"]}}
+{"id": "sup-059", "source": "synthetic:claude", "tags": ["완료"], "utterance": "그대로 알려줘", "state": {"pantry": ["돼지고기", "김치", "두부"], "recipe_title": "김치찌개", "has_nutrition": true}, "expected": {"next_any_of": ["finish"]}}
+{"id": "sup-060", "source": "synthetic:claude", "tags": ["후보선택"], "utterance": "2번", "state": {"pantry": ["돼지고기", "대파", "계란"], "options": ["돼지고기 대파볶음", "계란말이", "돼지고기 계란국"]}, "expected": {"next_any_of": ["select"]}}
+{"id": "sup-061", "source": "synthetic:claude", "tags": ["후보선택", "제목"], "utterance": "계란말이로 할게", "state": {"pantry": ["돼지고기", "대파", "계란"], "options": ["돼지고기 대파볶음", "계란말이", "돼지고기 계란국"]}, "expected": {"next_any_of": ["select"]}}
+{"id": "sup-062", "source": "synthetic:claude", "tags": ["후보선택", "서수"], "utterance": "두 번째 거", "state": {"pantry": ["돼지고기", "대파", "계란"], "options": ["돼지고기 대파볶음", "계란말이", "돼지고기 계란국"]}, "expected": {"next_any_of": ["select"]}}
+{"id": "sup-063", "source": "synthetic:claude", "tags": ["후보선택"], "utterance": "마지막 거 알려줘", "state": {"pantry": ["돼지고기", "대파", "계란"], "options": ["돼지고기 대파볶음", "계란말이", "돼지고기 계란국"]}, "expected": {"next_any_of": ["select"]}}
+{"id": "sup-064", "source": "synthetic:claude", "tags": ["후보선택"], "utterance": "1번 레시피 보여줘", "state": {"pantry": ["돼지고기", "대파", "계란"], "options": ["돼지고기 대파볶음", "계란말이", "돼지고기 계란국"]}, "expected": {"next_any_of": ["select"]}}
+{"id": "sup-065", "source": "synthetic:claude", "tags": ["후보선택", "부분제목"], "utterance": "국으로 할래", "state": {"pantry": ["돼지고기", "대파", "계란"], "options": ["돼지고기 대파볶음", "계란말이", "돼지고기 계란국"]}, "expected": {"next_any_of": ["select"]}, "note": "'돼지고기 계란국'을 가리킴"}
+{"id": "sup-066", "source": "synthetic:claude", "tags": ["선택+변형"], "utterance": "2번 맵게 해줘", "state": {"pantry": ["돼지고기", "대파", "계란"], "options": ["돼지고기 대파볶음", "계란말이", "돼지고기 계란국"]}, "expected": {"next_any_of": ["recipe"]}, "note": "프롬프트 규칙: 고르면서 수정하면 recipe"}
+{"id": "sup-067", "source": "synthetic:claude", "tags": ["선택+변형"], "utterance": "1번으로 하는데 대파는 빼줘", "state": {"pantry": ["돼지고기", "대파", "계란"], "options": ["돼지고기 대파볶음", "계란말이", "돼지고기 계란국"]}, "expected": {"next_any_of": ["recipe", "ingredient"]}}
+{"id": "sup-068", "source": "synthetic:claude", "tags": ["재요청"], "utterance": "다 별로야 다른 거 없어?", "state": {"pantry": ["돼지고기", "대파", "계란"], "options": ["돼지고기 대파볶음", "계란말이", "돼지고기 계란국"]}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-069", "source": "synthetic:claude", "tags": ["변형"], "utterance": "덜 짜게 해줘", "state": {"pantry": ["돼지고기", "김치", "두부"], "recipe_title": "김치찌개"}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-070", "source": "synthetic:claude", "tags": ["변형", "인분"], "utterance": "2인분으로 늘려줘", "state": {"pantry": ["돼지고기", "김치", "두부"], "recipe_title": "김치찌개"}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-071", "source": "synthetic:claude", "tags": ["변형"], "utterance": "고기 없이 다시 해줘", "state": {"pantry": ["돼지고기", "김치", "두부"], "recipe_title": "김치찌개"}, "expected": {"next_any_of": ["recipe", "ingredient"]}}
+{"id": "sup-072", "source": "synthetic:claude", "tags": ["변형"], "utterance": "더 간단한 걸로", "state": {"pantry": ["돼지고기", "김치", "두부"], "recipe_title": "김치찌개"}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-073", "source": "synthetic:claude", "tags": ["조건추출"], "utterance": "새우 알레르기 있어요", "state": {"pantry": ["밥", "계란"]}, "expected": {"next_any_of": ["recipe"], "constraints": {"allergies": ["새우"]}}}
+{"id": "sup-074", "source": "synthetic:claude", "tags": ["조건추출", "영양조건"], "utterance": "우유 알레르기 있고 400칼로리 넘으면 안 돼", "state": {"pantry": ["밥", "계란"]}, "expected": {"next_any_of": ["recipe"], "constraints": {"allergies": ["우유"], "max_kcal": 400}}}
+{"id": "sup-075", "source": "synthetic:claude", "tags": ["조건추출"], "utterance": "단백질 30g 이상으로 해줘", "state": {"pantry": ["돼지고기", "김치", "두부"], "recipe_title": "김치찌개"}, "expected": {"next_any_of": ["recipe", "nutrition"], "constraints": {"min_protein_g": 30}}}
+{"id": "sup-076", "source": "synthetic:claude", "tags": ["조건추출"], "utterance": "600kcal 이하로", "state": {"pantry": ["돼지고기", "김치", "두부"], "recipe_title": "김치찌개"}, "expected": {"next_any_of": ["nutrition", "recipe"], "constraints": {"max_kcal": 600}}}
+{"id": "sup-077", "source": "synthetic:claude", "tags": ["조건추출", "재료제시"], "utterance": "계란 알레르기 있어. 두부랑 애호박 있어", "state": {}, "expected": {"next_any_of": ["ingredient"], "constraints": {"allergies": ["계란"]}}}
+{"id": "sup-078", "source": "synthetic:claude", "tags": ["조건추출"], "utterance": "땅콩이랑 복숭아 알레르기가 있어", "state": {"pantry": ["밥", "계란"]}, "expected": {"next_any_of": ["recipe"], "constraints": {"allergies": ["땅콩", "복숭아"]}}}
+{"id": "sup-079", "source": "synthetic:claude", "tags": ["정보부족"], "utterance": "뭐 먹지", "state": {}, "expected": {"next_any_of": ["ask_user"]}}
+{"id": "sup-080", "source": "synthetic:claude", "tags": ["정보부족"], "utterance": "배고파", "state": {}, "expected": {"next_any_of": ["ask_user"]}}
+{"id": "sup-081", "source": "synthetic:claude", "tags": ["범위밖"], "utterance": "요즘 주식 뭐 사?", "state": {}, "expected": {"next_any_of": ["ask_user"]}}
+{"id": "sup-082", "source": "synthetic:claude", "tags": ["인사"], "utterance": "안녕", "state": {}, "expected": {"next_any_of": ["ask_user"]}}
+{"id": "sup-083", "source": "synthetic:claude", "tags": ["검증미달"], "utterance": "그걸로 해줘", "state": {"pantry": ["돼지고기", "김치", "두부"], "recipe_title": "김치찌개", "has_nutrition": true, "validation_issues": ["칼로리 초과: 720 kcal > 500 kcal"], "constraints": {"max_kcal": 500}}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-084", "source": "synthetic:claude", "tags": ["검증미달"], "utterance": "좋아", "state": {"pantry": ["돼지고기", "김치", "두부"], "recipe_title": "김치찌개", "has_nutrition": true, "validation_issues": ["단백질 부족: 12 g < 25 g"], "constraints": {"min_protein_g": 25}}, "expected": {"next_any_of": ["recipe"]}}
+{"id": "sup-085", "source": "synthetic:claude", "tags": ["검증미달"], "utterance": "오징어 알레르기 있어", "state": {"pantry": ["오징어", "대파"], "recipe_title": "오징어볶음", "validation_issues": ["알레르기 재료 포함: 오징어"], "constraints": {"allergies": ["오징어"]}}, "expected": {"next_any_of": ["recipe"]}}

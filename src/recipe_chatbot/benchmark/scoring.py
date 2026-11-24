@@ -59,6 +59,7 @@ def supervisor(case: SupervisorCase, deps: Deps) -> Score:
         "validation": ValidationResult(passed=False, issues=st.validation_issues)
         if st.validation_issues
         else None,
+        "options": [_stub(t) for t in st.options],
         "steps": 0,
     }
     # 노드는 순서 가드로 결정을 고치므로, 모델의 원래 결정을 보려고 같은 메시지로 직접 부른다
@@ -119,6 +120,9 @@ def recipe(case: RecipeCase, deps: Deps) -> Score:
     if exp.title_contains:
         want = exp.title_contains.replace(" ", "")
         checks["title_contains"] = any(want in c.title.replace(" ", "") for c in candidates)
+    if exp.must_differ_from_previous and case.previous_recipe_title:
+        prev = case.previous_recipe_title.replace(" ", "")
+        checks["differs_from_previous"] = all(c.title.replace(" ", "") != prev for c in candidates)
     if exp.max_cook_time is not None:
         checks["max_cook_time"] = main.cook_time is not None and main.cook_time <= exp.max_cook_time
     # dish_exists(실존하지 않는 요리 요청)는 기대 동작이 아직 정해지지 않아 채점하지 않는다

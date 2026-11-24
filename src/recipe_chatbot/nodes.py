@@ -221,9 +221,7 @@ def recipe_agent(state: GraphState, deps: Deps) -> GraphState:
         "이전 레시피": state["recipe"].model_dump(mode="json") if state.get("recipe") else None,
         "검증 미달 사유": validation.issues if validation and not validation.passed else [],
     }
-    draft = deps.router.invoke(
-        "recipe", RecipeDraft, prompts.RECIPE, json.dumps(payload, ensure_ascii=False)
-    )
+    draft = deps.router.invoke("recipe", RecipeDraft, prompts.RECIPE, json.dumps(payload, ensure_ascii=False))
     # 레시피가 바뀌면 이전 영양 정보는 맞지 않으므로 비운다
     update: GraphState = {"candidates": candidates, "nutrition": None, "nutrition_note": None}
     if draft.alternatives:
@@ -255,8 +253,12 @@ def nutrition_agent(state: GraphState, deps: Deps) -> GraphState:
 
 
 # ------------------------------------------------------------------ 2 검증 노드 (코드)
-def recipe_issues(recipe: StructuredRecipe, constraints: UserConstraints, nutrition: NutritionInfo | None,
-                  require_nutrition: bool = True) -> list[str]:
+def recipe_issues(
+    recipe: StructuredRecipe,
+    constraints: UserConstraints,
+    nutrition: NutritionInfo | None,
+    require_nutrition: bool = True,
+) -> list[str]:
     """레시피 하나가 조건을 어기는 점. require_nutrition=False 면 영양 정보 없음은 문제로 보지 않는다."""
     issues = []
     used = {normalize_ingredient_name(i.name) for i in recipe.ingredients}
@@ -361,8 +363,10 @@ def respond(state: GraphState, deps: Deps) -> GraphState:
     nutrition = state.get("nutrition")
     if nutrition is not None:
         p = nutrition.per_serving
-        text = (f"영양(1인분): 약 {p.get('kcal', 0)} kcal, 단백질 {p.get('protein_g', 0)} g, "
-                f"지방 {p.get('fat_g', 0)} g, 탄수화물 {p.get('carb_g', 0)} g")
+        text = (
+            f"영양(1인분): 약 {p.get('kcal', 0)} kcal, 단백질 {p.get('protein_g', 0)} g, "
+            f"지방 {p.get('fat_g', 0)} g, 탄수화물 {p.get('carb_g', 0)} g"
+        )
         if nutrition.unmatched:
             text += f" (계산 제외: {', '.join(nutrition.unmatched)})"
         lines.append(text)
