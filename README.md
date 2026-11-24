@@ -77,7 +77,7 @@ uv run ruff check .     # 린트
 | [설계 기록](docs/architecture/recipe-chatbot-v2-architecture.md) | 왜 이런 구조인지: 검토한 초안, 결정과 근거 |
 | [작업 계획](docs/roadmap.md) | 단계와 순서, 병행 구간 |
 | [업무 플로우](docs/workflow.md) | 업무별 상태와 날짜, 결과 |
-| [데일리 스크럼](docs/scrum/README.md) | 날마다 한 일, 할 일, 트러블슈팅, 새벽 작업(미검토) |
+| [스크럼](docs/scrum/README.md) | 데일리·주간 스크럼 (한 일, 할 일, 트러블슈팅, 새벽 작업). [칸반 보드](https://github.com/users/Sen-Yu/projects/1)에도 이슈로 기록 |
 | [평가 데이터셋](data/eval/README.md) | 벤치마크용 역할별 평가 데이터 |
 | [레시피 수집](docs/data-ingest.md) | RAG·학습용 레시피 수집 단계와 출처별 이용 범위 |
 
