@@ -3,10 +3,9 @@
 import pytest
 
 from recipe_chatbot.domain.ingredient_synonyms import normalize_ingredient_name
-from recipe_chatbot.schemas import Ingredient, IngredientUpdate, RecipeIngredient, StructuredRecipe
+from recipe_chatbot.schemas import Ingredient, IngredientUpdate
 from recipe_chatbot.tools import (
     InMemoryNutritionDB,
-    InMemoryRetriever,
     apply_pantry_update,
     calc_nutrition,
     combination_warnings,
@@ -67,11 +66,3 @@ def test_calc_nutrition_per_serving_and_unmatched():
     assert calc_nutrition(two, InMemoryNutritionDB(NUTRITION_TABLE)).per_serving["kcal"] == round(
         info.per_serving["kcal"] / 2, 1
     )
-
-
-def test_retriever_ranks_by_overlap():
-    tofu = RecipeIngredient(name="두부", amount=1, unit="모")
-    other = StructuredRecipe(title="두부조림", ingredients=[tofu], steps=["조린다"])
-    r = InMemoryRetriever([other, KIMCHI_RICE])
-    assert [x.title for x in r.search(["밥", "김치"])] == ["김치볶음밥"]
-    assert r.search(["사과"]) == []

@@ -52,6 +52,13 @@ uv run pytest -q        # 테스트
 uv run ruff check .     # 린트
 ```
 
+테스트는 다음 두 종류만 레포에 둡니다. 실제 사이트나 실제 모델을 부르는 확인과 일회성 점검 스크립트는 레포 밖에서 돌립니다.
+
+| 종류 | 언제 추가하나 |
+|---|---|
+| 계약 테스트 | 동작이 정해졌을 때, 또는 깨지면 피해가 큰 규칙일 때 (재시도 한도, 요청 간격, 학습·RAG 분리 등) |
+| 회귀 사례 | 버그나 새 예외를 고칠 때 대표 사례 1~2개 |
+
 | 경로 | 내용 |
 |---|---|
 | `src/recipe_chatbot/graph.py` | 그래프 조립 |
@@ -60,6 +67,7 @@ uv run ruff check .     # 린트
 | `src/recipe_chatbot/models.py` | 모델 라우터, vLLM·Ollama 클라이언트, 가짜 모델 |
 | `src/recipe_chatbot/tools.py` | 재료·궁합·검색·영양 계산 도구 |
 | `src/recipe_chatbot/domain/` | v1에서 옮긴 재료명 정규화와 궁합 검사 |
+| `src/recipe_chatbot/ingest/` | 레시피 수집 (출처 어댑터, 상태표, 파싱, 정제) |
 | `config/models.example.toml` | 에이전트별 모델 설정 예시 |
 
 ## 문서
@@ -70,6 +78,7 @@ uv run ruff check .     # 린트
 | [작업 계획](docs/roadmap.md) | 단계와 순서, 병행 구간 |
 | [업무 플로우](docs/workflow.md) | 업무별 상태와 날짜, 결과 |
 | [평가 데이터셋](data/eval/README.md) | 벤치마크용 역할별 평가 데이터 |
+| [레시피 수집](docs/data-ingest.md) | RAG·학습용 레시피 수집 단계와 출처별 이용 범위 |
 
 <details>
 <summary>그림 관리 방법</summary>
