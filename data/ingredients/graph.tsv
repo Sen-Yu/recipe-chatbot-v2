@@ -1,4 +1,4 @@
-# 재료 관계 사전 v0 (1차 시험: 수집 레시피에서 자주 나오는 재료명 300개, 2026-11-25)
+# 재료 관계 사전 v0 (1차 시험: 수집 레시피에서 자주 나오는 재료명 300개, 2026-11-25. check 21개는 2026-11-26 사용자 확인)
 # 열: 이름	관계	대상	확인	메모
 # 관계:
 #   same       같은 재료의 다른 이름. 대상이 대표 이름
@@ -30,7 +30,7 @@
 청양고추	kind	고추	ok
 청량고추	same	청양고추	ok	맞춤법 오류
 땡초	same	청양고추	ok	방언
-매운고추	same	청양고추	check	매운 고추 일반일 수도 있음
+매운고추	kind	고추	ok	매운 고추 일반 (2026-11-26 확인)
 홍고추	kind	고추	ok
 청고추	kind	고추	ok
 풋고추	kind	고추	ok
@@ -43,7 +43,7 @@
 빨강파프리카	same	빨간파프리카	ok
 노란파프리카	kind	파프리카	ok
 노랑파프리카	same	노란파프리카	ok
-피망	substitute	파프리카	check	다른 채소지만 볶음에서 바꿔 씀
+피망	different	파프리카	ok	다른 채소 (2026-11-26 확인)
 레몬즙	form	레몬	ok
 파슬리가루	form	파슬리	ok
 # --- 버섯
@@ -72,10 +72,12 @@ LA갈비	kind	소갈비	ok
 닭다리살	kind	닭고기	ok
 닭안심	kind	닭고기	ok
 닭볶음탕용닭	kind	닭고기	ok
-햄	contains	돼지고기	check	제품에 따라 닭고기
+햄	contains	돼지고기	ok	제품에 따라 닭고기. 둘 다 포함으로 봄 (2026-11-26 확인)
+햄	contains	닭고기	ok
 스팸	kind	햄	ok
 베이컨	contains	돼지고기	ok
-소시지	contains	돼지고기	check	제품에 따라 닭고기
+소시지	contains	돼지고기	ok	제품에 따라 닭고기. 둘 다 포함으로 봄 (2026-11-26 확인)
+소시지	contains	닭고기	ok
 소세지	same	소시지	ok
 # --- 해산물
 다시멸치	kind	멸치	ok
@@ -94,7 +96,7 @@ LA갈비	kind	소갈비	ok
 멸치액젓	kind	액젓	ok
 까나리액젓	kind	액젓	ok
 멸치액젓	contains	멸치	ok
-참치액	different	액젓	check	가쓰오·참치 추출 조미료. 액젓 대신 쓰기도 함
+참치액	different	액젓	ok	가쓰오·참치 추출 조미료 (2026-11-26 확인)
 굴소스	contains	굴	ok
 # --- 알 · 유제품
 달걀	same	계란	ok
@@ -105,7 +107,7 @@ LA갈비	kind	소갈비	ok
 생크림	contains	우유	ok
 치즈	contains	우유	ok
 모짜렐라치즈	kind	치즈	ok
-피자치즈	same	모짜렐라치즈	check	제품에 따라 체다 섞임
+피자치즈	kind	치즈	ok	제품에 따라 체다 섞임 (2026-11-26 확인)
 체다치즈	kind	치즈	ok
 슬라이스치즈	kind	치즈	ok
 크림치즈	kind	치즈	ok
@@ -133,7 +135,7 @@ LA갈비	kind	소갈비	ok
 쫄면	contains	밀가루	ok
 파스타면	contains	밀가루	ok
 스파게티면	kind	파스타면	ok
-냉면사리	same	냉면	check	면만 뜻하는지 요리를 뜻하는지 문맥에 따라 다름
+냉면사리	same	냉면	ok	재료 줄의 냉면은 면 (2026-11-26 확인)
 전분가루	same	전분	ok
 녹말가루	same	전분	ok
 감자전분	kind	전분	ok
@@ -152,47 +154,47 @@ LA갈비	kind	소갈비	ok
 진간장	kind	간장	ok
 국간장	kind	간장	ok
 집간장	same	국간장	ok
-양조간장	same	진간장	check	진간장은 양조·혼합을 다 포함하는 이름. 요리에서는 같게 씀
+양조간장	kind	진간장	ok	(2026-11-26 확인)
 맛간장	kind	간장	ok
 흑설탕	kind	설탕	ok
 황설탕	kind	설탕	ok
-슈가파우더	form	설탕	check	보통 전분이 섞임
+슈가파우더	contains	설탕	ok	보통 전분이 섞임. 설탕만으로 채우지 않음 (2026-11-26 확인)
 굵은소금	kind	소금	ok
 천일염	kind	소금	ok
 꽃소금	kind	소금	ok
-맛소금	kind	소금	check	조미료가 섞인 소금
-허브솔트	kind	소금	check	허브가 섞인 소금
-후춧가루	same	후추	check	요리에서 '후추'는 보통 간 후추. 수집 정제에서는 지금 따로 둠
+맛소금	kind	소금	ok	조미료가 섞인 소금 (2026-11-26 확인)
+허브솔트	kind	소금	ok	허브가 섞인 소금 (2026-11-26 확인)
+후춧가루	same	후추	ok	요리에서 후추는 보통 간 후추 (2026-11-26 확인)
 후추가루	same	후추	ok	맞춤법 오류 ('후춧가루')
-통후추	form	후추	check	간 후추의 원래 형태. '통후추가 있으면 후추를 만들 수 있다'로 봄
+후추	form	통후추	ok	간 후추는 통후추를 간 것. 통후추로 후추를 채움 (2026-11-26 확인, 방향 수정)
 고춧가루	different	고추장	ok
 통깨	same	참깨	ok	볶은 참깨
-깨	same	참깨	check	들깨일 수도 있음. 레시피에서는 보통 참깨
+참깨	kind	깨	ok	(2026-11-26 확인)
+들깨	kind	깨	ok
 깨소금	form	참깨	ok
 들깨가루	form	들깨	ok
 참기름	different	들기름	ok
 기름	same	식용유	ok
-오일	same	식용유	check	올리브오일을 줄여 쓴 경우도 있음
 카놀라유	kind	식용유	ok
 포도씨유	kind	식용유	ok
 올리브오일	same	올리브유	ok
-올리브유	kind	식용유	check	향이 있어 모든 요리에 바꿔 쓰지는 않음
-맛술	same	미림	check	맛술은 국산 조미 술 상품명, 미림은 일본식. 요리에서는 같게 씀
+올리브유	kind	식용유	ok	향이 있음 (2026-11-26 확인)
+미림	same	맛술	ok	대표 이름은 더 많이 쓰는 맛술 (2026-11-26 확인)
 청주	substitute	맛술	ok
-소주	substitute	청주	check	잡내 제거용으로만
+소주	substitute	청주	ok	잡내 제거용으로만 (2026-11-26 확인)
 생강술	contains	생강	ok
 매실액	same	매실청	ok
 올리고당	substitute	물엿	ok
-꿀	substitute	올리고당	check	맛과 향이 다름
+꿀	different	올리고당	ok	맛과 향이 다름 (2026-11-26 확인)
 케찹	same	케첩	ok
 돈까스소스	same	돈가스소스	ok
 코코아파우더	same	코코아가루	ok
 커피가루	form	커피	ok
-연겨자	substitute	머스터드소스	check	맛이 다름
+연겨자	different	머스터드소스	ok	맛이 다름 (2026-11-26 확인)
 치킨스톡	substitute	닭육수	ok
 # --- 국물
 멸치육수	kind	육수	ok
-멸치다시마육수	same	멸치육수	check	다시마가 들어간 멸치육수. 대부분 다시마를 함께 씀
+멸치다시마육수	same	멸치육수	ok	대부분 다시마를 함께 씀 (2026-11-26 확인)
 다시마육수	kind	육수	ok
 사골육수	kind	육수	ok
 닭육수	kind	육수	ok

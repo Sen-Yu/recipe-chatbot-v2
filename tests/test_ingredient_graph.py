@@ -26,3 +26,10 @@ def test_relations():
     assert "우유" in g.allergens("모짜렐라치즈")
     assert "물엿" in g.substitutes("올리고당")
     assert g.are_different("배추", "양배추")
+
+
+def test_whole_pepper_direction():
+    # 회귀: 통후추로 간 후추를 채울 수 있고, 간 후추로 통후추를 채울 수는 없다
+    g = load_graph()
+    assert g.satisfies("후춧가루", "통후추")
+    assert not g.satisfies("통후추", "후추")

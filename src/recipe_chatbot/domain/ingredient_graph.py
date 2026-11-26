@@ -33,6 +33,7 @@ class IngredientGraph:
     edges: list[Edge]
     _same: dict[str, str] = field(default_factory=dict)
     _up: dict[str, set[str]] = field(default_factory=lambda: defaultdict(set))  # form·kind: 이름 → 대상
+    _kind_up: dict[str, set[str]] = field(default_factory=lambda: defaultdict(set))  # kind만
     _contains: dict[str, set[str]] = field(default_factory=lambda: defaultdict(set))
     _subs: dict[str, set[str]] = field(default_factory=lambda: defaultdict(set))
     _different: set[frozenset[str]] = field(default_factory=set)
@@ -45,6 +46,8 @@ class IngredientGraph:
             a, b = self.canonical(e.name), self.canonical(e.target)
             if e.relation in ("form", "kind"):
                 self._up[a].add(b)
+            if e.relation == "kind":
+                self._kind_up[a].add(b)
             elif e.relation == "contains":
                 self._contains[a].add(b)
             elif e.relation == "substitute":
@@ -61,12 +64,13 @@ class IngredientGraph:
             name = self._same[name]
         return name
 
-    def ancestors(self, name: str) -> set[str]:
-        """form·kind를 따라 올라간 이름들 (자기 자신 제외)."""
+    def ancestors(self, name: str, kind_only: bool = False) -> set[str]:
+        """form·kind(kind_only면 kind만)를 따라 올라간 이름들 (자기 자신 제외)."""
+        up_map = self._kind_up if kind_only else self._up
         out: set[str] = set()
         stack = [self.canonical(name)]
         while stack:
-            for up in self._up.get(stack.pop(), ()):
+            for up in up_map.get(stack.pop(), ()):
                 if up not in out:
                     out.add(up)
                     stack.append(up)
@@ -78,11 +82,15 @@ class IngredientGraph:
         - 같은 재료이거나
         - 보유 재료가 요구 재료의 한 종류이거나 ('표고버섯'으로 '버섯'을 채움)
         - 요구 재료가 보유 재료를 손질한 형태 ('마늘'로 '다진마늘'을 채움)
+
+        손질 형태로 원재료를 채우지는 않는다 ('후추'(간 것)로 '통후추'를 못 채움).
         """
         req, own = self.canonical(required), self.canonical(owned)
-        if req == own or req in self.ancestors(own):
+        if req == own or req in self.ancestors(own, kind_only=True):
             return True
-        return own in self._form_sources(req)
+        # 원재료의 한 종류로도 손질 형태를 채운다 ('대파'로 '다진파'를 채움)
+        kinds = {own} | self.ancestors(own, kind_only=True)
+        return bool(kinds & self._form_sources(req))
 
     def _form_sources(self, name: str) -> set[str]:
         out: set[str] = set()
