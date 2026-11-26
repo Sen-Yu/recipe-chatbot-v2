@@ -139,11 +139,7 @@ CASE_TYPES: dict[Role, type[CaseBase]] = {
     "selection": SelectionCase,
 }
 ID_PREFIX: dict[Role, str] = {
-    "supervisor": "sup",
-    "ingredient": "ing",
-    "recipe": "rec",
-    "nutrition": "nut",
-    "selection": "sel",
+    "supervisor": "sup", "ingredient": "ing", "recipe": "rec", "nutrition": "nut", "selection": "sel",
 }
 
 

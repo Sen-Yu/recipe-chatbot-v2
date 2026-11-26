@@ -46,17 +46,11 @@ class StructuredOutputError(RuntimeError):
 class OpenAICompatibleClient:
     """vLLM, Ollama 공용 클라이언트."""
 
-    def __init__(
-        self,
-        base_url: str,
-        api_key: str | None = None,
-        timeout: float = 120.0,
-        transport: httpx.BaseTransport | None = None,
-    ):
+    def __init__(self, base_url: str, api_key: str | None = None, timeout: float = 120.0,
+                 transport: httpx.BaseTransport | None = None):
         headers = {"Authorization": f"Bearer {api_key}"} if api_key else {}
-        self._http = httpx.Client(
-            base_url=base_url.rstrip("/"), headers=headers, timeout=timeout, transport=transport
-        )
+        self._http = httpx.Client(base_url=base_url.rstrip("/"), headers=headers, timeout=timeout,
+                                  transport=transport)
 
     def complete_json(self, model: str, system: str, user: str, schema: dict[str, Any]) -> str:
         body = {
@@ -99,13 +93,8 @@ class FakeChatClient:
 
 
 class ModelRouter:
-    def __init__(
-        self,
-        specs: dict[str, ModelSpec],
-        clients: dict[str, ChatClient],
-        tracer: Tracer | None = None,
-        retries: int = 1,
-    ):
+    def __init__(self, specs: dict[str, ModelSpec], clients: dict[str, ChatClient],
+                 tracer: Tracer | None = None, retries: int = 1):
         missing = [a for a in AGENTS if a not in specs]
         if missing:
             raise ValueError(f"모델 설정이 없는 에이전트: {missing}")
@@ -122,9 +111,8 @@ class ModelRouter:
         json_schema = schema.model_json_schema()
         last_error: Exception | None = None
         for attempt in range(self.retries + 1):
-            with self.tracer.span(
-                "model", agent, model=spec.model_name, schema=schema.__name__, attempt=attempt
-            ) as ev:
+            with self.tracer.span("model", agent, model=spec.model_name, schema=schema.__name__,
+                                  attempt=attempt) as ev:
                 raw = client.complete_json(spec.model_name, system, user, json_schema)
                 try:
                     result = schema.model_validate_json(raw)
