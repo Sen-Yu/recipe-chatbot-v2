@@ -5,7 +5,8 @@
 1. check_pair_taboo   : food_combination_taboo.json의 combinations(구체적 재료 쌍) 매칭
 2. check_category_taboo: generalized_category_rules(탄닌+철분, 퓨린 조합 등 카테고리 단위 규칙) 매칭
 
-재료명 비교는 항상 ingredient_synonyms.normalize_ingredient_name()을 거친 대표명 기준으로 한다.
+재료명 비교는 재료 관계 사전(ingredient_synonyms의 함수)을 거친 대표명 기준으로 한다.
+종류·손질 형태는 같은 재료로 보고, 재료에 든 원료(포함 관계)까지 쌍 매칭에 쓴다.
 """
 
 import json
@@ -13,7 +14,7 @@ from itertools import combinations
 from pathlib import Path
 
 from .ingredient_categories import CATEGORY_LABEL_TO_TAG, get_ingredient_categories
-from .ingredient_synonyms import HYPERNYM_MAP, normalize_ingredient_name
+from .ingredient_synonyms import ingredient_contents, root_name
 
 _DATA_PATH = Path(__file__).parent / "food_combination_taboo.json"
 
@@ -31,9 +32,7 @@ def _normalize_for_taboo(name: str) -> str:
     요구 재료를 충족하는가"라는 방향성 있는 판단이라 그대로 재사용할 수 없어서,
     방향 없는 동일성 비교(궁합 쌍 매칭)에 맞는 별도 헬퍼로 둔다.
     """
-    norm = normalize_ingredient_name(name)
-    hypernym = HYPERNYM_MAP.get(norm)
-    return normalize_ingredient_name(hypernym) if hypernym else norm
+    return root_name(name)
 
 
 ## combinations를 빠른 조회를 위해 {frozenset({a, b}): 항목} 형태로 인덱싱
@@ -48,15 +47,18 @@ def check_pair_taboo(ingredient_list: list[str]) -> list[dict]:
     주어진 재료 리스트 안에서, 사전에 등록된 '구체적 재료 쌍' 궁합이 있는지 찾는다.
     반환: [{"pair": [...], "reason": ..., "level": ..., "note": ...}, ...]
     """
-    normalized = [_normalize_for_taboo(n) for n in ingredient_list]
+    ## 재료마다 자기 자신과 든 원료를 본다 ('간장게장' → 게, '치킨' → 닭고기)
+    keys_per_item = [{_normalize_for_taboo(c) for c in ingredient_contents(n)} for n in ingredient_list]
     found = []
     seen_keys = set()
 
-    for a, b in combinations(set(normalized), 2):
-        key = frozenset({a, b})
-        if key in _PAIR_INDEX and key not in seen_keys:
-            found.append(_PAIR_INDEX[key])
-            seen_keys.add(key)
+    for ka, kb in combinations(keys_per_item, 2):
+        for a in ka:
+            for b in kb:
+                key = frozenset({a, b})
+                if a != b and key in _PAIR_INDEX and key not in seen_keys:
+                    found.append(_PAIR_INDEX[key])
+                    seen_keys.add(key)
 
     return found
 

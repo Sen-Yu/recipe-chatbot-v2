@@ -4,9 +4,10 @@ generalized_category_rules(탄닌+철분, 퓨린 조합 등)처럼 개별 재료
 "성분 카테고리" 단위로 매칭해야 하는 규칙을 위해 사용한다.
 
 ingredient_synonyms.normalize_ingredient_name()으로 정규화된 대표명을 키로 사용한다.
+상위 재료(종류·손질 형태)의 분류도 물려받는다.
 """
 
-from .ingredient_synonyms import normalize_ingredient_name
+from .ingredient_synonyms import broader_names
 
 ## 카테고리 태그 상수 (오탈자 방지용)
 TANNIN = "tannin"                    # 탄닌
@@ -84,5 +85,5 @@ CATEGORY_LABEL_TO_TAG = {
 
 def get_ingredient_categories(name: str) -> set[str]:
     """재료명을 정규화한 뒤 해당 재료가 속한 카테고리 태그 집합을 반환."""
-    normalized = normalize_ingredient_name(name)
-    return INGREDIENT_CATEGORIES.get(normalized, set())
+    # 종류·손질 형태의 상위 재료 분류도 물려받는다 ('다진마늘' → '마늘', '생맥주' → '맥주')
+    return set().union(*(INGREDIENT_CATEGORIES.get(n, set()) for n in broader_names(name)))

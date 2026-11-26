@@ -76,6 +76,17 @@ class IngredientGraph:
                     stack.append(up)
         return out
 
+    def root(self, name: str) -> str:
+        """kind·form을 따라 맨 위 대표 이름 (상위가 둘 이상이면 거기서 멈춤). 방향 없는 같은 재료 비교용."""
+        name = self.canonical(name)
+        seen = {name}
+        while len(ups := self._up.get(name, ())) == 1:
+            (name,) = ups
+            if name in seen:
+                break
+            seen.add(name)
+        return name
+
     def satisfies(self, required: str, owned: str) -> bool:
         """보유 재료(owned)로 레시피 재료(required)를 채울 수 있나.
 

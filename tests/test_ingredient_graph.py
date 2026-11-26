@@ -33,3 +33,13 @@ def test_whole_pepper_direction():
     g = load_graph()
     assert g.satisfies("후춧가루", "통후추")
     assert not g.satisfies("통후추", "후추")
+
+
+def test_old_dictionary_reads_graph():
+    # 회귀: 기존 동의어 사전을 합친 뒤에도 요리 이름 속 원료로 알레르기·궁합을 잡는다
+    from recipe_chatbot.domain.food_combination_matcher import check_pair_taboo
+    from recipe_chatbot.domain.ingredient_synonyms import ingredient_contents, normalize_ingredient_name
+
+    assert normalize_ingredient_name("다진 마늘") == "다진마늘"
+    assert "닭고기" in ingredient_contents("치킨")
+    assert [x["pair"] for x in check_pair_taboo(["간장게장", "단감"])] == [["감", "게"]]
