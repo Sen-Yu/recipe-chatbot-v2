@@ -176,6 +176,7 @@
 
 | 날짜 | 내용 |
 |---|---|
+| 2026-11-27 | 데일리 스크럼 11-27 작성 ([#65](https://github.com/Sen-Yu/recipe-chatbot-v2/issues/65)) |
 | 2026-11-27 | L.6 겨자 확인 필요 2개 반영 (겨자≠머스타드 유지, 연겨자 = 겨자), PR #64에 추가 |
 | 2026-11-27 | PR 준비: 로컬 브랜치 4개(수집·문서, 벤치마크, RAG, 재료 관계 사전)를 최신 main 위로 옮김, 벤치마크 브랜치의 서식 변경 되돌림. 4개를 모두 합쳐도 테스트 148개 통과. PR [#61](https://github.com/Sen-Yu/recipe-chatbot-v2/pull/61)(수집·문서) · [#62](https://github.com/Sen-Yu/recipe-chatbot-v2/pull/62)(벤치마크) · [#63](https://github.com/Sen-Yu/recipe-chatbot-v2/pull/63)(RAG) · [#64](https://github.com/Sen-Yu/recipe-chatbot-v2/pull/64)(재료 관계 사전) 열고 사용자 머지 대기 |
 | 2026-11-26 | L.6 기존 동의어 사전을 관계 사전으로 합침 (검토 대기): `ingredient_synonyms.py`가 graph.tsv를 읽음, 대표 이름 키는 그대로 |
