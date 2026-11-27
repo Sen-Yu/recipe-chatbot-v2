@@ -1,0 +1,60 @@
+{"id": "ing-001", "source": "v1:기능-A1", "tags": ["첫턴"], "utterance": "계란, 대파, 돼지고기 있어", "pantry": [], "expected": {"final_pantry": ["계란", "대파", "돼지고기"]}}
+{"id": "ing-002", "source": "v1:기능-A2", "tags": ["추가"], "utterance": "우유도 있어", "pantry": ["계란", "대파", "돼지고기"], "expected": {"final_pantry": ["계란", "대파", "돼지고기", "우유"]}}
+{"id": "ing-003", "source": "v1:기능-A3", "tags": ["제거"], "utterance": "계란 빼줘", "pantry": ["계란", "대파", "돼지고기"], "expected": {"final_pantry": ["대파", "돼지고기"]}}
+{"id": "ing-004", "source": "v1:기능-A4", "tags": ["교체"], "utterance": "사실 김치랑 참치만 있어", "pantry": ["계란", "대파", "돼지고기"], "expected": {"final_pantry": ["김치", "참치"]}}
+{"id": "ing-005", "source": "v1:기능-A5", "tags": ["제거"], "utterance": "돼지고기랑 대파 빼줘", "pantry": ["계란", "대파", "돼지고기"], "expected": {"final_pantry": ["계란"]}}
+{"id": "ing-006", "source": "v1:기능-A6", "tags": ["추가"], "utterance": "계란이랑 우유 추가로 넣어줘", "pantry": ["대파", "돼지고기"], "expected": {"final_pantry": ["대파", "돼지고기", "계란", "우유"]}}
+{"id": "ing-007", "source": "v1:기능-A7", "tags": ["동의어"], "utterance": "계란 말고 달걀만 있어", "pantry": ["계란"], "expected": {"final_pantry": ["계란"]}}
+{"id": "ing-008", "source": "v1:기능-A8", "tags": ["교환"], "utterance": "김치 빼고 대신 깍두기 넣어줘", "pantry": ["김치", "두부"], "expected": {"final_pantry": ["두부", "깍두기"]}}
+{"id": "ing-009", "source": "v1:기능-A9", "tags": ["재료없음"], "utterance": "레시피 추천해줘", "pantry": [], "expected": {"final_pantry": []}}
+{"id": "ing-010", "source": "v1:기능-A10", "tags": ["모호"], "utterance": "그냥 아무거나 있는 걸로", "pantry": ["계란", "밥"], "expected": {"final_pantry": ["계란", "밥"]}}
+{"id": "ing-011", "source": "v1:기능-48", "tags": ["비식재료"], "utterance": "ㅁㄴㅇㄹ 있어", "pantry": [], "expected": {"final_pantry": []}}
+{"id": "ing-012", "source": "v1:기능-49", "tags": ["복합"], "utterance": "계란 빼고 우유 추가하고 사실 대파도 넣어줘", "pantry": ["계란", "돼지고기"], "expected": {"final_pantry": ["돼지고기", "우유", "대파"]}}
+{"id": "ing-013", "source": "v1:E2E-17-턴2", "tags": ["복합"], "utterance": "계란 빼고 우유 추가하고 대파도 넣어줘", "pantry": ["계란", "대파"], "expected": {"final_pantry": ["대파", "우유"]}}
+{"id": "ing-014", "source": "v1:E2E-12", "tags": ["궁합"], "utterance": "감, 게 있어", "pantry": [], "expected": {"final_pantry": ["감", "게"]}}
+{"id": "ing-015", "source": "v1:E2E-13", "tags": ["재료1개"], "utterance": "계란만 있어", "pantry": [], "expected": {"final_pantry": ["계란"]}}
+{"id": "ing-016", "source": "v1:E2E-5", "tags": ["첫턴"], "utterance": "돼지고기, 김치, 두부 있어", "pantry": [], "expected": {"final_pantry": ["돼지고기", "김치", "두부"]}}
+{"id": "ing-017", "source": "v1:커밋-eee51b4", "tags": ["비식재료"], "utterance": "계란이랑 휴지, 세제 있어", "pantry": [], "expected": {"final_pantry": ["계란"]}}
+{"id": "ing-018", "source": "manual", "tags": ["양", "동의어"], "utterance": "쇠고기 반 근이랑 양파 2개 있어", "pantry": [], "expected": {"final_pantry": ["소고기", "양파"], "amounts": {"양파": [2, "개"]}}, "note": "반 근은 단위 표현이 다양해서 양 검사는 양파만 한다"}
+{"id": "ing-019", "source": "synthetic:claude", "tags": ["첫턴"], "utterance": "두부, 애호박, 양파 있어", "pantry": [], "expected": {"final_pantry": ["두부", "애호박", "양파"]}}
+{"id": "ing-020", "source": "synthetic:claude", "tags": ["첫턴"], "utterance": "냉장고에 감자랑 당근이랑 양파가 있네", "pantry": [], "expected": {"final_pantry": ["감자", "당근", "양파"]}}
+{"id": "ing-021", "source": "synthetic:claude", "tags": ["첫턴"], "utterance": "닭다리살이랑 감자 있어요", "pantry": [], "expected": {"final_pantry": ["닭다리살", "감자"]}}
+{"id": "ing-022", "source": "synthetic:claude", "tags": ["첫턴"], "utterance": "참치캔 하나, 밥, 김 있어", "pantry": [], "expected": {"final_pantry": ["참치", "밥", "김"]}}
+{"id": "ing-023", "source": "synthetic:claude", "tags": ["첫턴", "짧은발화"], "utterance": "소면이랑 김치", "pantry": [], "expected": {"final_pantry": ["소면", "김치"]}}
+{"id": "ing-024", "source": "synthetic:claude", "tags": ["첫턴", "띄어쓰기"], "utterance": "토마토 계란 양파", "pantry": [], "expected": {"final_pantry": ["토마토", "계란", "양파"]}}
+{"id": "ing-025", "source": "synthetic:claude", "tags": ["첫턴"], "utterance": "오늘 장 봐서 연어랑 아보카도 사왔어", "pantry": [], "expected": {"final_pantry": ["연어", "아보카도"]}}
+{"id": "ing-026", "source": "synthetic:claude", "tags": ["첫턴"], "utterance": "떡볶이 떡이랑 어묵 있어", "pantry": [], "expected": {"final_pantry": ["떡볶이떡", "어묵"]}, "note": "'떡볶이 떡'은 떡볶이떡으로 본다"}
+{"id": "ing-027", "source": "synthetic:claude", "tags": ["양"], "utterance": "양파 2개랑 감자 3개 있어", "pantry": [], "expected": {"final_pantry": ["양파", "감자"], "amounts": {"양파": [2, "개"], "감자": [3, "개"]}}}
+{"id": "ing-028", "source": "synthetic:claude", "tags": ["양"], "utterance": "돼지고기 300g 있어", "pantry": [], "expected": {"final_pantry": ["돼지고기"], "amounts": {"돼지고기": [300, "g"]}}}
+{"id": "ing-029", "source": "synthetic:claude", "tags": ["양"], "utterance": "두부 1모랑 계란 4개", "pantry": [], "expected": {"final_pantry": ["두부", "계란"], "amounts": {"두부": [1, "모"], "계란": [4, "개"]}}}
+{"id": "ing-030", "source": "synthetic:claude", "tags": ["양"], "utterance": "우유 500ml 있어", "pantry": [], "expected": {"final_pantry": ["우유"], "amounts": {"우유": [500, "ml"]}}}
+{"id": "ing-031", "source": "synthetic:claude", "tags": ["동의어"], "utterance": "달걀이랑 쇠고기 있어", "pantry": [], "expected": {"final_pantry": ["계란", "소고기"]}}
+{"id": "ing-032", "source": "synthetic:claude", "tags": ["동의어"], "utterance": "파랑 마늘 있어", "pantry": [], "expected": {"final_pantry": ["대파", "마늘"]}}
+{"id": "ing-033", "source": "synthetic:claude", "tags": ["동의어", "외래어"], "utterance": "포테이토랑 어니언", "pantry": [], "expected": {"final_pantry": ["감자", "양파"]}}
+{"id": "ing-034", "source": "synthetic:claude", "tags": ["동의어"], "utterance": "호박 있어", "pantry": [], "expected": {"final_pantry": ["애호박"]}}
+{"id": "ing-035", "source": "synthetic:claude", "tags": ["추가"], "utterance": "양파도 있어", "pantry": ["계란", "대파", "돼지고기"], "expected": {"final_pantry": ["계란", "대파", "돼지고기", "양파"]}}
+{"id": "ing-036", "source": "synthetic:claude", "tags": ["추가"], "utterance": "아 그리고 버섯도", "pantry": ["계란", "대파", "돼지고기"], "expected": {"final_pantry": ["계란", "대파", "돼지고기", "버섯"]}}
+{"id": "ing-037", "source": "synthetic:claude", "tags": ["추가"], "utterance": "김치랑 두부 추가해줘", "pantry": ["계란", "대파", "돼지고기"], "expected": {"final_pantry": ["계란", "대파", "돼지고기", "김치", "두부"]}}
+{"id": "ing-038", "source": "synthetic:claude", "tags": ["추가"], "utterance": "깻잎이랑 상추도 있네", "pantry": ["삼겹살"], "expected": {"final_pantry": ["삼겹살", "깻잎", "상추"]}}
+{"id": "ing-039", "source": "synthetic:claude", "tags": ["제거"], "utterance": "대파는 없어", "pantry": ["계란", "대파", "돼지고기"], "expected": {"final_pantry": ["계란", "돼지고기"]}}
+{"id": "ing-040", "source": "synthetic:claude", "tags": ["제거"], "utterance": "돼지고기 다 먹었어", "pantry": ["계란", "대파", "돼지고기"], "expected": {"final_pantry": ["계란", "대파"]}}
+{"id": "ing-041", "source": "synthetic:claude", "tags": ["제거"], "utterance": "계란은 빼줘", "pantry": ["계란", "대파", "돼지고기"], "expected": {"final_pantry": ["대파", "돼지고기"]}}
+{"id": "ing-042", "source": "synthetic:claude", "tags": ["제거", "범주"], "utterance": "고기류는 다 빼줘", "pantry": ["돼지고기", "소고기", "양파"], "expected": {"final_pantry": ["양파"]}}
+{"id": "ing-043", "source": "synthetic:claude", "tags": ["교체"], "utterance": "다 빼고 라면만 있어", "pantry": ["계란", "대파", "돼지고기"], "expected": {"final_pantry": ["라면"]}}
+{"id": "ing-044", "source": "synthetic:claude", "tags": ["교체"], "utterance": "아니 사실 밥이랑 김치만 있어", "pantry": ["계란", "대파", "돼지고기"], "expected": {"final_pantry": ["밥", "김치"]}}
+{"id": "ing-045", "source": "synthetic:claude", "tags": ["교체"], "utterance": "처음부터 다시. 감자, 양파, 햄", "pantry": ["계란", "대파", "돼지고기"], "expected": {"final_pantry": ["감자", "양파", "햄"]}}
+{"id": "ing-046", "source": "synthetic:claude", "tags": ["교환"], "utterance": "돼지고기 대신 닭고기로 바꿔줘", "pantry": ["계란", "대파", "돼지고기"], "expected": {"final_pantry": ["계란", "대파", "닭고기"]}}
+{"id": "ing-047", "source": "synthetic:claude", "tags": ["교환"], "utterance": "대파 말고 쪽파 있어", "pantry": ["계란", "대파", "돼지고기"], "expected": {"final_pantry": ["계란", "돼지고기", "쪽파"]}}
+{"id": "ing-048", "source": "synthetic:claude", "tags": ["교환"], "utterance": "계란 빼고 두부 넣어", "pantry": ["계란", "대파", "돼지고기"], "expected": {"final_pantry": ["대파", "돼지고기", "두부"]}}
+{"id": "ing-049", "source": "synthetic:claude", "tags": ["복합"], "utterance": "계란 빼고 우유랑 버터 추가", "pantry": ["계란", "대파", "돼지고기"], "expected": {"final_pantry": ["대파", "돼지고기", "우유", "버터"]}}
+{"id": "ing-050", "source": "synthetic:claude", "tags": ["복합"], "utterance": "양파 추가하고 대파는 빼", "pantry": ["계란", "대파", "돼지고기"], "expected": {"final_pantry": ["계란", "돼지고기", "양파"]}}
+{"id": "ing-051", "source": "synthetic:claude", "tags": ["비식재료"], "utterance": "밥, 스마트폰, 김치 있어", "pantry": [], "expected": {"final_pantry": ["밥", "김치"]}}
+{"id": "ing-052", "source": "synthetic:claude", "tags": ["비식재료"], "utterance": "계란이랑 플라스틱 그릇 있어", "pantry": [], "expected": {"final_pantry": ["계란"]}}
+{"id": "ing-053", "source": "synthetic:claude", "tags": ["재료없음"], "utterance": "아무것도 없어", "pantry": [], "expected": {"final_pantry": []}}
+{"id": "ing-054", "source": "synthetic:claude", "tags": ["변경없음"], "utterance": "레시피 알려줘", "pantry": ["계란", "대파", "돼지고기"], "expected": {"final_pantry": ["계란", "대파", "돼지고기"]}}
+{"id": "ing-055", "source": "synthetic:claude", "tags": ["변경없음"], "utterance": "칼로리 얼마야?", "pantry": ["계란", "대파", "돼지고기"], "expected": {"final_pantry": ["계란", "대파", "돼지고기"]}}
+{"id": "ing-056", "source": "synthetic:claude", "tags": ["변경없음"], "utterance": "뭐 먹지", "pantry": [], "expected": {"final_pantry": []}}
+{"id": "ing-057", "source": "synthetic:claude", "tags": ["양"], "utterance": "고구마랑 우유 있는데 고구마는 2개", "pantry": [], "expected": {"final_pantry": ["고구마", "우유"], "amounts": {"고구마": [2, "개"]}}}
+{"id": "ing-058", "source": "synthetic:claude", "tags": ["첫턴"], "utterance": "냉동실에 새우 있고 냉장실에 양배추 있어", "pantry": [], "expected": {"final_pantry": ["새우", "양배추"]}}
+{"id": "ing-059", "source": "synthetic:claude", "tags": ["첫턴"], "utterance": "스팸 하나랑 김치 있어", "pantry": [], "expected": {"final_pantry": ["스팸", "김치"]}}
+{"id": "ing-060", "source": "synthetic:claude", "tags": ["변경없음", "부위"], "utterance": "돼지고기는 목살이야", "pantry": ["돼지고기", "대파"], "expected": {"final_pantry": ["돼지고기", "대파"]}, "note": "부위 정보만 더한 말. 목록은 그대로 (목살로 바꿔도 같은 재료로 본다면 정답 갱신 필요)"}

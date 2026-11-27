@@ -1,0 +1,69 @@
+{"id": "rec-001", "source": "v1:E2E-1", "tags": ["재료추천"], "utterance": "계란, 대파, 돼지고기 있어", "pantry": ["계란", "대파", "돼지고기"], "expected": {"min_pantry_used": 2}}
+{"id": "rec-002", "source": "v1:E2E-5", "tags": ["재료추천"], "utterance": "돼지고기, 김치, 두부 있어", "pantry": ["돼지고기", "김치", "두부"], "expected": {"min_pantry_used": 2}}
+{"id": "rec-003", "source": "v1:E2E-13", "tags": ["재료1개"], "utterance": "계란만 있어", "pantry": ["계란"], "expected": {"min_pantry_used": 1}}
+{"id": "rec-004", "source": "v1:E2E-7-턴2", "tags": ["재요청"], "utterance": "다른 거 없어?", "pantry": ["돼지고기", "김치", "두부"], "previous_recipe_title": "김치찌개", "expected": {"min_pantry_used": 2}, "note": "이전과 다른 요리여야 한다 (채점 시 제목 비교)"}
+{"id": "rec-005", "source": "v1:E2E-10", "tags": ["이름검색"], "utterance": "볶음밥 레시피 알려줘", "dish_name": "볶음밥", "expected": {"title_contains": "볶음밥", "dish_exists": true}}
+{"id": "rec-006", "source": "v1:기능-60", "tags": ["이름검색", "생성"], "utterance": "우주에서 만드는 라면 레시피 알려줘", "dish_name": "우주에서 만드는 라면", "expected": {"max_cook_time": 30}, "note": "v1 기준: 사람이 먹을 수 있는 정상 요리, 30분 이내"}
+{"id": "rec-007", "source": "manual", "tags": ["알레르기"], "utterance": "땅콩 알레르기 있어. 밥이랑 김치, 계란 있어", "pantry": ["밥", "김치", "계란"], "constraints": {"allergies": ["땅콩"]}, "expected": {"must_not_contain": ["땅콩"], "min_pantry_used": 2}}
+{"id": "rec-008", "source": "manual", "tags": ["영양조건"], "utterance": "500칼로리 이하로 만들어줘", "pantry": ["닭가슴살", "브로콜리", "현미밥"], "constraints": {"max_kcal": 500}, "expected": {"min_pantry_used": 2}}
+{"id": "rec-009", "source": "manual:설계-변형", "tags": ["변형"], "utterance": "아까 그거 좀 맵게 해줘", "pantry": ["밥", "김치", "계란"], "previous_recipe_title": "김치볶음밥", "expected": {"min_pantry_used": 2}}
+{"id": "rec-010", "source": "v1:웹검색-1", "tags": ["이름검색", "실존판정"], "utterance": "두바이 초콜릿 레시피 알려줘", "dish_name": "두바이 초콜릿", "expected": {"dish_exists": true, "title_contains": "두바이 초콜릿"}, "note": "정답 출처: v1의 claude-opus-4-8·gemini 판정 일치"}
+{"id": "rec-011", "source": "v1:웹검색-2", "tags": ["이름검색", "실존판정"], "utterance": "마라탕 레시피 알려줘", "dish_name": "마라탕", "expected": {"dish_exists": true, "title_contains": "마라탕"}, "note": "정답 출처: v1의 claude-opus-4-8·gemini 판정 일치"}
+{"id": "rec-012", "source": "v1:웹검색-3", "tags": ["이름검색", "실존판정"], "utterance": "탕후루 레시피 알려줘", "dish_name": "탕후루", "expected": {"dish_exists": true, "title_contains": "탕후루"}, "note": "정답 출처: v1의 claude-opus-4-8·gemini 판정 일치"}
+{"id": "rec-013", "source": "v1:웹검색-4", "tags": ["이름검색", "실존판정"], "utterance": "스페이스라면 레시피 알려줘", "dish_name": "스페이스라면", "expected": {"dish_exists": true, "title_contains": "스페이스라면"}, "note": "정답 출처: v1의 claude-opus-4-8·gemini 판정 일치"}
+{"id": "rec-014", "source": "v1:웹검색-5", "tags": ["이름검색", "실존판정", "판정불일치"], "utterance": "무지개파스타 레시피 알려줘", "dish_name": "무지개파스타", "expected": {"dish_exists": null}, "note": "v1의 두 모델 판정이 달라 정답 미확정. 1.3 데이터셋 검증에서 사람이 정한다"}
+{"id": "rec-015", "source": "v1:웹검색-6", "tags": ["이름검색", "실존판정"], "utterance": "인생네컷도시락 레시피 알려줘", "dish_name": "인생네컷도시락", "expected": {"dish_exists": false}, "note": "정답 출처: v1의 claude-opus-4-8·gemini 판정 일치"}
+{"id": "rec-016", "source": "v1:웹검색-7", "tags": ["이름검색", "실존판정"], "utterance": "된장찌개 레시피 알려줘", "dish_name": "된장찌개", "expected": {"dish_exists": true, "title_contains": "된장찌개"}, "note": "정답 출처: v1의 claude-opus-4-8·gemini 판정 일치"}
+{"id": "rec-017", "source": "v1:웹검색-8", "tags": ["이름검색", "실존판정"], "utterance": "얼죽아김밥 레시피 알려줘", "dish_name": "얼죽아김밥", "expected": {"dish_exists": false}, "note": "정답 출처: v1의 claude-opus-4-8·gemini 판정 일치"}
+{"id": "rec-018", "source": "v1:웹검색-9", "tags": ["이름검색", "실존판정"], "utterance": "우유식빵 레시피 알려줘", "dish_name": "우유식빵", "expected": {"dish_exists": true, "title_contains": "우유식빵"}, "note": "정답 출처: v1의 claude-opus-4-8·gemini 판정 일치"}
+{"id": "rec-019", "source": "v1:웹검색-10", "tags": ["이름검색", "실존판정"], "utterance": "핑크뮬리마카롱 레시피 알려줘", "dish_name": "핑크뮬리마카롱", "expected": {"dish_exists": false}, "note": "정답 출처: v1의 claude-opus-4-8·gemini 판정 일치"}
+{"id": "rec-020", "source": "v1:웹검색-11", "tags": ["이름검색", "실존판정"], "utterance": "카레라이스 레시피 알려줘", "dish_name": "카레라이스", "expected": {"dish_exists": true, "title_contains": "카레라이스"}, "note": "정답 출처: v1의 claude-opus-4-8·gemini 판정 일치"}
+{"id": "rec-021", "source": "v1:웹검색-12", "tags": ["이름검색", "실존판정"], "utterance": "파운드케이크 레시피 알려줘", "dish_name": "파운드케이크", "expected": {"dish_exists": true, "title_contains": "파운드케이크"}, "note": "정답 출처: v1의 claude-opus-4-8·gemini 판정 일치"}
+{"id": "rec-022", "source": "v1:웹검색-13", "tags": ["이름검색", "실존판정"], "utterance": "약과 레시피 알려줘", "dish_name": "약과", "expected": {"dish_exists": true, "title_contains": "약과"}, "note": "정답 출처: v1의 claude-opus-4-8·gemini 판정 일치"}
+{"id": "rec-023", "source": "v1:웹검색-14", "tags": ["이름검색", "실존판정"], "utterance": "대파빵 레시피 알려줘", "dish_name": "대파빵", "expected": {"dish_exists": true, "title_contains": "대파빵"}, "note": "정답 출처: v1의 claude-opus-4-8·gemini 판정 일치"}
+{"id": "rec-024", "source": "v1:웹검색-15", "tags": ["이름검색", "실존판정"], "utterance": "우영우 김밥 레시피 알려줘", "dish_name": "우영우 김밥", "expected": {"dish_exists": true, "title_contains": "우영우 김밥"}, "note": "정답 출처: v1의 claude-opus-4-8·gemini 판정 일치"}
+{"id": "rec-025", "source": "v1:웹검색-16", "tags": ["이름검색", "실존판정"], "utterance": "회오리감자 레시피 알려줘", "dish_name": "회오리감자", "expected": {"dish_exists": true, "title_contains": "회오리감자"}, "note": "정답 출처: v1의 claude-opus-4-8·gemini 판정 일치"}
+{"id": "rec-026", "source": "v1:웹검색-17", "tags": ["이름검색", "실존판정"], "utterance": "인절미라떼 레시피 알려줘", "dish_name": "인절미라떼", "expected": {"dish_exists": true, "title_contains": "인절미라떼"}, "note": "정답 출처: v1의 claude-opus-4-8·gemini 판정 일치"}
+{"id": "rec-027", "source": "v1:웹검색-18", "tags": ["이름검색", "실존판정"], "utterance": "좀비버거 레시피 알려줘", "dish_name": "좀비버거", "expected": {"dish_exists": true, "title_contains": "좀비버거"}, "note": "정답 출처: v1의 claude-opus-4-8·gemini 판정 일치"}
+{"id": "rec-028", "source": "v1:웹검색-19", "tags": ["이름검색", "실존판정"], "utterance": "스크린골프도시락 레시피 알려줘", "dish_name": "스크린골프도시락", "expected": {"dish_exists": false}, "note": "정답 출처: v1의 claude-opus-4-8·gemini 판정 일치"}
+{"id": "rec-029", "source": "v1:웹검색-20", "tags": ["이름검색", "실존판정"], "utterance": "달빛토끼떡볶이 레시피 알려줘", "dish_name": "달빛토끼떡볶이", "expected": {"dish_exists": false}, "note": "정답 출처: v1의 claude-opus-4-8·gemini 판정 일치"}
+{"id": "rec-030", "source": "synthetic:claude", "tags": ["재료추천"], "utterance": "두부, 애호박, 양파 있어", "pantry": ["두부", "애호박", "양파"], "expected": {"min_pantry_used": 2}}
+{"id": "rec-031", "source": "synthetic:claude", "tags": ["재료추천"], "utterance": "감자랑 당근, 양파 있어", "pantry": ["감자", "당근", "양파"], "expected": {"min_pantry_used": 2}}
+{"id": "rec-032", "source": "synthetic:claude", "tags": ["재료추천"], "utterance": "닭다리살이랑 감자", "pantry": ["닭다리살", "감자"], "expected": {"min_pantry_used": 2}}
+{"id": "rec-033", "source": "synthetic:claude", "tags": ["재료추천"], "utterance": "참치랑 밥, 김", "pantry": ["참치", "밥", "김"], "expected": {"min_pantry_used": 2}}
+{"id": "rec-034", "source": "synthetic:claude", "tags": ["재료추천"], "utterance": "소면이랑 김치", "pantry": ["소면", "김치"], "expected": {"min_pantry_used": 2}}
+{"id": "rec-035", "source": "synthetic:claude", "tags": ["재료추천"], "utterance": "토마토, 계란, 양파", "pantry": ["토마토", "계란", "양파"], "expected": {"min_pantry_used": 2}}
+{"id": "rec-036", "source": "synthetic:claude", "tags": ["재료추천"], "utterance": "연어랑 아보카도", "pantry": ["연어", "아보카도"], "expected": {"min_pantry_used": 1}}
+{"id": "rec-037", "source": "synthetic:claude", "tags": ["재료추천"], "utterance": "떡볶이떡이랑 어묵", "pantry": ["떡볶이떡", "어묵"], "expected": {"min_pantry_used": 2}}
+{"id": "rec-038", "source": "synthetic:claude", "tags": ["재료추천"], "utterance": "소고기, 무, 대파", "pantry": ["소고기", "무", "대파"], "expected": {"min_pantry_used": 2}}
+{"id": "rec-039", "source": "synthetic:claude", "tags": ["재료추천", "재료1개"], "utterance": "고등어 한 마리", "pantry": ["고등어"], "expected": {"min_pantry_used": 1}}
+{"id": "rec-040", "source": "synthetic:claude", "tags": ["재료추천"], "utterance": "스팸이랑 김치", "pantry": ["스팸", "김치"], "expected": {"min_pantry_used": 2}}
+{"id": "rec-041", "source": "synthetic:claude", "tags": ["재료추천"], "utterance": "새우랑 양배추", "pantry": ["새우", "양배추"], "expected": {"min_pantry_used": 1}}
+{"id": "rec-042", "source": "synthetic:claude", "tags": ["재료추천"], "utterance": "콩나물이랑 밥", "pantry": ["콩나물", "밥"], "expected": {"min_pantry_used": 2}}
+{"id": "rec-043", "source": "synthetic:claude", "tags": ["재료추천"], "utterance": "버섯 여러 개랑 두부", "pantry": ["버섯", "두부"], "expected": {"min_pantry_used": 2}}
+{"id": "rec-044", "source": "synthetic:claude", "tags": ["알레르기", "보유재료에알레르기"], "utterance": "새우 알레르기 있어. 새우, 밥, 계란 있어", "pantry": ["새우", "밥", "계란"], "expected": {"must_not_contain": ["새우"], "min_pantry_used": 2}, "constraints": {"allergies": ["새우"]}}
+{"id": "rec-045", "source": "synthetic:claude", "tags": ["알레르기"], "utterance": "우유 알레르기. 감자랑 양파", "pantry": ["감자", "양파"], "expected": {"must_not_contain": ["우유", "생크림", "치즈"], "min_pantry_used": 1}, "constraints": {"allergies": ["우유"]}, "note": "우유가 든 유제품(생크림, 치즈)도 빼야 한다"}
+{"id": "rec-046", "source": "synthetic:claude", "tags": ["알레르기"], "utterance": "계란 알레르기 있어요. 밥이랑 햄", "pantry": ["밥", "햄"], "expected": {"must_not_contain": ["계란"], "min_pantry_used": 2}, "constraints": {"allergies": ["계란"]}}
+{"id": "rec-047", "source": "synthetic:claude", "tags": ["알레르기"], "utterance": "땅콩 못 먹어. 닭가슴살이랑 오이", "pantry": ["닭가슴살", "오이"], "expected": {"must_not_contain": ["땅콩"], "min_pantry_used": 1}, "constraints": {"allergies": ["땅콩"]}}
+{"id": "rec-048", "source": "synthetic:claude", "tags": ["알레르기", "보유재료에알레르기"], "utterance": "돼지고기 알레르기. 돼지고기, 김치, 두부", "pantry": ["돼지고기", "김치", "두부"], "expected": {"must_not_contain": ["돼지고기", "베이컨", "햄"], "min_pantry_used": 2}, "constraints": {"allergies": ["돼지고기"]}}
+{"id": "rec-049", "source": "synthetic:claude", "tags": ["알레르기", "요리와충돌"], "utterance": "밀가루 알레르기. 부침개 해먹고 싶어", "pantry": ["김치", "부추"], "expected": {"must_not_contain": ["밀가루", "부침가루"]}, "constraints": {"allergies": ["밀가루"]}, "note": "부침개의 기본 재료가 알레르기. 대체 반죽을 써야 한다"}
+{"id": "rec-050", "source": "synthetic:claude", "tags": ["알레르기", "이름검색"], "utterance": "조개 알레르기. 된장찌개 알려줘", "pantry": [], "expected": {"must_not_contain": ["조개", "바지락"], "title_contains": "된장찌개"}, "constraints": {"allergies": ["조개"]}, "dish_name": "된장찌개"}
+{"id": "rec-051", "source": "synthetic:claude", "tags": ["알레르기"], "utterance": "복숭아 알레르기 있어. 과일 디저트 추천", "pantry": ["사과", "요거트"], "expected": {"must_not_contain": ["복숭아"]}, "constraints": {"allergies": ["복숭아"]}}
+{"id": "rec-052", "source": "synthetic:claude", "tags": ["시간조건"], "utterance": "10분 안에 되는 거", "pantry": ["계란", "밥"], "expected": {"max_cook_time": 10, "min_pantry_used": 1}}
+{"id": "rec-053", "source": "synthetic:claude", "tags": ["시간조건"], "utterance": "15분 안에 만들 수 있는 걸로", "pantry": ["두부", "대파"], "expected": {"max_cook_time": 15, "min_pantry_used": 1}}
+{"id": "rec-054", "source": "synthetic:claude", "tags": ["시간조건"], "utterance": "바쁘니까 20분 이내로", "pantry": ["돼지고기", "양파"], "expected": {"max_cook_time": 20, "min_pantry_used": 1}}
+{"id": "rec-055", "source": "synthetic:claude", "tags": ["시간조건"], "utterance": "30분 안에 되는 찌개", "pantry": ["김치", "참치"], "expected": {"max_cook_time": 30, "min_pantry_used": 1}}
+{"id": "rec-056", "source": "synthetic:claude", "tags": ["이름검색"], "utterance": "닭볶음탕 만드는 법 알려줘", "pantry": [], "expected": {"title_contains": "닭볶음탕", "dish_exists": true}, "dish_name": "닭볶음탕"}
+{"id": "rec-057", "source": "synthetic:claude", "tags": ["이름검색"], "utterance": "잡채 어떻게 만들어?", "pantry": [], "expected": {"title_contains": "잡채", "dish_exists": true}, "dish_name": "잡채"}
+{"id": "rec-058", "source": "synthetic:claude", "tags": ["이름검색"], "utterance": "부대찌개 레시피", "pantry": [], "expected": {"title_contains": "부대찌개", "dish_exists": true}, "dish_name": "부대찌개"}
+{"id": "rec-059", "source": "synthetic:claude", "tags": ["이름검색"], "utterance": "감바스 알려줘", "pantry": [], "expected": {"title_contains": "감바스", "dish_exists": true}, "dish_name": "감바스"}
+{"id": "rec-060", "source": "synthetic:claude", "tags": ["이름검색"], "utterance": "계란찜 레시피", "pantry": [], "expected": {"title_contains": "계란찜", "dish_exists": true}, "dish_name": "계란찜"}
+{"id": "rec-061", "source": "synthetic:claude", "tags": ["이름검색", "보유재료있음"], "utterance": "제육볶음 레시피 좀", "pantry": ["돼지고기", "양파"], "expected": {"title_contains": "제육볶음", "min_pantry_used": 1, "dish_exists": true}, "dish_name": "제육볶음"}
+{"id": "rec-062", "source": "synthetic:claude", "tags": ["이름검색"], "utterance": "미역국 끓이는 법", "pantry": [], "expected": {"title_contains": "미역국", "dish_exists": true}, "dish_name": "미역국"}
+{"id": "rec-063", "source": "synthetic:claude", "tags": ["이름검색"], "utterance": "떡국 레시피", "pantry": [], "expected": {"title_contains": "떡국", "dish_exists": true}, "dish_name": "떡국"}
+{"id": "rec-064", "source": "synthetic:claude", "tags": ["재요청"], "utterance": "다른 거 없어?", "pantry": ["돼지고기", "김치", "두부"], "expected": {"must_differ_from_previous": true, "min_pantry_used": 2}, "previous_recipe_title": "김치찌개"}
+{"id": "rec-065", "source": "synthetic:claude", "tags": ["재요청"], "utterance": "이거 말고 다른 요리", "pantry": ["계란", "대파", "돼지고기"], "expected": {"must_differ_from_previous": true, "min_pantry_used": 1}, "previous_recipe_title": "돼지고기 대파 계란볶음"}
+{"id": "rec-066", "source": "synthetic:claude", "tags": ["재요청"], "utterance": "다른 메뉴 추천해줘", "pantry": ["두부", "애호박", "양파"], "expected": {"must_differ_from_previous": true, "min_pantry_used": 1}, "previous_recipe_title": "애호박 두부 된장찌개"}
+{"id": "rec-067", "source": "synthetic:claude", "tags": ["변형"], "utterance": "덜 짜게 해줘", "pantry": ["밥", "김치", "계란"], "expected": {"min_pantry_used": 2}, "previous_recipe_title": "김치볶음밥"}
+{"id": "rec-068", "source": "synthetic:claude", "tags": ["변형", "인분"], "utterance": "2인분으로 늘려줘", "pantry": ["밥", "김치", "계란"], "expected": {"min_pantry_used": 2}, "previous_recipe_title": "김치볶음밥"}
+{"id": "rec-069", "source": "synthetic:claude", "tags": ["변형", "재료빼기"], "utterance": "대파 빼고 다시 해줘", "pantry": ["계란", "대파", "돼지고기"], "expected": {"must_not_contain": ["대파"], "min_pantry_used": 1}, "previous_recipe_title": "돼지고기 대파 계란볶음"}

@@ -23,7 +23,10 @@ _NUMBER = re.compile(r"(\d+)\s*(번째|번)?")
 _ORDINALS = {"첫": 1, "두": 2, "세": 3, "네": 4}
 _ORDINAL = re.compile(r"(첫|두|세|네)\s*(번째|번|째)")
 _LAST = re.compile(r"마지막")
-_SELECT_VERB = re.compile(r"(할게|할래|로 해|으로 해|줘|골라|선택|먹을래|이걸로|그걸로|이거|그거|걸로)")
+# 끝의 '거'는 '둘째 거', '돼지고기 들어간 거'처럼 후보를 가리키는 말
+_SELECT_VERB = re.compile(
+    r"(할게|할래|로 해|으로 해|줘|골라|선택|먹을래|이걸로|그걸로|이거|그거|걸로|거\s*$)"
+)
 
 
 @dataclass(frozen=True)
