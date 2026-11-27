@@ -211,7 +211,7 @@ def ingredient_agent(state: GraphState, deps: Deps) -> GraphState:
 # ------------------------------------------------------------------ B 레시피 에이전트
 def recipe_agent(state: GraphState, deps: Deps) -> GraphState:
     names = [i.name for i in state.get("pantry", [])]
-    candidates = deps.retriever.search(names, k=3)
+    candidates = deps.retriever.search(names, k=3, request=state.get("query", ""))
     validation = state.get("validation")
     payload = {
         "사용자 발화": state.get("query", ""),
