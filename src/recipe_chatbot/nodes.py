@@ -9,7 +9,7 @@ import os
 from dataclasses import dataclass, field
 
 from . import prompts
-from .domain.ingredient_synonyms import normalize_ingredient_name
+from .domain.ingredient_synonyms import ingredient_contents, normalize_ingredient_name
 from .images import ImageGenerator, NullImageGenerator
 from .models import ModelRouter
 from .schemas import (
@@ -254,7 +254,8 @@ def recipe_issues(recipe: StructuredRecipe, constraints: UserConstraints, nutrit
                   require_nutrition: bool = True) -> list[str]:
     """레시피 하나가 조건을 어기는 점. require_nutrition=False 면 영양 정보 없음은 문제로 보지 않는다."""
     issues = []
-    used = {normalize_ingredient_name(i.name) for i in recipe.ingredients}
+    # 재료에 든 원료까지 본다 ('치킨' → 닭고기, '부침가루' → 밀가루)
+    used = set().union(*(ingredient_contents(i.name) for i in recipe.ingredients))
     for allergen in constraints.allergies:
         a = normalize_ingredient_name(allergen)
         if any(a == u or a in u for u in used):

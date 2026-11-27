@@ -1,0 +1,386 @@
+# 재료 관계 사전 v0 (1차 시험: 수집 레시피에서 자주 나오는 재료명 300개, 2026-11-25. check 21개는 2026-11-26 사용자 확인)
+# 열: 이름	관계	대상	확인	메모
+# 관계:
+#   same       같은 재료의 다른 이름. 대상이 대표 이름
+#   form       대상을 손질하거나 가공한 형태 (대상이 있으면 만들 수 있음)
+#   kind       대상의 한 종류 (레시피가 대상을 요구하면 이 재료로 채울 수 있음)
+#   contains   대상을 원료로 포함 (알레르기 판단용)
+#   substitute 서로 바꿔 쓸 수 있음 (추천용. 알레르기 판단에는 쓰지 않음)
+#   different  이름이 비슷하지만 다른 재료 (잘못 합치지 않도록 남김)
+# 확인: ok = Claude 판정으로 충분, check = 사용자 확인 필요
+#
+# --- 채소 · 향신 채소
+다진마늘	form	마늘	ok
+간마늘	same	다진마늘	ok
+통마늘	same	마늘	ok	통째로 쓰는 마늘쪽
+다진파	form	파	ok
+대파	kind	파	ok
+쪽파	kind	파	ok
+다진대파	form	대파	ok
+대파흰부분	form	대파	ok	부위
+파뿌리	form	대파	ok	부위
+대파뿌리	same	파뿌리	ok
+다진생강	form	생강	ok
+생강가루	form	생강	ok
+생강즙	form	생강	ok
+다진양파	form	양파	ok
+채썬양파	form	양파	ok
+적양파	kind	양파	ok
+다진당근	form	당근	ok
+청양고추	kind	고추	ok
+청량고추	same	청양고추	ok	맞춤법 오류
+땡초	same	청양고추	ok	방언
+매운고추	kind	고추	ok	매운 고추 일반 (2026-11-26 확인)
+홍고추	kind	고추	ok
+청고추	kind	고추	ok
+풋고추	kind	고추	ok
+꽈리고추	kind	고추	ok
+건고추	form	고추	ok
+애호박	kind	호박	ok
+단호박	kind	호박	ok
+알배추	kind	배추	ok
+빨간파프리카	kind	파프리카	ok
+빨강파프리카	same	빨간파프리카	ok
+노란파프리카	kind	파프리카	ok
+노랑파프리카	same	노란파프리카	ok
+피망	different	파프리카	ok	다른 채소 (2026-11-26 확인)
+레몬즙	form	레몬	ok
+파슬리가루	form	파슬리	ok
+# --- 버섯
+표고버섯	kind	버섯	ok
+팽이버섯	kind	버섯	ok
+새송이버섯	kind	버섯	ok
+느타리버섯	kind	버섯	ok
+양송이버섯	kind	버섯	ok
+목이버섯	kind	버섯	ok
+건표고버섯	form	표고버섯	ok
+# --- 고기
+쇠고기	same	소고기	ok
+다진소고기	form	소고기	ok
+소갈비	kind	소고기	ok
+LA갈비	kind	소갈비	ok
+다진돼지고기	form	돼지고기	ok
+돼지고기다짐육	same	다진돼지고기	ok
+삼겹살	kind	돼지고기	ok
+대패삼겹살	kind	삼겹살	ok
+돼지고기앞다리살	kind	돼지고기	ok
+돼지고기안심	kind	돼지고기	ok
+돼지고기등심	kind	돼지고기	ok
+돼지갈비	kind	돼지고기	ok
+닭	same	닭고기	ok
+닭가슴살	kind	닭고기	ok
+닭다리살	kind	닭고기	ok
+닭안심	kind	닭고기	ok
+닭볶음탕용닭	kind	닭고기	ok
+햄	contains	돼지고기	ok	제품에 따라 닭고기. 둘 다 포함으로 봄 (2026-11-26 확인)
+햄	contains	닭고기	ok
+스팸	kind	햄	ok
+베이컨	contains	돼지고기	ok
+소시지	contains	돼지고기	ok	제품에 따라 닭고기. 둘 다 포함으로 봄 (2026-11-26 확인)
+소시지	contains	닭고기	ok
+소세지	same	소시지	ok
+# --- 해산물
+다시멸치	kind	멸치	ok
+국물용멸치	same	다시멸치	ok
+건새우	form	새우	ok
+냉동새우	form	새우	ok
+새우살	form	새우	ok
+칵테일새우	form	새우	ok
+새우젓	contains	새우	ok
+동태	form	명태	ok	얼린 명태
+코다리	form	명태	ok	반쯤 말린 명태
+참치캔	same	참치	ok
+어묵	contains	생선	ok
+맛살	contains	생선	ok
+크래미	kind	맛살	ok
+멸치액젓	kind	액젓	ok
+까나리액젓	kind	액젓	ok
+멸치액젓	contains	멸치	ok
+참치액	different	액젓	ok	가쓰오·참치 추출 조미료 (2026-11-26 확인)
+굴소스	contains	굴	ok
+# --- 알 · 유제품
+달걀	same	계란	ok
+삶은계란	form	계란	ok
+삶은달걀	same	삶은계란	ok
+마요네즈	contains	계란	ok
+버터	contains	우유	ok
+생크림	contains	우유	ok
+치즈	contains	우유	ok
+모짜렐라치즈	kind	치즈	ok
+피자치즈	kind	치즈	ok	제품에 따라 체다 섞임 (2026-11-26 확인)
+체다치즈	kind	치즈	ok
+슬라이스치즈	kind	치즈	ok
+크림치즈	kind	치즈	ok
+파마산치즈가루	kind	치즈	ok
+우유	different	두유	ok
+# --- 곡물 · 가루 · 면 · 떡
+박력분	kind	밀가루	ok
+중력분	kind	밀가루	ok
+강력분	kind	밀가루	ok
+부침가루	contains	밀가루	ok
+튀김가루	contains	밀가루	ok
+빵가루	contains	밀가루	ok
+식빵	contains	밀가루	ok
+또띠아	contains	밀가루	ok
+만두	contains	밀가루	ok
+냉동만두	same	만두	ok
+소면	kind	국수	ok
+국수	contains	밀가루	ok
+칼국수면	contains	밀가루	ok
+우동면	contains	밀가루	ok
+우동사리	same	우동면	ok
+라면사리	same	라면	ok
+라면	contains	밀가루	ok
+중화면	contains	밀가루	ok
+쫄면	contains	밀가루	ok
+파스타면	contains	밀가루	ok
+스파게티면	kind	파스타면	ok
+냉면사리	same	냉면	ok	재료 줄의 냉면은 면 (2026-11-26 확인)
+전분가루	same	전분	ok
+녹말가루	same	전분	ok
+감자전분	kind	전분	ok
+전분물	form	전분	ok
+찹쌀가루	form	찹쌀	ok
+떡국떡	kind	떡	ok
+떡볶이떡	kind	떡	ok
+찬밥	kind	밥	ok
+불린당면	form	당면	ok
+건미역	form	미역	ok
+불린미역	form	미역	ok
+아몬드가루	form	아몬드	ok
+호두	kind	견과류	ok
+베이킹소다	different	베이킹파우더	ok
+# --- 양념 · 장류
+진간장	kind	간장	ok
+국간장	kind	간장	ok
+집간장	same	국간장	ok
+양조간장	kind	진간장	ok	(2026-11-26 확인)
+맛간장	kind	간장	ok
+흑설탕	kind	설탕	ok
+황설탕	kind	설탕	ok
+슈가파우더	contains	설탕	ok	보통 전분이 섞임. 설탕만으로 채우지 않음 (2026-11-26 확인)
+굵은소금	kind	소금	ok
+천일염	kind	소금	ok
+꽃소금	kind	소금	ok
+맛소금	kind	소금	ok	조미료가 섞인 소금 (2026-11-26 확인)
+허브솔트	kind	소금	ok	허브가 섞인 소금 (2026-11-26 확인)
+후춧가루	same	후추	ok	요리에서 후추는 보통 간 후추 (2026-11-26 확인)
+후추가루	same	후추	ok	맞춤법 오류 ('후춧가루')
+후추	form	통후추	ok	간 후추는 통후추를 간 것. 통후추로 후추를 채움 (2026-11-26 확인, 방향 수정)
+고춧가루	different	고추장	ok
+통깨	same	참깨	ok	볶은 참깨
+참깨	kind	깨	ok	(2026-11-26 확인)
+들깨	kind	깨	ok
+깨소금	form	참깨	ok
+들깨가루	form	들깨	ok
+참기름	different	들기름	ok
+기름	same	식용유	ok
+카놀라유	kind	식용유	ok
+포도씨유	kind	식용유	ok
+올리브오일	same	올리브유	ok
+올리브유	kind	식용유	ok	향이 있음 (2026-11-26 확인)
+미림	same	맛술	ok	대표 이름은 더 많이 쓰는 맛술 (2026-11-26 확인)
+청주	substitute	맛술	ok
+소주	substitute	청주	ok	잡내 제거용으로만 (2026-11-26 확인)
+생강술	contains	생강	ok
+매실액	same	매실청	ok
+올리고당	substitute	물엿	ok
+꿀	different	올리고당	ok	맛과 향이 다름 (2026-11-26 확인)
+케찹	same	케첩	ok
+돈까스소스	same	돈가스소스	ok
+코코아파우더	same	코코아가루	ok
+커피가루	form	커피	ok
+연겨자	different	머스터드소스	ok	맛이 다름 (2026-11-26 확인)
+치킨스톡	substitute	닭육수	ok
+# --- 국물
+멸치육수	kind	육수	ok
+멸치다시마육수	same	멸치육수	ok	대부분 다시마를 함께 씀 (2026-11-26 확인)
+다시마육수	kind	육수	ok
+사골육수	kind	육수	ok
+닭육수	kind	육수	ok
+생수	same	물	ok
+쌀뜬물	same	쌀뜨물	ok	맞춤법 오류
+김칫국물	same	김치국물	ok
+김치국물	form	김치	ok
+신김치	kind	김치	ok
+묵은지	kind	김치	ok
+# --- 다르게 둘 것 (임베딩 유사도가 높았던 쌍)
+배추	different	양배추	ok
+돼지고기	different	소고기	ok
+새우	different	새우젓	ok
+양파	different	대파	ok
+청양고추	different	홍고추	ok
+# --- 기존 동의어 사전(domain/ingredient_synonyms.py)에서 옮김 (2026-11-26)
+# 같은 그룹이던 이름 중 종류·손질 형태·요리 이름은 방향이 있는 관계로 나눔
+에그	same	계란	ok
+식수	same	물	ok
+정수	same	물	ok
+우육	same	소고기	ok
+비프	same	소고기	ok
+돈육	same	돼지고기	ok
+포크	same	돼지고기	ok
+계육	same	닭고기	ok
+치킨	contains	닭고기	ok	요리 이름. 기존 사전에서는 닭고기와 같다고 봄
+시나몬가루	same	계피가루	ok
+계피분말	same	계피가루	ok
+시나몬파우더	same	계피가루	ok
+시나몬	same	계피가루	ok
+정제염	kind	소금	ok
+백설탕	same	설탕	ok
+흰설탕	same	설탕	ok
+브라운슈거	same	흑설탕	ok
+샐러드유	same	식용유	ok
+쿠킹오일	same	식용유	ok
+해바라기유	kind	식용유	ok
+참깨기름	same	참기름	ok
+세서미오일	same	참기름	ok
+들깨기름	same	들기름	ok
+고추가루	same	고춧가루	ok	맞춤법 오류
+빨간고추장	same	고추장	ok
+토장	same	된장	ok
+조선간장	same	국간장	ok
+양조식초	kind	식초	ok
+비니거	same	식초	ok
+무염버터	kind	버터	ok
+마요	same	마요네즈	ok
+마요네이즈	same	마요네즈	ok
+케챱	same	케첩	ok
+토마토케첩	same	케첩	ok
+머스터드	same	머스타드	ok
+머스터드소스	same	머스타드	ok
+겨자	different	머스타드	ok	동양 겨자와 서양 머스타드는 맛·용도가 다름. 기존 사전은 같다고 봤음 (2026-11-27 확인)
+연겨자	same	겨자	ok	집에서 쓰는 겨자는 대부분 튜브형 연겨자 (2026-11-27 확인)
+고추냉이	same	와사비	ok
+오이스터소스	same	굴소스	ok
+정종	same	청주	ok
+사케	same	청주	ok
+발사믹비니거	same	발사믹식초	ok
+커리파우더	same	카레가루	ok
+카레파우더	same	카레가루	ok
+터메릭	same	강황	ok
+터메릭가루	same	강황	ok
+클로브	same	정향	ok
+육두구	same	넛맥	ok
+카다멈	same	카다몬	ok
+커민	same	큐민	ok
+커민씨	same	큐민	ok
+파프리카파우더	same	파프리카가루	ok
+바질잎	same	바질	ok
+바질가루	form	바질	ok
+오레가노가루	form	오레가노	ok
+베이리프	same	월계수잎	ok
+휘핑크림	same	생크림	ok
+가당연유	same	연유	ok
+요구르트	same	요거트	ok
+흑후추	same	후추	ok
+흑후춧가루	same	후추	ok
+블랙페퍼	same	후추	ok
+블랙페퍼가루	same	후추	ok
+홀블랙페퍼콘	same	통후추	ok
+백후춧가루	same	백후추	ok
+화이트페퍼	same	백후추	ok
+실파	same	쪽파	ok
+어니언	same	양파	ok
+갈릭	same	마늘	ok
+진저	same	생강	ok
+펌킨	same	단호박	ok
+포테이토	same	감자	ok
+스위트포테이토	same	고구마	ok
+홍당무	same	당근	ok
+캐럿	same	당근	ok
+피클오이	kind	오이	ok
+큐컴버	same	오이	ok
+포기배추	same	배추	ok
+캐비지	same	양배추	ok
+들깻잎	same	깻잎	ok
+숙주	same	숙주나물	ok
+시금치나물	same	시금치	ok
+스피니치	same	시금치	ok
+브로컬리	same	브로콜리	ok
+정구지	same	부추	ok	방언
+무우	same	무	ok
+콘	same	옥수수	ok
+삶은고사리	form	고사리	ok
+건고사리	form	고사리	ok
+오징어살	form	오징어	ok
+쉬림프	same	새우	ok
+잔멸치	kind	멸치	ok
+앤초비	contains	멸치	ok	소금에 절인 서양 멸치. 멸치로 채우지는 않음
+다시마채	form	다시마	ok
+생미역	same	미역	ok
+바다게	same	게	ok
+꽃게	kind	게	ok
+대게	kind	게	ok
+홍게	kind	게	ok
+간장게장	contains	게	ok	요리 이름
+양념게장	contains	게	ok	요리 이름
+민물장어	kind	장어	ok
+붕장어	kind	장어	ok
+바다장어	kind	장어	ok
+바지락	kind	조개	ok
+홍합	kind	조개	ok
+모시조개	kind	조개	ok
+우렁	same	우렁이	ok
+논우렁이	same	우렁이	ok
+명란	same	명란젓	ok
+밀크	same	우유	ok
+베이콘	same	베이컨	ok
+비엔나소시지	kind	소시지	ok
+오뎅	same	어묵	ok
+피시케이크	same	어묵	ok
+연두부	kind	두부	ok
+순두부	kind	두부	ok
+쌀밥	same	밥	ok
+백미밥	same	밥	ok
+라이스	same	밥	ok
+백미	same	쌀	ok
+플라워	same	밀가루	ok
+부침용가루	same	부침가루	ok
+잡채당면	same	당면	ok
+누들	same	국수	ok
+메밀가루	form	메밀	ok
+그린피스	same	완두콩	ok
+블랙빈	same	검은콩	ok
+렌즈콩	same	렌틸콩	ok
+대두	same	콩	ok
+메주콩	same	콩	ok
+서리태	kind	콩	ok
+피넛	same	땅콩	ok
+체리토마토	same	방울토마토	ok
+초콜렛	same	초콜릿	ok
+쪼꼬렛	same	초콜릿	ok
+바닐라향	same	바닐라익스트랙	ok
+단감	kind	감	ok
+홍시	kind	감	ok
+연시	same	홍시	ok
+곶감	form	감	ok
+백도	kind	복숭아	ok
+황도	kind	복숭아	ok
+천도복숭아	kind	복숭아	ok
+플럼	same	자두	ok
+오렌지주스	form	오렌지	ok
+아메리카노	kind	커피	ok
+에스프레소	kind	커피	ok
+믹스커피	kind	커피	ok
+얼그레이	kind	홍차	ok
+다즐링	kind	홍차	ok
+율무차	form	율무	ok
+율무가루	form	율무	ok
+아카시아꿀	kind	꿀	ok
+야생화꿀	kind	꿀	ok
+생맥주	kind	맥주	ok
+병맥주	kind	맥주	ok
+라거	kind	맥주	ok
+에일	kind	맥주	ok
+콜라	kind	탄산음료	ok
+사이다	kind	탄산음료	ok
+환타	kind	탄산음료	ok
+철분보충제	same	철분제	ok
+철분영양제	same	철분제	ok
+# 기존 사전의 상위어(HYPERNYM_MAP)
+청사과	kind	사과	ok
+홍옥	kind	사과	ok
+후지	kind	사과	ok
+아오리	kind	사과	ok
+부사	kind	사과	ok
+배추김치	kind	김치	ok
